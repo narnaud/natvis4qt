@@ -6,4 +6,12 @@ Note that I removed the `##NAMESPACE##::` from the type name, as this file is pa
 
 # Changes
 
-...
+## QMap
+
+| `std::map` |
+| :-: |
+| ![std::map](assets/map.png) |
+
+| `QMap` before | `QMap` after |
+| :-: | :-: |
+| ![std::qmap](assets/qmap-before.png) | ![std::qmap](assets/qmap-after.png)
