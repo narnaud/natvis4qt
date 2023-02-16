@@ -8,10 +8,22 @@ Note that I removed the `##NAMESPACE##::` from the type name, as this file is pa
 
 ## QMap
 
-| `std::map` |
+| `QMap` before | `QMap` after |
+| :-: | :-: |
+| ![QMap](assets/qmap-before.png) | ![QMap](assets/qmap-after.png)
+
+
+| Comparison with `std::map` |
 | :-: |
 | ![std::map](assets/map.png) |
 
-| `QMap` before | `QMap` after |
+
+## QHash
+
+| `QHash` before | `QHash` after |
 | :-: | :-: |
-| ![std::qmap](assets/qmap-before.png) | ![std::qmap](assets/qmap-after.png)
+| ![QHash](assets/qhash-before.png) | ![QHash](assets/qhash-after.png)
+
+| Comparison with `std::hash` |
+| :-: |
+| ![std::hash](assets/hash.png) |

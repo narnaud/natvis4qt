@@ -444,11 +444,155 @@
         </Expand>
     </Type>
 
-   <Type Name="QHash&lt;*,*&gt;">
-        <AlternativeType Name="QMultiHash&lt;*,*&gt;"/>
-        <DisplayString>{{ size = {d-&gt;size} }}</DisplayString>
+    <Type Name="QHashPrivate::Node&lt;*,*&gt;">
+        <DisplayString>({key}, {value})</DisplayString>
         <Expand>
-            <Item Name="[referenced]">d-&gt;ref.atomic._q_value</Item>
+            <Item Name="key">key</Item>
+            <Item Name="value">value</Item>
+        </Expand>
+    </Type>
+    <Type Name="QHash&lt;*,*&gt;">
+        <AlternativeType Name="QMultiHash&lt;*,*&gt;"/>
+        <DisplayString>{{ size={d-&gt;size} }}</DisplayString>
+        <Expand>
+            <CustomListItems MaxItemsPerView="5000">
+                <Variable Name="iSpan" InitialValue="0" />
+                <Variable Name="spanCount" InitialValue="d-&gt;numBuckets" />
+                <Size>d-&gt;size</Size>
+                <Loop>
+                    <If Condition="iSpan != spanCount">
+                        <Item Condition="d-&gt;spans[iSpan].offsets[0] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[0]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[1] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[1]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[2] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[2]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[3] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[3]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[4] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[4]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[5] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[5]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[6] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[6]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[7] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[7]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[8] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[8]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[9] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[9]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[10] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[10]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[11] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[11]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[12] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[12]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[13] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[13]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[14] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[14]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[15] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[15]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[16] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[16]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[17] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[17]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[18] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[18]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[19] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[19]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[20] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[20]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[21] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[21]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[22] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[22]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[23] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[23]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[24] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[24]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[25] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[25]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[26] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[26]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[27] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[27]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[28] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[28]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[29] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[29]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[30] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[30]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[31] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[31]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[32] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[32]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[33] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[33]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[34] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[34]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[35] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[35]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[36] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[36]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[37] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[37]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[38] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[38]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[39] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[39]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[40] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[40]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[41] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[41]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[42] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[42]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[43] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[43]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[44] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[44]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[45] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[45]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[46] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[46]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[47] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[47]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[48] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[48]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[49] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[49]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[50] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[50]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[51] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[51]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[52] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[52]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[53] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[53]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[54] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[54]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[55] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[55]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[56] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[56]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[57] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[57]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[58] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[58]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[59] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[59]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[60] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[60]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[61] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[61]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[62] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[62]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[63] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[63]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[64] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[64]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[65] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[65]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[66] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[66]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[67] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[67]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[68] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[68]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[69] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[69]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[70] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[70]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[71] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[71]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[72] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[72]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[73] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[73]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[74] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[74]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[75] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[75]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[76] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[76]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[77] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[77]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[78] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[78]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[79] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[79]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[80] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[80]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[81] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[81]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[82] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[82]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[83] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[83]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[84] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[84]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[85] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[85]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[86] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[86]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[87] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[87]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[88] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[88]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[89] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[89]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[90] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[90]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[91] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[91]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[92] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[92]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[93] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[93]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[94] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[94]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[95] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[95]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[96] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[96]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[97] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[97]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[98] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[98]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[99] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[99]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[100] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[100]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[101] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[101]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[102] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[102]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[103] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[103]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[104] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[104]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[105] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[105]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[106] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[106]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[107] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[107]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[108] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[108]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[109] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[109]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[110] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[110]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[111] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[111]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[112] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[112]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[113] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[113]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[114] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[114]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[115] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[115]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[116] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[116]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[117] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[117]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[118] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[118]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[119] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[119]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[120] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[120]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[121] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[121]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[122] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[122]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[123] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[123]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[124] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[124]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[125] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[125]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[126] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[126]].storage))</Item>
+                        <Item Condition="d-&gt;spans[iSpan].offsets[127] != 255">*((Node*)(char *)&amp;(d-&gt;spans[iSpan].entries[d-&gt;spans[iSpan].offsets[127]].storage))</Item>
+                        <Exec>iSpan++</Exec>
+                    </If>
+                </Loop>
+            </CustomListItems>
         </Expand>
     </Type>
 

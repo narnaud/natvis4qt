@@ -8,5 +8,8 @@ int main(int argc, char *argv[])
     auto mapString = std::map<int, QString>{{1, "one"}, {2, "two"}, {3, "three"}};
     auto qmapString = QMap<int, QString>{{1, "one"}, {2, "two"}, {3, "three"}};
 
+    auto hashString = std::unordered_map<int, QString>{{1, "one"}, {2, "two"}, {3, "three"}};
+    auto qhashString = QHash<int, QString>{{1, "one"}, {2, "two"}, {3, "three"}};
+
     return 0;
 }
