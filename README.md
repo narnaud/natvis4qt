@@ -19,4 +19,4 @@ Note that I removed the `##NAMESPACE##::` from the type name, as this file is pa
 | `QHash` before | `QHash` after |
 | :-: | :-: |
 | ![QHash](assets/qhash-before.png) | ![QHash](assets/qhash-after.png)
-| Comparison with `std::hash` | ![std::hash](assets/hash.png) |
+| Comparison with `std::unordered_map` | ![std::unordered_map](assets/unordered_map.png) |
