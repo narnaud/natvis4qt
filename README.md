@@ -8,15 +8,24 @@ Note that I removed the `##NAMESPACE##::` from the type name, as this file is pa
 
 ## QMap
 
-| `QMap` before | `QMap` after |
-| :-: | :-: |
-| ![QMap](assets/qmap-before.png) | ![QMap](assets/qmap-after.png)
-| Comparison with `std::map` | ![std::map](assets/map.png) |
+|          `QMap` before          |          `QMap` after          |
+|:-------------------------------:|:------------------------------:|
+| ![QMap](assets/qmap-before.png) | ![QMap](assets/qmap-after.png) |
+|   Comparison with `std::map`    |  ![std::map](assets/map.png)   |
 
 
 ## QHash
 
-| `QHash` before | `QHash` after |
-| :-: | :-: |
-| ![QHash](assets/qhash-before.png) | ![QHash](assets/qhash-after.png)
+|            `QHash` before            |                  `QHash` after                  |
+|:------------------------------------:|:-----------------------------------------------:|
+|  ![QHash](assets/qhash-before.png)   |        ![QHash](assets/qhash-after.png)         |
 | Comparison with `std::unordered_map` | ![std::unordered_map](assets/unordered_map.png) |
+
+## QMultiHash
+
+| `QMultiHash` before (with `QHash` improvements) |                    `QMultiHash` after                     |
+|:-----------------------------------------------:|:---------------------------------------------------------:|
+|   ![QMultiHash](assets/qmultihash-before.png)   |        ![QMultiHash](assets/qmultihash-after.png)         |
+|    Comparison with `std::unordered_multimap`    | ![std::unordered_multimap](assets/unordered_multimap.png) |
+
+There's a difference between `QMultiHash` and `std::unordered_multimap`, it's not possible to display `QMultiMap` as it's std equivalent. Note that the current representation is closest to the `QMultiHash` API anyway: it's a list of `[key, list<value>]` (so size is 2 here), not a list of `[key, value]` (with a size of 4).

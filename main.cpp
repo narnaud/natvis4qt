@@ -11,5 +11,8 @@ int main(int argc, char *argv[])
     auto hashString = std::unordered_map<int, QString>{{10, "one"}, {20, "two"}, {30, "three"}};
     auto qhashString = QHash<int, QString>{{10, "one"}, {20, "two"}, {30, "three"}};
 
+    auto multihashString = std::unordered_multimap<int, QString>{{10, "one"}, {10, "two"}, {10, "three"}, {20, "four"}};
+    auto qmultihashString = QMultiHash<int, QString>{{10, "one"}, {10, "two"}, {10, "three"}, {20, "four"}};
+
     return 0;
 }
