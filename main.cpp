@@ -14,5 +14,16 @@ int main(int argc, char *argv[])
     auto multihashString = std::unordered_multimap<int, QString>{{10, "one"}, {10, "two"}, {10, "three"}, {20, "four"}};
     auto qmultihashString = QMultiHash<int, QString>{{10, "one"}, {10, "two"}, {10, "three"}, {20, "four"}};
 
+    QVariant v_null;
+    QVariant v_bool = true;
+    QVariant v_int = -10;
+    QVariant v_uint = 10u;
+    QVariant v_longlong = -100000ll;
+    QVariant v_ulonglong = 100000ull;
+    QVariant v_float = 3.1415;
+    QVariant v_double = 1.602'176'634e-19;
+    QVariant v_char = QVariant::fromValue(static_cast<char>('V'));
+
+    QVariant v_unknown(QRect{});
     return 0;
 }
