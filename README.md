@@ -60,7 +60,7 @@ All types handled:
 - `QMetaType::Float`
 - `QMetaType::SChar`
 
-## Static primitives types
+## Static Core types
 
 It's also possible to see directly the members for the type by expanding the view.
 
@@ -78,3 +78,15 @@ All types handled:
 - `QMetaType::QPoint`
 - `QMetaType::QPointF`
 
+## Static Core Template types
+
+Like previously, you can see directly the items for the type by expanding the view.
+
+![QVariant](assets/qvariant-core-templates.png)
+
+All types handled:
+- `QMetaType::QVariantMap`
+- `QMetaType::QVariantList`
+- `QMetaType::QVariantHash`
+- `QMetaType::QByteArrayList`
+- `QMetaType::QStringList`
