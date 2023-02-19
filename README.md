@@ -30,10 +30,10 @@ Note that I removed the `##NAMESPACE##::` from the type name, as this file is pa
 
 There's a difference between `QMultiHash` and `std::unordered_multimap`, it's not possible to display `QMultiMap` as it's std equivalent. Note that the current representation is closest to the `QMultiHash` API anyway: it's a list of `[key, list<value>]` (so size is 2 here), not a list of `[key, value]` (with a size of 4).
 
-## QHash
+## QVariant
 
 ## Unknown type
-If the type is unknown, it will show at least the `typeId`, so the develop can know what is inside the `QVariant`
+If the type is unknown, it will show at least the `typeId`, so the developer can know what is inside the `QVariant`
 
 ![QVariant](assets/qvariant-unknown.png)
 
