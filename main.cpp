@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
     QVariant v_qdatetime = QDateTime::currentDateTime(); // NOK
     QVariant v_qurl = QUrl("https://www.kdab.com");      // NOK
     QVariant v_qrect = QRect(5, 5, 42, 42);
-    QVariant v_qrectf = QRectF(5., 5., 4.2, 4.2); // NOK
+    QVariant v_qrectf = QRectF(5., 5., 4.2, 4.2);
     QVariant v_size = QSize(5, 42);
-    QVariant v_sizef = QSizeF(5., 4.2); // NOK
+    QVariant v_sizef = QSizeF(5., 4.2);
     QVariant v_qline = QLine(5, 5, 42, 42);
-    QVariant v_qlinef = QLineF(5., 5., 4.2, 4.2); // NOK
+    QVariant v_qlinef = QLineF(5., 5., 4.2, 4.2);
     QVariant v_qpoint = QPoint(5, 42);
     QVariant v_qpointf = QPointF(5., 4.2);
 #endif
