@@ -1,4 +1,24 @@
-# Qt6 Natvis
+# Nativs4Qt - Install natvis files for Qt
 
-This repository has been moved into our KDToolBox, you can find it here:
-[KDToolBox/qt/qt6_natvis](https://github.com/KDAB/KDToolBox/tree/master/qt/qt6_natvis)
+## Natvis
+
+### Qt 5
+
+The natvis file is the one used in the [Qt VS Addin]](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+
+### Qt 6
+
+The natvis file started as the one used the [Qt VS Addin]](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+Then external contributions were made, they are marked explicitly in the header.
+
+## License
+
+The **natvis4qt** tool is licensed under the MIT license.
+
+The `qt5.natvis` file is licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0.
+
+The `qt6.natvis` file is a collection of multiple contributions:
+
+- The Qt Company: licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+- Klarälvdalens Datakonsult AB (KDAB): licensed MIT
+- Nic Holthaus: licensed MIT
