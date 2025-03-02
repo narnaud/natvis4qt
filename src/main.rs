@@ -90,10 +90,9 @@ fn get_possible_install_dirs() -> Vec<(String, String, PathBuf)> {
     dirs
 }
 
-fn main() {
-    cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
-
-    let dirs = get_possible_install_dirs();
+/// UI: ask the user to select the directories to install the natvis files.
+/// Returns the selected directories keys.
+fn ui_get_install_dirs(dirs: &[(String, String, PathBuf)]) -> Result<Vec<&str>, std::io::Error> {
     let keys = dirs
         .iter()
         .map(|(key, _, _)| key.as_str())
@@ -103,10 +102,18 @@ fn main() {
         .map(|(key, name, path)| (key.as_str(), name.as_str(), path.to_str().unwrap()))
         .collect::<Vec<_>>();
 
-    let install_dirs = cliclack::multiselect("Select known directories to install natvis files")
+    cliclack::multiselect("Select known directories to install natvis files")
         .initial_values(keys)
         .items(&dirs_for_multiselect)
-        .interact();
+        .interact()
+}
+
+fn main() {
+    cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
+
+    let dirs = get_possible_install_dirs();
+
+    let install_dirs = ui_get_install_dirs(&dirs);
 
     match install_dirs {
         Ok(_) => {
