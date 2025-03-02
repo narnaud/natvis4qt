@@ -1,0 +1,50 @@
+name: Build and Publish
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  build_and_publish:
+    name: Build release binaries for ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v4
+      - name: Setup | Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+      - name: Build | Cargo
+        run: cargo build --release --locked --target ${{ matrix.target }} --color=always
+      - name: Post Build | Package [Windows]
+        if: matrix.os == 'windows-latest'
+        run: |
+          7z a natvis4qt-${{ matrix.target }}.zip `
+            LICENSE README.md natvis `
+            ./target/${{ matrix.target }}/release/natvis4qt.exe
+      - name: Post Build | Checksums
+        shell: bash
+        run: for file in natvis4qt-*; do openssl dgst -sha256 -r "$file" | awk '{print $1}' > "${file}.sha256"; done
+    #   - name: Post Build | Upload artifacts
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: ${{ matrix.target }}
+    #       path: |
+    #         *.deb
+    #         *.tar.gz
+    #         *.zip
+    #         *.sha256
+      - name: Publish | Add Artifacts to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          files: |
+            *.zip
+            *.sha256

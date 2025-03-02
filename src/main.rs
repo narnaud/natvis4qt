@@ -37,24 +37,19 @@ fn get_msvc_dirs() -> Vec<NatvisInfo> {
 
     let document_dir = dirs::document_dir().expect("Could not find document directory");
 
-    // Test if Document\Visual Studio 2019 exists
-    let vs2019_dir = document_dir.join("Visual Studio 2019");
-    if vs2019_dir.exists() {
-        dirs.push(NatvisInfo {
-            key: "vs2019".to_string(),
-            name: "Visual Studio 2019".to_string(),
-            path: vs2019_dir.join("Visualizers"),
-        });
-    }
-
-    // Test if Document\Visual Studio 2022 exists
-    let vs2022_dir = document_dir.join("Visual Studio 2022");
-    if vs2022_dir.exists() {
-        dirs.push(NatvisInfo {
-            key: "vs2022".to_string(),
-            name: "Visual Studio 2022".to_string(),
-            path: vs2022_dir.join("Visualizers"),
-        });
+    let vs_versions = [
+        ("2019", "Visual Studio 2019"),
+        ("vs2022", "Visual Studio 2022"),
+    ];
+    for (key, name) in vs_versions.iter() {
+        let vs_dir = document_dir.join(name);
+        if vs_dir.exists() {
+            dirs.push(NatvisInfo {
+                key: key.to_string(),
+                name: name.to_string(),
+                path: vs_dir.join("Visualizers"),
+            });
+        }
     }
 
     dirs
@@ -120,7 +115,10 @@ fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
 fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
     let default_root = PathBuf::from("C:\\Qt");
     if default_root.exists() {
-        cliclack::log::info(format!("Default Qt installation root found in {}", style(default_root.to_str().unwrap()).cyan()))?;
+        cliclack::log::info(format!(
+            "Default Qt installation root found in {}",
+            style(default_root.to_str().unwrap()).cyan()
+        ))?;
         return Ok(default_root);
     }
 
