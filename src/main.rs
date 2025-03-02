@@ -31,16 +31,15 @@ fn get_msvc_dirs() -> Vec<(String, String, PathBuf)> {
 }
 
 /// Returns all the Qt installation.
-fn get_qt_dirs() -> Vec<(String, String, PathBuf)> {
-    let mut dirs = Vec::new();
-
-    let qt_dir = PathBuf::from("C:\\Qt");
-    if !qt_dir.exists() {
-        return dirs;
+fn get_qt_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
+    if !qt_root.exists() {
+        return Vec::new();
     }
 
+    let mut dirs = Vec::new();
+
     // Get all children of C:\Qt, and check the one looking like *.*.* (version)
-    let qt_versions = qt_dir
+    let qt_versions = qt_root
         .read_dir()
         .expect("Could not read Qt directory")
         .filter_map(|entry| entry.ok())
@@ -51,8 +50,7 @@ fn get_qt_dirs() -> Vec<(String, String, PathBuf)> {
 
     for version in qt_versions {
         // If it has a child directory starting with msvc, add it to the list
-        // C:\Qt\5.15.2\msvc2019_64\natvis
-        let qt_version_dir = qt_dir.join(&version);
+        let qt_version_dir = qt_root.join(&version);
 
         let qt_msvc_dirs = qt_version_dir
             .read_dir()
@@ -81,13 +79,23 @@ fn get_qt_dirs() -> Vec<(String, String, PathBuf)> {
 }
 
 /// Returns all the directories the natvis could be installed in.
-fn get_possible_install_dirs() -> Vec<(String, String, PathBuf)> {
+fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
     let mut dirs = Vec::new();
 
     dirs.extend(get_msvc_dirs());
-    dirs.extend(get_qt_dirs());
+    dirs.extend(get_qt_dirs(qt_root));
 
     dirs
+}
+
+/// UI: ask the user for the Qt installation root.
+fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
+    let default_root = PathBuf::from("C:\\Qt");
+    if default_root.exists() {
+        return Ok(default_root);
+    }
+
+    cliclack::input("Qt installation root?").placeholder("C:\\Qt").interact()
 }
 
 /// UI: ask the user to select the directories to install the natvis files.
@@ -108,25 +116,34 @@ fn ui_get_install_dirs(dirs: &[(String, String, PathBuf)]) -> Result<Vec<&str>, 
         .interact()
 }
 
+/// UI: show error outro message.
+fn ui_outro_error() {
+    cliclack::outro(format!(
+        "Problems? {}\n",
+        style("https://github.com/narnaud/natvis4qt/issues")
+            .cyan()
+            .underlined()
+    ))
+    .unwrap();
+    std::process::exit(0)
+}
+
 fn main() {
     cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
 
-    let dirs = get_possible_install_dirs();
+    let qt_root = ui_get_qt_root();
+    if qt_root.is_err() {
+        ui_outro_error();
+        return;
+    }
+
+    let dirs = get_possible_install_dirs(qt_root.unwrap());
 
     let install_dirs = ui_get_install_dirs(&dirs);
-
     match install_dirs {
         Ok(_) => {
             cliclack::outro(style("Success!").green().bold()).unwrap();
         }
-        Err(_) => {
-            cliclack::outro(format!(
-                "Problems? {}\n",
-                style("https://github.com/narnaud/natvis4qt/issues")
-                    .cyan()
-                    .underlined()
-            ))
-            .unwrap();
-        }
+        Err(_) => ui_outro_error()
     }
 }
