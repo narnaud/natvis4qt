@@ -107,15 +107,14 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
             .filter(|entry| entry.file_type().map(|ft| ft.is_dir()).unwrap_or(false))
             .filter_map(|entry| entry.file_name().into_string().ok())
             .filter(|entry| entry.starts_with("msvc"))
-            .map(|entry| entry.to_string())
             .map(|entry| NatvisInfo {
-                key: version.clone(),
+                key: format!("{}{}", &version, &entry),
                 name: {
                     let mut qt_version = "Qt ".to_string();
                     qt_version.push_str(&version);
                     qt_version
                 },
-                path: qt_version_dir.join(entry).join("natvis"),
+                path: qt_version_dir.join(&entry).join("natvis"),
                 version: vec![qt_version_major],
             });
 
@@ -202,7 +201,6 @@ fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std:
     let mut errors = Vec::new();
     for info in &natvis_installs {
         spinner.set_message(format!("Copying natvis files for {}", info.name).as_str());
-        cliclack::log::info(format!("Copying natvis files for {}", info.name))?;
         for version in info.version.iter() {
             if let Err(e) = copy_natvis_file(*version, info.path.clone()) {
                 errors.push(e);
@@ -211,7 +209,7 @@ fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std:
     }
 
     match errors.is_empty() {
-        true => spinner.stop(format!("Copied {} natvis files", natvis_installs.len())),
+        true => spinner.stop(format!("Copied natvis files in {} directories", natvis_installs.len())),
         _ => {
             spinner.clear();
             for e in errors {
