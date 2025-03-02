@@ -1,6 +1,16 @@
 use console::style;
 use std::path::PathBuf;
 
+/// Struct to store natvis information for installation.
+struct NatvisInfo {
+    /// Key to identify the directory
+    key: String,
+    /// Name to display to the user
+    name: String,
+    /// Path to the directory
+    path: PathBuf,
+}
+
 fn main() {
     cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
 
@@ -22,7 +32,7 @@ fn main() {
 }
 
 /// Returns all the MS Visual Studio user directories.
-fn get_msvc_dirs() -> Vec<(String, String, PathBuf)> {
+fn get_msvc_dirs() -> Vec<NatvisInfo> {
     let mut dirs = Vec::new();
 
     let document_dir = dirs::document_dir().expect("Could not find document directory");
@@ -30,28 +40,28 @@ fn get_msvc_dirs() -> Vec<(String, String, PathBuf)> {
     // Test if Document\Visual Studio 2019 exists
     let vs2019_dir = document_dir.join("Visual Studio 2019");
     if vs2019_dir.exists() {
-        dirs.push((
-            "vs2019".to_string(),
-            "Visual Studio 2019".to_string(),
-            vs2019_dir.join("Visualizers"),
-        ));
+        dirs.push(NatvisInfo {
+            key: "vs2019".to_string(),
+            name: "Visual Studio 2019".to_string(),
+            path: vs2019_dir.join("Visualizers"),
+        });
     }
 
     // Test if Document\Visual Studio 2022 exists
     let vs2022_dir = document_dir.join("Visual Studio 2022");
     if vs2022_dir.exists() {
-        dirs.push((
-            "vs2022".to_string(),
-            "Visual Studio 2022".to_string(),
-            vs2022_dir.join("Visualizers"),
-        ));
+        dirs.push(NatvisInfo {
+            key: "vs2022".to_string(),
+            name: "Visual Studio 2022".to_string(),
+            path: vs2022_dir.join("Visualizers"),
+        });
     }
 
     dirs
 }
 
 /// Returns all the Qt installation.
-fn get_qt_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
+fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
     if !qt_root.exists() {
         return Vec::new();
     }
@@ -80,16 +90,14 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
             .filter_map(|entry| entry.file_name().into_string().ok())
             .filter(|entry| entry.starts_with("msvc"))
             .map(|entry| entry.to_string())
-            .map(|entry| {
-                (
-                    version.clone(),
-                    {
-                        let mut qt_version = "Qt ".to_string();
-                        qt_version.push_str(&version);
-                        qt_version
-                    },
-                    qt_version_dir.join(entry).join("natvis"),
-                )
+            .map(|entry| NatvisInfo {
+                key: version.clone(),
+                name: {
+                    let mut qt_version = "Qt ".to_string();
+                    qt_version.push_str(&version);
+                    qt_version
+                },
+                path: qt_version_dir.join(entry).join("natvis"),
             });
 
         dirs.extend(qt_msvc_dirs);
@@ -99,7 +107,7 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
 }
 
 /// Returns all the directories the natvis could be installed in.
-fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<(String, String, PathBuf)> {
+fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
     let mut dirs = Vec::new();
 
     dirs.extend(get_msvc_dirs());
@@ -122,14 +130,20 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
 
 /// UI: ask the user to select the directories to install the natvis files.
 /// Returns the selected directories keys.
-fn ui_get_install_dirs(dirs: &[(String, String, PathBuf)]) -> Result<Vec<&str>, std::io::Error> {
+fn ui_get_install_dirs(dirs: &[NatvisInfo]) -> Result<Vec<&str>, std::io::Error> {
     let keys = dirs
         .iter()
-        .map(|(key, _, _)| key.as_str())
+        .map(|info| info.key.as_str())
         .collect::<Vec<_>>();
     let dirs_for_multiselect = dirs
         .iter()
-        .map(|(key, name, path)| (key.as_str(), name.as_str(), path.to_str().unwrap()))
+        .map(|info| {
+            (
+                info.key.as_str(),
+                info.name.as_str(),
+                info.path.to_str().unwrap(),
+            )
+        })
         .collect::<Vec<_>>();
 
     cliclack::multiselect("Select known directories to install natvis files")
