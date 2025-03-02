@@ -20,15 +20,15 @@ fn main() {
         return;
     }
 
-    let dirs = get_possible_install_dirs(qt_root.unwrap());
+    let natvis_installs = get_natvis_installs(qt_root.unwrap());
 
-    let install_dirs = ui_get_install_dirs(&dirs);
-    match install_dirs {
-        Ok(_) => {
-            cliclack::outro(style("Success!").green().bold()).unwrap();
-        }
-        Err(_) => ui_outro_error(),
+    let install_keys = ui_get_install_keys(&natvis_installs);
+    if install_keys.is_err() {
+        ui_outro_error();
+        return;
     }
+
+    cliclack::outro(style("Success!").green().bold()).unwrap();
 }
 
 /// Returns all the MS Visual Studio user directories.
@@ -101,8 +101,8 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
     dirs
 }
 
-/// Returns all the directories the natvis could be installed in.
-fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
+/// Returns all the possible natvis info for installation.
+fn get_natvis_installs(qt_root: PathBuf) -> Vec<NatvisInfo> {
     let mut dirs = Vec::new();
 
     dirs.extend(get_msvc_dirs());
@@ -136,7 +136,7 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
 
 /// UI: ask the user to select the directories to install the natvis files.
 /// Returns the selected directories keys.
-fn ui_get_install_dirs(dirs: &[NatvisInfo]) -> Result<Vec<&str>, std::io::Error> {
+fn ui_get_install_keys(dirs: &[NatvisInfo]) -> Result<Vec<&str>, std::io::Error> {
     let keys = dirs
         .iter()
         .map(|info| info.key.as_str())
