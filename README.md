@@ -31,6 +31,40 @@ Just start `natvis4qt` on the command line and follow the instructions.
 
 ![Demo](assets/demo.gif)
 
+## Integration
+
+### Visual Studio
+
+Normally you don't have to do anything, the natvis files are copied in a central place that is used by Visual Studio.
+
+See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
+
+### Visual Studio Code
+
+In order to use this natvis file in VS Code, you need to add a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
+
+```
+    "configurations": [
+        {
+            "name": "Current Target (VS)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "visualizerFile": "${QTDIR}/qt6.natvis",
+            "cwd": "${workspaceFolder}",
+            "sourceFileMap": {
+                "C:/work/build/qt5_workdir/w/s": "${QTDIR}/../Src",
+                "Q:/qt5_workdir/w/s": "${QTDIR}/../Src",
+                "C:/Users/qt/work/install": "${QTDIR}/../Src",
+                "C:/Users/qt/work/qt": "${QTDIR}/../Src"
+            }
+        }
+    ]
+```
+
+> [!IMPORTANT]
+> The `QTDIR` environment variable must be set up before launching VS Code
+
 ## Natvis Files
 
 ### Qt 5
