@@ -120,11 +120,19 @@ fn get_possible_install_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
 fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
     let default_root = PathBuf::from("C:\\Qt");
     if default_root.exists() {
+        cliclack::log::info(format!("Default Qt installation root found in {}", style(default_root.to_str().unwrap()).cyan()))?;
         return Ok(default_root);
     }
 
     cliclack::input("Qt installation root?")
         .placeholder("C:\\Qt")
+        .validate(|input: &String| {
+            if PathBuf::from(input).exists() {
+                Ok(())
+            } else {
+                Err("Please enter a valid path")
+            }
+        })
         .interact()
 }
 
