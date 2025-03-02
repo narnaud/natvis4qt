@@ -19,6 +19,6 @@ The `qt5.natvis` file is licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exce
 
 The `qt6.natvis` file is a collection of multiple contributions:
 
-- The Qt Company: licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
-- Klarälvdalens Datakonsult AB (KDAB): licensed MIT
-- Nic Holthaus: licensed MIT
+- [The Qt Company](https://www.qt.io/): licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+- [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/): licensed MIT
+- [@nholthaus](https://github.com/nholthaus): licensed MIT
