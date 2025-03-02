@@ -6,7 +6,8 @@ This guide will help you understand how to contribute to the project.
 
 ## Pull request process
 
-1. Ensure to install []`pre-commit`](https://pre-commit.com/) before doing any pull requests
+1. Ensure to install [`pre-commit`](https://pre-commit.com/) before doing any pull requests
+
 ```
 pip install pre-commit
 pre-commit install --hook-type commit-msg
@@ -19,7 +20,9 @@ pre-commit install --hook-type commit-msg
 
 [optional body]
 ```
+
 For example:
+
 ```
 feat(clink): Add completion for environment names
 ```
@@ -38,5 +41,6 @@ Before you begin, ensure you have met the following requirements:
 ### Code contribution
 
 Before any rust code contributions:
+
 - Run `cargo fmt`
 - Run `cargo clippy`
