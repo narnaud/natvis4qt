@@ -1,6 +1,26 @@
 use console::style;
 use std::path::PathBuf;
 
+fn main() {
+    cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
+
+    let qt_root = ui_get_qt_root();
+    if qt_root.is_err() {
+        ui_outro_error();
+        return;
+    }
+
+    let dirs = get_possible_install_dirs(qt_root.unwrap());
+
+    let install_dirs = ui_get_install_dirs(&dirs);
+    match install_dirs {
+        Ok(_) => {
+            cliclack::outro(style("Success!").green().bold()).unwrap();
+        }
+        Err(_) => ui_outro_error(),
+    }
+}
+
 /// Returns all the MS Visual Studio user directories.
 fn get_msvc_dirs() -> Vec<(String, String, PathBuf)> {
     let mut dirs = Vec::new();
@@ -95,7 +115,9 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
         return Ok(default_root);
     }
 
-    cliclack::input("Qt installation root?").placeholder("C:\\Qt").interact()
+    cliclack::input("Qt installation root?")
+        .placeholder("C:\\Qt")
+        .interact()
 }
 
 /// UI: ask the user to select the directories to install the natvis files.
@@ -126,24 +148,4 @@ fn ui_outro_error() {
     ))
     .unwrap();
     std::process::exit(0)
-}
-
-fn main() {
-    cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
-
-    let qt_root = ui_get_qt_root();
-    if qt_root.is_err() {
-        ui_outro_error();
-        return;
-    }
-
-    let dirs = get_possible_install_dirs(qt_root.unwrap());
-
-    let install_dirs = ui_get_install_dirs(&dirs);
-    match install_dirs {
-        Ok(_) => {
-            cliclack::outro(style("Success!").green().bold()).unwrap();
-        }
-        Err(_) => ui_outro_error()
-    }
 }
