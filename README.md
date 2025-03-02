@@ -4,12 +4,13 @@
 
 ### Qt 5
 
-The natvis file is the one used in the [Qt VS Addin]](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+The natvis file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
 
 ### Qt 6
 
-The natvis file started as the one used the [Qt VS Addin]](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
-Then external contributions were made, they are marked explicitly in the header.
+The natvis file started as the one used the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+
+External contributions are marked explicitly in the header of the `qt6.natvis` file, with proper copyright attribution.
 
 ## License
 
