@@ -50,13 +50,13 @@ In order to use this natvis file in VS Code, you need to add a `visualizerFile` 
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
-            "visualizerFile": "${QTDIR}/natvis/qt6.natvis",
+            "visualizerFile": "${env:QTDIR}/natvis/qt6.natvis",
             "cwd": "${workspaceFolder}",
             "sourceFileMap": {
-                "C:/work/build/qt5_workdir/w/s": "${QTDIR}/../Src",
-                "Q:/qt5_workdir/w/s": "${QTDIR}/../Src",
-                "C:/Users/qt/work/install": "${QTDIR}/../Src",
-                "C:/Users/qt/work/qt": "${QTDIR}/../Src"
+                "C:/work/build/qt5_workdir/w/s": "${env:QTDIR}/../Src",
+                "Q:/qt5_workdir/w/s": "${env:QTDIR}/../Src",
+                "C:/Users/qt/work/install": "${env:QTDIR}/../Src",
+                "C:/Users/qt/work/qt": "${env:QTDIR}/../Src"
             }
         }
     ]
