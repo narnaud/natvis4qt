@@ -1,27 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--************************************************************************************************
  Copyright (C) 2024 The Qt Company Ltd.
- SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
-****************************************************************************************************
- Copyright (C) 2024 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
- SPSPDX-License-Identifier: MIT
- - QDate
- - QMap
- - QSet
- - QHash
- - QHashPrivate::*
- - QVariant
- - QImage
- - QPixmap
-****************************************************************************************************
- Copyright (C) 2024 Nic Holthaus
- SPSPDX-License-Identifier: MIT
- - QHostAddress
+ SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 *************************************************************************************************-->
 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="QPropertyData&lt;*&gt;">
+    <Type Name="QPropertyData&lt;*&gt;">
         <DisplayString>{val}</DisplayString>
         <Expand>
             <Item Name="[value]">val</Item>
@@ -275,7 +260,7 @@
         <DisplayString>{ucs,c}</DisplayString>
         <StringView>ucs,c</StringView>
         <Expand>
-            <Item Name="[latin 1]">ucs > 0xff ? '\0' : char(ucs),c</Item>
+            <Item Name="[latin 1]">ucs > 0xff ? 0 : ucs,c</Item>
             <Item Name="[unicode]">ucs,c</Item>
         </Expand>
     </Type>
@@ -346,8 +331,8 @@
         <Intrinsic Name="query" Expression="*((QString*)(((char*)(d) + memberOffset(5))))" />
         <Intrinsic Name="fragment" Expression="*((QString*)(((char*)(d) + memberOffset(6))))" />
 
-        <DisplayString Condition="!isEmpty(scheme().d-&gt;size)">{scheme()}://{host()}{path()}</DisplayString>
-        <DisplayString Condition="isEmpty(scheme().d-&gt;size)">{path()}</DisplayString>
+        <DisplayString Condition="!isEmpty(scheme().d.size)">{scheme()}://{host()}{path()}</DisplayString>
+        <DisplayString Condition="isEmpty(scheme().d.size)">{path()}</DisplayString>
         <Expand>
             <Item Name="[scheme]">scheme()</Item>
             <Item Name="[username]">username()</Item>
@@ -359,54 +344,8 @@
         </Expand>
     </Type>
 
-    <Type Name="QHostAddress">
-        <Intrinsic Name="a" Expression="((quint32*)d.d)[12]"/>
-        <Intrinsic Name="a6" Expression="((unsigned char*)d.d)[32+offset]">
-            <Parameter Name="offset" Type="quint8"/>
-        </Intrinsic>
-        <Intrinsic Name="protocol" Expression="((char*)d.d)[52]"/>
-        <Intrinsic Name="isIpv4" Expression="protocol()==QAbstractSocket::NetworkLayerProtocol::IPv4Protocol"/>
-        <Intrinsic Name="isIpv6" Expression="protocol()==QAbstractSocket::NetworkLayerProtocol::IPv6Protocol"/>
-        <Intrinsic Name="rshift" Expression="(value&gt;&gt;by)&amp;0xff">
-            <Parameter Name="value" Type="quint32"/>
-            <Parameter Name="by" Type="quint32"/>
-        </Intrinsic>
-        <Intrinsic Name="lshift" Expression="(value&lt;&lt;by)">
-            <Parameter Name="value" Type="quint8"/>
-            <Parameter Name="by" Type="quint8"/>
-        </Intrinsic>
-        <DisplayString Condition="isIpv4()">{rshift(a(),24),d}.{rshift(a(),16),d}.{rshift(a(),8),d}.{rshift(a(),0),d}</DisplayString>
-        <DisplayString Condition="isIpv6()">{(unsigned short)(lshift(0xffff&amp;a6(0),8)|a6(1)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(2),8)|a6(3)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(4),8)|a6(5)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(6),8)|a6(7)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(8),8)|a6(9)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(10),8)|a6(11)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(12),8)|a6(13)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(14),8)|a6(15)),nvoXb}
-        </DisplayString>
-        <Expand>
-            <Item Name="scopeId">*((QString*)(((char*)d.d)+8))</Item>
-            <Item Name="protocol">(QAbstractSocket::NetworkLayerProtocol)protocol()</Item>
-        </Expand>
-    </Type>
-
-   <Type Name="QDate">
-        <!-- formula from https://aa.usno.navy.mil/faq/JD_formula -->
-        <Intrinsic Name="L1" Expression="jd + 68569" />
-        <Intrinsic Name="N" Expression="4 * L1() / 146097" />
-        <Intrinsic Name="L2" Expression="L1() - (146097 * N() + 3) / 4" />
-        <Intrinsic Name="I1" Expression="4000 * (L2() + 1) / 1461001" />
-        <Intrinsic Name="L3" Expression="L2() - 1461 * I1() / 4 + 31" />
-        <Intrinsic Name="J1" Expression="80 * L3() / 2447" />
-        <Intrinsic Name="day" Expression="L3() - 2447 * J1() / 80" />
-        <Intrinsic Name="L4" Expression="J1() / 11" />
-        <Intrinsic Name="month" Expression="J1() + 2 - 12 * L4()" />
-        <Intrinsic Name="year" Expression="100 * (N() - 49) + I1() + L4()" />
-        <DisplayString Condition="month()&lt;10 &amp;&amp; day()&lt;10">{year()}-0{month()}-0{day()}</DisplayString>
-        <DisplayString Condition="month()&lt;10">{year()}-0{month()}-{day()}</DisplayString>
-        <DisplayString Condition="day()&lt;10">{year()}-{month()}-0{day()}</DisplayString>
-        <DisplayString>{year()}-{month()}-{day()}</DisplayString>
-        <Expand>
-            <Item Name="[year]">year()</Item>
-            <Item Name="[month]">month()</Item>
-            <Item Name="[day]">day()</Item>
-        </Expand>
+    <Type Name="QDate">
+        <DisplayString>{{ julian day = {jd} }}</DisplayString>
     </Type>
 
    <Type Name="QTime">
@@ -455,13 +394,13 @@
         </Expand>
     </Type>
 
-   <Type Name="QVarLengthArray&lt;*&gt;">
+   <Type Name="QVarLengthArray&lt;*,*&gt;">
         <DisplayString>{{ size={s} }}</DisplayString>
         <Expand>
             <Item Name="[capacity]">a</Item>
             <ArrayItems>
                 <Size>s</Size>
-                <ValuePointer>ptr</ValuePointer>
+                <ValuePointer>reinterpret_cast&lt;$T1*&gt;(ptr)</ValuePointer>
             </ArrayItems>
         </Expand>
     </Type>
@@ -793,21 +732,4 @@
         </Expand>
    </Type>
 
-	<Type Name="QImage">
-		<DisplayString Condition="d" Optional="true">{{ {d-&gt;width}x{d-&gt;height} }}</DisplayString>
-		<DisplayString>empty</DisplayString>
-        <Expand>
-			<Item Condition="d" Optional="true" Name="[width]">d-&gt;width</Item>
-			<Item Condition="d" Optional="true" Name="[height]">d-&gt;height</Item>
-		</Expand>
-    </Type>
-
-	<Type Name="QPixmap">
-		<DisplayString Condition="data.d" Optional="true">{{ {data.d-&gt;w}x{data.d-&gt;h} }}</DisplayString>
-		<DisplayString>empty</DisplayString>
-		<Expand>
-			<Item Condition="data.d" Optional="true" Name="[width]">data.d-&gt;w</Item>
-			<Item Condition="data.d" Optional="true" Name="[height]">data.d-&gt;h</Item>
-		</Expand>
-	</Type>
 </AutoVisualizer>
