@@ -23,13 +23,10 @@ jobs:
           target: ${{ matrix.target }}
       - name: Build | Cargo
         run: cargo build --release --locked --target ${{ matrix.target }} --color=always
-      - id: get_version
-        name: Post Builf | Get version
-        uses: jannemattila/get-version-from-tag@v4
       - name: Post Build | Package [Windows]
         if: matrix.os == 'windows-latest'
         run: |
-          ./target/${{ matrix.target }}/release/natvis-builder.exe natvis -v ${{ steps.get_version.outputs.version }} -o out
+          ./target/${{ matrix.target }}/release/natvis-builder.exe natvis -v ${{ github.ref_name }} -v out
           7z a natvis4qt-${{ matrix.target }}.zip LICENSE README.md out/natvis ./target/${{ matrix.target }}/release/natvis4qt.exe
       - name: Post Build | Checksums
         shell: bash
