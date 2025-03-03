@@ -7,14 +7,14 @@ This repository contains:
 
 ## Natvis4Qt
 
-**Natvis4Qt` is a simple command line tool to install or update the natvis files in different locations.
+`natvis4qt` is a simple command line tool to install or update the natvis files in different locations.
 
 > [!CAUTION]
 > The tool is in early stage, for now it can only overwrite natvis file in known locations. More later!
 
 ### Installation via [Scoop](https://scoop.sh/)
 
-```
+```batch
 scoop bucket add narnaud https://github.com/narnaud/scoop-bucket
 scoop install natvis4qt
 ```
@@ -43,7 +43,7 @@ See documentation here: [Natvis file locations](https://learn.microsoft.com/en-u
 
 In order to use this natvis file in VS Code, you need to add a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
 
-```
+```json
     "configurations": [
         {
             "name": "Current Target (VS)",
@@ -69,22 +69,32 @@ In order to use this natvis file in VS Code, you need to add a `visualizerFile` 
 
 ### Qt 5
 
-The natvis file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+The `qt5.natvis` file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
 
 ### Qt 6
 
-The natvis file started as the one used the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
+The `qt6.natvis` file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
 
-External contributions are marked explicitly in the header of the `qt6.natvis` file, with proper copyright attribution.
+`qt6-extension.natvis` are external contributions, with proper copyright attribution.
+
+> ![IMPORTANT]
+> The 2 files will be merge during the release, so you only need to deal with one `qt6.natvis`.
+> This is done like this here to ease update of `qt6.natvis`.
 
 ## License
 
 The **natvis4qt** tool is licensed under the MIT license.
 
-The `qt5.natvis` file is licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0.
-
-The `qt6.natvis` file is a collection of multiple contributions:
+`qt5.natvis`:
 
 - [The Qt Company](https://www.qt.io/): licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
-- [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/): licensed MIT
+
+`qt6.natvis`:
+
+- [The Qt Company](https://www.qt.io/): licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+- [QMap](https://github.com/qt-labs/vstools/commit/97dd70cd5b1c3c9a310377f03bf2a989d60bb1b1), [QHash](https://github.com/qt-labs/vstools/commit/71e0e9e7fecc6c1077c90a5ec739f5d89dcf5fa5), [QSet](https://github.com/qt-labs/vstools/commit/86270320212a8a9c7d3749613c4b5c189e2569fa) and [QVariant](https://github.com/qt-labs/vstools/commit/d21e92652c9728fb0512813f6938588b16ac39d1) are copyright [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/)
+
+`qt6-extension.natvis`:
+
 - [@nholthaus](https://github.com/nholthaus): licensed MIT
+- [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/): licensed MIT
