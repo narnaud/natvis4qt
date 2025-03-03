@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.0](https://github.com/narnaud/natvis4qt/compare/v0.1.0...v0.2.0) (2025-03-03)
+
+
+### Features
+
+* Add natvis merger ([11a3680](https://github.com/narnaud/natvis4qt/commit/11a36804ce481f17eb09604c6b08d1e4264420d1))
+* Create a builder for natvis files ([990fe09](https://github.com/narnaud/natvis4qt/commit/990fe095dc24191bd655a7ff6d98efb841b9c3dd))
+* **qt6:** Add better QDate vizualiser ([976e5db](https://github.com/narnaud/natvis4qt/commit/976e5db1ea2b423efbe70de9a0b9b16cfcc8eef2))
+* **qt6:** Add QHostAddress visualizer ([8c77b9e](https://github.com/narnaud/natvis4qt/commit/8c77b9e8c33d63eb819128f3e5071bed97876bdc))
+* **qt6:** Add QImage and QPixmap ([4b0d7c8](https://github.com/narnaud/natvis4qt/commit/4b0d7c835a8f29f4b59e719009ceb08e2501aeed))
+* Restart from TQC natvis files ([39feb31](https://github.com/narnaud/natvis4qt/commit/39feb315d1948c4f9efc2fcbdea77cd54e77946f))
+
+
+### Bug Fixes
+
+* Fix deploy script hopefully ([4d59e6d](https://github.com/narnaud/natvis4qt/commit/4d59e6dd9ef6099bf2253fc39e7ace3bb983a767))
+
 ## 0.1.0 (2025-03-02)
 
 
