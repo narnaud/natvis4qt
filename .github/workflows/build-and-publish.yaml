@@ -26,9 +26,8 @@ jobs:
       - name: Post Build | Package [Windows]
         if: matrix.os == 'windows-latest'
         run: |
-          7z a natvis4qt-${{ matrix.target }}.zip `
-            LICENSE README.md natvis `
-            ./target/${{ matrix.target }}/release/natvis4qt.exe
+          ./target/${{ matrix.target }}/release/natvis-merger.exe natvis/qt6.natvis natvis/qt6-extension.natvis
+          7z a natvis4qt-${{ matrix.target }}.zip LICENSE README.md natvis ./target/${{ matrix.target }}/release/natvis4qt.exe
       - name: Post Build | Checksums
         shell: bash
         run: for file in natvis4qt-*; do openssl dgst -sha256 -r "$file" | awk '{print $1}' > "${file}.sha256"; done
@@ -46,5 +45,7 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: |
-            *.zip
-            *.sha256
+            natvis/qt5.natvis
+            natvis/qt6.natvis
+            natvis4qt-*.zip
+            natvis4qt-*.sha256

@@ -3,8 +3,17 @@ name = "natvis4qt"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "natvis4qt"
+path = "src/main.rs"
+
+[[bin]]
+name = "natvis-merger"
+path = "src/merger.rs"
+
 [dependencies]
 dirs = "6.0"
 cliclack = "0.3.5"
 ctrlc = "3.1"
 console = "0.15"
+clap = { version = "4.5", features = ["derive"] }
