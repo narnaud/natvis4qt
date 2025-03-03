@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/narnaud/natvis4qt/compare/v0.2.0...v0.2.1) (2025-03-03)
+
+
+### Bug Fixes
+
+* FIx deploy script hopefully ([e8b765b](https://github.com/narnaud/natvis4qt/commit/e8b765b598d5e27d3fdf09f84669469d4a27f96a))
+
 ## [0.2.0](https://github.com/narnaud/natvis4qt/compare/v0.1.0...v0.2.0) (2025-03-03)
 
 
