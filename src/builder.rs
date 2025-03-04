@@ -8,13 +8,12 @@ use clap::Parser;
 struct Args {
     /// Directory with the natvis files
     dir: String,
-    /// Version of the natvis files
-    #[clap(short, long)]
-    version: String,
     /// Output directory
     #[clap(short, long)]
     output: Option<String>,
 }
+
+const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn main() {
     let args = Args::parse();
@@ -29,7 +28,7 @@ fn main() {
 
     // Create a natvis file for each version
     for (version, files) in qt_files {
-        create_natvis_file(&output, version, &args.version, files);
+        create_natvis_file(&output, version, VERSION, files);
     }
 }
 
@@ -64,7 +63,7 @@ fn fun_name(dir: String) -> HashMap<char, Vec<String>> {
     qt_files
 }
 
-fn create_natvis_file(output: &String, qt_version: char, natvis_version: &String, files: Vec<String>) {
+fn create_natvis_file(output: &String, qt_version: char, natvis_version: &str, files: Vec<String>) {
     let output = std::path::Path::new(output).join(format!("qt{}.natvis", qt_version));
 
     let file = std::fs::read_to_string(&files[0]).expect("Could not read file");

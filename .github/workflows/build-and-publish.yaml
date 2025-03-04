@@ -26,7 +26,7 @@ jobs:
       - name: Post Build | Package [Windows]
         if: matrix.os == 'windows-latest'
         run: |
-          ./target/${{ matrix.target }}/release/natvis-builder.exe natvis -v ${{ github.ref_name }} -o ./out/natvis
+          ./target/${{ matrix.target }}/release/natvis-builder.exe natvis -o ./out/natvis
           7z a natvis4qt-${{ matrix.target }}.zip LICENSE README.md ./out/natvis ./target/${{ matrix.target }}/release/natvis4qt.exe
       - name: Post Build | Checksums
         shell: bash
