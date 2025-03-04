@@ -103,32 +103,36 @@ fn ui_outro_error() {
 
 /// UI: install the natvis files.
 fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std::io::Error> {
-    let spinner = cliclack::spinner();
-    spinner.start("Copying natvis files...");
+    let overall_progress = cliclack::multi_progress("Copying natvis files...");
 
     let mut errors = Vec::new();
     for info in &natvis_installs {
-        spinner.set_message(format!("Copying natvis files for {}", info.name).as_str());
+        let spinner = overall_progress.add(cliclack::spinner());
+        let file_string : String = if info.version.len() > 1 {
+            format!(
+                "{} Natvis files",
+                info.version.iter().map(|v| format!("Qt{}", v)).collect::<Vec<_>>().join(", ")
+            )
+        } else {
+            format!("Qt{} Natvis file", info.version.first().unwrap())
+        };
+        spinner.start(format!("  Copying {} for {}", file_string, style(info.name.as_str()).cyan()).as_str());
         if let Err(e) = copy_natvis_file(info) {
             errors.push(e);
         }
+        spinner.stop(format!("{} {} copied for {}", style("✓").green().bold(), file_string, style(info.name.as_str()).cyan()).as_str());
     }
+    overall_progress.stop();
 
-    match errors.is_empty() {
-        true => spinner.stop(format!(
-            "Copied natvis files in {} directories",
-            natvis_installs.len()
-        )),
-        _ => {
-            spinner.clear();
-            for e in errors {
-                cliclack::log::error(format!("{}", e)).unwrap();
-            }
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                "Some errors occurred during the installation",
-            ));
+    if !errors.is_empty() {
+        overall_progress.stop();
+        for e in errors {
+            cliclack::log::error(format!("{}", e)).unwrap();
         }
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            "Some errors occurred during the installation",
+        ));
     }
 
     Ok(())

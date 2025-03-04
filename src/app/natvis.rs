@@ -10,7 +10,7 @@ pub struct NatvisInfo {
     /// Path to the directory
     pub path: PathBuf,
     /// Version(s) to install
-    version: Vec<u8>,
+    pub version: Vec<u8>,
 }
 
 /// Returns all the MS Visual Studio user directories.
