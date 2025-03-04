@@ -70,11 +70,9 @@ fn create_natvis_file(output: &String, qt_version: char, natvis_version: &String
     let file = std::fs::read_to_string(&files[0]).expect("Could not read file");
 
     let mut lines: Vec<String> = file.lines().map(|s| s.to_string()).collect();
-    if files.len() > 1 {
-        lines.truncate(lines.len() - 2);
-    }
 
     for file_name in &files[1..] {
+        lines.truncate(lines.len() - 2);
         let file = std::fs::read_to_string(file_name).expect("Could not read file");
         let new_lines: Vec<String> = file.lines().skip(3).map(|s| s.to_string()).collect();
         lines.extend(new_lines);
