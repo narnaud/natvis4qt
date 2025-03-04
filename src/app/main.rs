@@ -26,10 +26,12 @@ fn main() {
         ui_outro_error();
         return;
     }
+    let keys = install_keys.as_ref().unwrap().clone();
+    set_install_keys(keys);
 
     let natvis_installs = natvis_installs
         .iter()
-        .filter(|info| install_keys.as_ref().unwrap().contains(&info.key.as_str()))
+        .filter(|info| install_keys.as_ref().unwrap().contains(&info.key))
         .collect::<Vec<_>>();
 
     let success = ui_install_natvis_files(natvis_installs);
@@ -54,15 +56,15 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
         }
         None => {
             let qt_root: String = cliclack::input("Qt installation root?")
-            .placeholder("C:\\Qt")
-            .validate(|input: &String| {
-                if PathBuf::from(input).exists() {
-                    Ok(())
-                } else {
-                    Err("Please enter a valid path")
-                }
-            })
-            .interact()?;
+                .placeholder("C:\\Qt")
+                .validate(|input: &String| {
+                    if PathBuf::from(input).exists() {
+                        Ok(())
+                    } else {
+                        Err("Please enter a valid path")
+                    }
+                })
+                .interact()?;
             set_qt_root(qt_root.as_str());
             Ok(PathBuf::from(qt_root.as_str()))
         }
@@ -71,16 +73,17 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
 
 /// UI: ask the user to select the directories to install the natvis files.
 /// Returns the selected directories keys.
-fn ui_get_install_keys(dirs: &[NatvisInfo]) -> Result<Vec<&str>, std::io::Error> {
-    let keys = dirs
-        .iter()
-        .map(|info| info.key.as_str())
-        .collect::<Vec<_>>();
+fn ui_get_install_keys(dirs: &[NatvisInfo]) -> Result<Vec<String>, std::io::Error> {
+    let keys = match get_install_keys() {
+        Some(keys) => keys,
+        None => dirs.iter().map(|info| info.key.clone()).collect::<Vec<_>>(),
+    };
+
     let dirs_for_multiselect = dirs
         .iter()
         .map(|info| {
             (
-                info.key.as_str(),
+                info.key.clone(),
                 info.name.as_str(),
                 info.path.to_str().unwrap(),
             )
@@ -112,19 +115,38 @@ fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std:
     let mut errors = Vec::new();
     for info in &natvis_installs {
         let spinner = overall_progress.add(cliclack::spinner());
-        let file_string : String = if info.version.len() > 1 {
+        let file_string: String = if info.version.len() > 1 {
             format!(
                 "{} Natvis files",
-                info.version.iter().map(|v| format!("Qt{}", v)).collect::<Vec<_>>().join(", ")
+                info.version
+                    .iter()
+                    .map(|v| format!("Qt{}", v))
+                    .collect::<Vec<_>>()
+                    .join(", ")
             )
         } else {
             format!("Qt{} Natvis file", info.version.first().unwrap())
         };
-        spinner.start(format!("  Copying {} for {}", file_string, style(info.name.as_str()).cyan()).as_str());
+        spinner.start(
+            format!(
+                "  Copying {} for {}",
+                file_string,
+                style(info.name.as_str()).cyan()
+            )
+            .as_str(),
+        );
         if let Err(e) = copy_natvis_file(info) {
             errors.push(e);
         }
-        spinner.stop(format!("{} {} copied for {}", style("✓").green().bold(), file_string, style(info.name.as_str()).cyan()).as_str());
+        spinner.stop(
+            format!(
+                "{} {} copied for {}",
+                style("✓").green().bold(),
+                file_string,
+                style(info.name.as_str()).cyan()
+            )
+            .as_str(),
+        );
     }
     overall_progress.stop();
 

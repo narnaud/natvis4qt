@@ -1,6 +1,6 @@
+use preferences::{AppInfo, Preferences, PreferencesMap};
 use std::path::PathBuf;
 use std::{env, fs};
-use preferences::{AppInfo, PreferencesMap, Preferences};
 
 const APP_INFO: AppInfo = AppInfo {
     name: "natvis4qt",
@@ -26,7 +26,25 @@ pub fn set_qt_root(qt_root: &str) {
 /// Get the Qt installation root directory.
 pub fn get_qt_root() -> String {
     let prefs = get_prefs();
-    prefs.get("qt_root").cloned().unwrap_or("C:\\Qt".to_string())
+    prefs
+        .get("qt_root")
+        .cloned()
+        .unwrap_or("C:\\Qt".to_string())
+}
+
+/// Store the keys of the directories to install the natvis files.
+pub fn set_install_keys(keys: Vec<String>) {
+    let mut prefs = get_prefs();
+    prefs.insert("install_keys".into(), keys.join(","));
+    save_prefs(&prefs);
+}
+
+/// Get the keys of the directories to install the natvis files.
+pub fn get_install_keys() -> Option<Vec<String>> {
+    let prefs = get_prefs();
+    prefs
+        .get("install_keys")
+        .map(|s| s.split(',').map(|s| s.to_string()).collect())
 }
 
 /// Struct to store natvis information for installation.
@@ -103,7 +121,7 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
             .filter_map(|entry| entry.file_name().into_string().ok())
             .filter(|entry| entry.starts_with("msvc"))
             .map(|entry| NatvisInfo {
-                key: format!("{}{}", &version, &entry),
+                key: format!("{}-{}", &version, &entry),
                 name: {
                     let mut qt_version = "Qt ".to_string();
                     qt_version.push_str(&version);
