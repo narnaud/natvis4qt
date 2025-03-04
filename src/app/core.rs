@@ -1,5 +1,33 @@
 use std::path::PathBuf;
 use std::{env, fs};
+use preferences::{AppInfo, PreferencesMap, Preferences};
+
+const APP_INFO: AppInfo = AppInfo {
+    name: "natvis4qt",
+    author: "narnaud",
+};
+/// Get the preferences map
+fn get_prefs() -> PreferencesMap<String> {
+    PreferencesMap::load(&APP_INFO, env!("CARGO_PKG_NAME")).unwrap_or_default()
+}
+/// Save the preferences map
+fn save_prefs(prefs: &PreferencesMap<String>) {
+    let save_result = prefs.save(&APP_INFO, env!("CARGO_PKG_NAME"));
+    assert!(save_result.is_ok());
+}
+
+/// Store the Qt installation root directory.
+pub fn set_qt_root(qt_root: &str) {
+    let mut prefs = get_prefs();
+    prefs.insert("qt_root".into(), qt_root.into());
+    save_prefs(&prefs);
+}
+
+/// Get the Qt installation root directory.
+pub fn get_qt_root() -> String {
+    let prefs = get_prefs();
+    prefs.get("qt_root").cloned().unwrap_or("C:\\Qt".to_string())
+}
 
 /// Struct to store natvis information for installation.
 pub struct NatvisInfo {
@@ -135,7 +163,7 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
 
 /// Get default qt root directory, if it exists.
 pub fn get_default_qt_root() -> Option<PathBuf> {
-    let default_root = PathBuf::from("C:\\Qt");
+    let default_root = PathBuf::from(get_qt_root());
     if default_root.exists() {
         Some(default_root)
     } else {

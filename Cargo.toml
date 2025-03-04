@@ -17,3 +17,5 @@ cliclack = "0.3.5"
 ctrlc = "3.1"
 console = "0.15"
 clap = { version = "4.5", features = ["derive"] }
+preferences = "2.0"
+

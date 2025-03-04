@@ -1,8 +1,8 @@
 use console::style;
 use std::path::PathBuf;
 
-mod natvis;
-use natvis::*;
+mod core;
+use core::*;
 
 fn main() {
     cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
@@ -52,7 +52,8 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
             ))?;
             Ok(root)
         }
-        None => cliclack::input("Qt installation root?")
+        None => {
+            let qt_root: String = cliclack::input("Qt installation root?")
             .placeholder("C:\\Qt")
             .validate(|input: &String| {
                 if PathBuf::from(input).exists() {
@@ -61,7 +62,10 @@ fn ui_get_qt_root() -> Result<PathBuf, std::io::Error> {
                     Err("Please enter a valid path")
                 }
             })
-            .interact(),
+            .interact()?;
+            set_qt_root(qt_root.as_str());
+            Ok(PathBuf::from(qt_root.as_str()))
+        }
     }
 }
 
