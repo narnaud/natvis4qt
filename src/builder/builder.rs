@@ -18,7 +18,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 fn main() {
     let args = Args::parse();
 
-    let qt_files = fun_name(args.dir);
+    let qt_files = split_files_by_qt_version(args.dir);
 
     // Create output directory if it does not exist
     if let Some(output) = &args.output {
@@ -32,7 +32,7 @@ fn main() {
     }
 }
 
-fn fun_name(dir: String) -> HashMap<char, Vec<String>> {
+fn split_files_by_qt_version(dir: String) -> HashMap<char, Vec<String>> {
     // Get all the files in the directory
     let mut files = fs::read_dir(&dir)
         .expect("Could not read directory")
