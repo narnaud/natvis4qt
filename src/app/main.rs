@@ -45,10 +45,11 @@ fn main() {
 
     match args.command {
         Command::Install {} => install_natvis_files(args.dry_run),
-        Command::Update {auto} =>
+        Command::Update { auto } => {
             if !auto || get_autoupdate() {
                 update_natvis_files(args.dry_run)
-            },
+            }
+        }
         Command::Set {
             qt_root,
             autoupdate,

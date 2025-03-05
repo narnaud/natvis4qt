@@ -9,9 +9,9 @@ const APP_INFO: AppInfo = AppInfo {
     name: "natvis4qt",
     author: "narnaud",
 };
-const QT_ROOT_KEY : &str = "qt-root";
-const INSTALL_KEYS_KEY : &str = "install-keys";
-const AUTOUPDATE_KEY : &str = "autoupdate";
+const QT_ROOT_KEY: &str = "qt-root";
+const INSTALL_KEYS_KEY: &str = "install-keys";
+const AUTOUPDATE_KEY: &str = "autoupdate";
 
 /// Get the preferences map
 fn get_prefs() -> PreferencesMap<String> {
