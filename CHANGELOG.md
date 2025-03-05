@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/narnaud/natvis4qt/compare/v0.2.0...v0.3.0) (2025-03-05)
+
+
+### Features
+
+* **app:** Add autoupdate as a subcommand ([218fa7a](https://github.com/narnaud/natvis4qt/commit/218fa7a2e2fae351ec812ea4224380bc7ee31964))
+* **app:** Add install and update subcommands ([2976ad4](https://github.com/narnaud/natvis4qt/commit/2976ad457f6ebbb18d3be379d98335ef8967a197))
+* **app:** Save Qt root folder in app persistent settings ([121dd58](https://github.com/narnaud/natvis4qt/commit/121dd5848adefbc6adc7c7d5f84e9476749e3ab5))
+* **app:** Store selected installs in app persistent settings ([3be2dec](https://github.com/narnaud/natvis4qt/commit/3be2dec5bf1c8d04789f2a9f310e10977768f51a))
+
+
+### Bug Fixes
+
+* **builder:** Fix for more than 2 files ([700f019](https://github.com/narnaud/natvis4qt/commit/700f019d522837a1e2de5b7d43ea0cf67a680a30))
+* **builder:** Oups, forgot to rename after extracting the function ([f36fbc2](https://github.com/narnaud/natvis4qt/commit/f36fbc27bcea4478480cd35babf39eafbbe48c0d))
+
 ## [0.2.0](https://github.com/narnaud/natvis4qt/compare/v0.1.0...v0.2.0) (2025-03-03)
 
 
