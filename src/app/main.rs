@@ -24,7 +24,20 @@ enum Command {
     /// Install the natvis files
     Install {},
     /// Update the natvis files
-    Update {},
+    Update {
+        /// If the autoupdate preference is set to false, nothing will be done
+        #[clap(long)]
+        auto: bool,
+    },
+    /// Ajust natvis4qt's settings
+    Set {
+        /// Set the Qt installation root directory
+        #[clap(long = "qt-root")]
+        qt_root: Option<String>,
+        /// Set autoupdate strategy
+        #[clap(long)]
+        autoupdate: Option<bool>,
+    },
 }
 
 fn main() {
@@ -32,20 +45,44 @@ fn main() {
 
     match args.command {
         Command::Install {} => install_natvis_files(args.dry_run),
-        Command::Update {} => update_natvis_files(args.dry_run),
+        Command::Update {auto} =>
+            if !auto || get_autoupdate() {
+                update_natvis_files(args.dry_run)
+            },
+        Command::Set {
+            qt_root,
+            autoupdate,
+        } => set_preferences(qt_root, autoupdate),
     }
 }
 
+/// Set the preferences.
+pub fn set_preferences(qt_root: Option<String>, autoupdate: Option<bool>) {
+    if qt_root.is_none() && autoupdate.is_none() {
+        println!("qt-root         {}", get_qt_root());
+        println!("autoupdate      {}", get_autoupdate());
+        return;
+    }
+    if let Some(qt_root) = qt_root {
+        set_qt_root(qt_root.as_str());
+    }
+    if let Some(autoupdate) = autoupdate {
+        set_autoupdate(autoupdate);
+    }
+}
+
+/// Update the natvis files.
 fn update_natvis_files(dry_run: bool) {
     let qt_root = get_default_qt_root();
     let keys = get_install_keys();
     if qt_root.is_none() || keys.is_none() {
-        cliclack::log::warning("Nothing to do!").unwrap();
+        println!("Nothing to do!");
         return;
     }
     ui_finalize(keys.unwrap(), get_natvis_info(qt_root.unwrap()), dry_run);
 }
 
+/// Install the natvis files.
 fn install_natvis_files(dry_run: bool) {
     cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
 

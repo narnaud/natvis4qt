@@ -2,10 +2,17 @@ use preferences::{AppInfo, Preferences, PreferencesMap};
 use std::path::PathBuf;
 use std::{env, fs};
 
+/******************************************************************************
+ * Preferences
+ *****************************************************************************/
 const APP_INFO: AppInfo = AppInfo {
     name: "natvis4qt",
     author: "narnaud",
 };
+const QT_ROOT_KEY : &str = "qt-root";
+const INSTALL_KEYS_KEY : &str = "install-keys";
+const AUTOUPDATE_KEY : &str = "autoupdate";
+
 /// Get the preferences map
 fn get_prefs() -> PreferencesMap<String> {
     PreferencesMap::load(&APP_INFO, env!("CARGO_PKG_NAME")).unwrap_or_default()
@@ -19,7 +26,7 @@ fn save_prefs(prefs: &PreferencesMap<String>) {
 /// Store the Qt installation root directory.
 pub fn set_qt_root(qt_root: &str) {
     let mut prefs = get_prefs();
-    prefs.insert("qt_root".into(), qt_root.into());
+    prefs.insert(QT_ROOT_KEY.into(), qt_root.into());
     save_prefs(&prefs);
 }
 
@@ -27,7 +34,7 @@ pub fn set_qt_root(qt_root: &str) {
 pub fn get_qt_root() -> String {
     let prefs = get_prefs();
     prefs
-        .get("qt_root")
+        .get(QT_ROOT_KEY)
         .cloned()
         .unwrap_or("C:\\Qt".to_string())
 }
@@ -35,7 +42,7 @@ pub fn get_qt_root() -> String {
 /// Store the keys of the directories to install the natvis files.
 pub fn set_install_keys(keys: &[String]) {
     let mut prefs = get_prefs();
-    prefs.insert("install_keys".into(), keys.join(","));
+    prefs.insert(INSTALL_KEYS_KEY.into(), keys.join(","));
     save_prefs(&prefs);
 }
 
@@ -43,9 +50,29 @@ pub fn set_install_keys(keys: &[String]) {
 pub fn get_install_keys() -> Option<Vec<String>> {
     let prefs = get_prefs();
     prefs
-        .get("install_keys")
+        .get(INSTALL_KEYS_KEY)
         .map(|s| s.split(',').map(|s| s.to_string()).collect())
 }
+
+/// Get the autoupdate preference.
+pub fn get_autoupdate() -> bool {
+    let prefs = get_prefs();
+    prefs
+        .get(AUTOUPDATE_KEY)
+        .map(|s| s == "true")
+        .unwrap_or(true)
+}
+
+/// Set the autoupdate preference.
+pub fn set_autoupdate(autoupdate: bool) {
+    let mut prefs = get_prefs();
+    prefs.insert(AUTOUPDATE_KEY.into(), autoupdate.to_string());
+    save_prefs(&prefs);
+}
+
+/******************************************************************************
+ * Natvis file handling
+ *****************************************************************************/
 
 /// Struct to store natvis information for installation.
 pub struct NatvisInfo {
