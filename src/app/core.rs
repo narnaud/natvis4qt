@@ -33,7 +33,7 @@ pub fn get_qt_root() -> String {
 }
 
 /// Store the keys of the directories to install the natvis files.
-pub fn set_install_keys(keys: Vec<String>) {
+pub fn set_install_keys(keys: &[String]) {
     let mut prefs = get_prefs();
     prefs.insert("install_keys".into(), keys.join(","));
     save_prefs(&prefs);
@@ -138,7 +138,7 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
 }
 
 /// Returns all the possible natvis info for installation.
-pub fn get_natvis_installs(qt_root: PathBuf) -> Vec<NatvisInfo> {
+pub fn get_natvis_info(qt_root: PathBuf) -> Vec<NatvisInfo> {
     let mut dirs = Vec::new();
 
     dirs.extend(get_msvc_dirs());

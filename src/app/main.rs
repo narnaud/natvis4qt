@@ -1,10 +1,52 @@
+use clap::Parser;
 use console::style;
 use std::path::PathBuf;
 
 mod core;
 use core::*;
 
+#[derive(Parser)]
+#[command(
+    version,
+    about,
+    long_about = "Command line utility to install Qt natvis files for Qt and MSVC"
+)]
+struct Args {
+    #[clap(subcommand)]
+    command: Command,
+    /// Do the command without copying the files
+    #[clap(long = "dry-run")]
+    dry_run: bool,
+}
+
+#[derive(Parser)]
+enum Command {
+    /// Install the natvis files
+    Install {},
+    /// Update the natvis files
+    Update {},
+}
+
 fn main() {
+    let args = Args::parse();
+
+    match args.command {
+        Command::Install {} => install_natvis_files(args.dry_run),
+        Command::Update {} => update_natvis_files(args.dry_run),
+    }
+}
+
+fn update_natvis_files(dry_run: bool) {
+    let qt_root = get_default_qt_root();
+    let keys = get_install_keys();
+    if qt_root.is_none() || keys.is_none() {
+        cliclack::log::warning("Nothing to do!").unwrap();
+        return;
+    }
+    ui_finalize(keys.unwrap(), get_natvis_info(qt_root.unwrap()), dry_run);
+}
+
+fn install_natvis_files(dry_run: bool) {
     cliclack::intro(style("Natvis installation for Qt").on_green().black()).unwrap();
 
     cliclack::log::info(format!(
@@ -19,23 +61,27 @@ fn main() {
         return;
     }
 
-    let natvis_installs = get_natvis_installs(qt_root.unwrap());
+    let natvis_info = get_natvis_info(qt_root.unwrap());
+    let keys = match ui_get_install_keys(&natvis_info) {
+        Ok(keys) => keys,
+        Err(_) => {
+            ui_outro_error();
+            return;
+        }
+    };
+    set_install_keys(&keys);
 
-    let install_keys = ui_get_install_keys(&natvis_installs);
-    if install_keys.is_err() {
-        ui_outro_error();
-        return;
-    }
-    let keys = install_keys.as_ref().unwrap().clone();
-    set_install_keys(keys);
+    ui_finalize(keys, natvis_info, dry_run);
+}
 
-    let natvis_installs = natvis_installs
+/// UI: finalize the installation.
+fn ui_finalize(keys: Vec<String>, natvis_info: Vec<NatvisInfo>, dry_run: bool) {
+    let natvis_installs = natvis_info
         .iter()
-        .filter(|info| install_keys.as_ref().unwrap().contains(&info.key))
+        .filter(|info| keys.contains(&info.key))
         .collect::<Vec<_>>();
 
-    let success = ui_install_natvis_files(natvis_installs);
-
+    let success = ui_install_natvis_files(natvis_installs, dry_run);
     match success {
         Ok(_) => cliclack::outro(style("Success!").green().bold()).unwrap(),
         Err(_) => ui_outro_error(),
@@ -109,13 +155,16 @@ fn ui_outro_error() {
 }
 
 /// UI: install the natvis files.
-fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std::io::Error> {
+fn ui_install_natvis_files(
+    natvis_installs: Vec<&NatvisInfo>,
+    dry_run: bool,
+) -> Result<(), std::io::Error> {
     let overall_progress = cliclack::multi_progress("Copying natvis files...");
 
     let mut errors = Vec::new();
     for info in &natvis_installs {
         let spinner = overall_progress.add(cliclack::spinner());
-        let file_string: String = if info.version.len() > 1 {
+        let file_string = if info.version.len() > 1 {
             format!(
                 "{} Natvis files",
                 info.version
@@ -127,31 +176,26 @@ fn ui_install_natvis_files(natvis_installs: Vec<&NatvisInfo>) -> Result<(), std:
         } else {
             format!("Qt{} Natvis file", info.version.first().unwrap())
         };
-        spinner.start(
-            format!(
-                "  Copying {} for {}",
-                file_string,
-                style(info.name.as_str()).cyan()
-            )
-            .as_str(),
-        );
-        if let Err(e) = copy_natvis_file(info) {
-            errors.push(e);
+        spinner.start(format!(
+            "  Copying {} for {}",
+            file_string,
+            style(info.name.as_str()).cyan()
+        ));
+        if !dry_run {
+            if let Err(e) = copy_natvis_file(info) {
+                errors.push(e);
+            }
         }
-        spinner.stop(
-            format!(
-                "{} {} copied for {}",
-                style("✓").green().bold(),
-                file_string,
-                style(info.name.as_str()).cyan()
-            )
-            .as_str(),
-        );
+        spinner.stop(format!(
+            "{} {} copied for {}",
+            style("✓").green().bold(),
+            file_string,
+            style(info.name.as_str()).cyan()
+        ));
     }
     overall_progress.stop();
 
     if !errors.is_empty() {
-        overall_progress.stop();
         for e in errors {
             cliclack::log::error(format!("{}", e)).unwrap();
         }
