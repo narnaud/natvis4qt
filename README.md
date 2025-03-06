@@ -12,11 +12,17 @@ This repository contains:
 > [!CAUTION]
 > The tool is in early stage, for now it can only overwrite natvis file in known locations. More later!
 
-### Installation via [Scoop](https://scoop.sh/)
+### Installation via [Scoop](https://scoop.sh/) (preferred)
 
 ```batch
 scoop bucket add narnaud https://github.com/narnaud/scoop-bucket
 scoop install natvis4qt
+```
+
+During a scoop update, installed Natvis files will be automatically updated. If you don't want this mechanism, run:
+
+```cmd
+natvis4qt set --autoupdate false
 ```
 
 ### Or via archive files
@@ -27,9 +33,15 @@ scoop install natvis4qt
 
 ### Usage
 
-Just start `natvis4qt` on the command line and follow the instructions.
+Just run `natvis4qt install` on the command line and follow the instructions.
 
 ![Demo](assets/demo.gif)
+
+The application is using different commands:
+
+- `install`  Install the natvis files in known directories (MSVC and Qt)
+- `update`   Update the natvis files
+- `set`      Adjust natvis4qt's settings
 
 ## Integration
 
