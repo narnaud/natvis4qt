@@ -14,7 +14,7 @@ use core::*;
 struct Args {
     #[clap(subcommand)]
     command: Command,
-    /// Do the command without copying the files
+    /// Install or update without copying the files
     #[clap(long = "dry-run")]
     dry_run: bool,
 }
@@ -25,11 +25,11 @@ enum Command {
     Install {},
     /// Update the natvis files
     Update {
-        /// If the autoupdate preference is set to false, nothing will be done
+        /// If the autoupdate preference is set to false, do nothing
         #[clap(long)]
         auto: bool,
     },
-    /// Ajust natvis4qt's settings
+    /// Adjust natvis4qt's settings
     Set {
         /// Set the Qt installation root directory
         #[clap(long = "qt-root")]
