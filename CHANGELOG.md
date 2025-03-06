@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/narnaud/natvis4qt/compare/v0.3.0...v0.3.1) (2025-03-06)
+
+
+### Bug Fixes
+
+* **app:** Fix typo in help ([381e2c2](https://github.com/narnaud/natvis4qt/commit/381e2c2a9ff1ed1db07497b9011035c5f54cce12))
+
 ## [0.3.0](https://github.com/narnaud/natvis4qt/compare/v0.2.0...v0.3.0) (2025-03-05)
 
 
