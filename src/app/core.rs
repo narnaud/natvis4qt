@@ -111,6 +111,37 @@ fn get_msvc_dirs() -> Vec<NatvisInfo> {
     dirs
 }
 
+/// Returns the VS Code Cpptools visualizer directory.
+fn get_vscode_cpptools_dir() -> Option<NatvisInfo> {
+    let mut extensions_dir = dirs::home_dir().expect("Could not find home directory");
+    extensions_dir.push(".vscode\\extensions");
+
+    for entry in std::fs::read_dir(extensions_dir)
+        .ok()?
+        .filter_map(|e| e.ok())
+    {
+        if entry
+            .file_name()
+            .to_str()
+            .is_some_and(|n| n.starts_with("ms-vscode.cpptools"))
+        {
+            let mut visualizer_dir = entry.path();
+            visualizer_dir.push("debugAdapters\\vsdbg\\bin\\Visualizers");
+
+            if visualizer_dir.exists() {
+                return Some(NatvisInfo {
+                    key: "vscodeCpptools".to_owned(),
+                    name: "VS Code C/C++ Extension".to_string(),
+                    path: visualizer_dir,
+                    version: vec![5, 6],
+                });
+            }
+        }
+    }
+
+    None
+}
+
 /// Returns all the Qt installation.
 fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
     if !qt_root.exists() {
@@ -170,6 +201,7 @@ pub fn get_natvis_info(qt_root: PathBuf) -> Vec<NatvisInfo> {
 
     dirs.extend(get_msvc_dirs());
     dirs.extend(get_qt_dirs(qt_root));
+    dirs.extend(get_vscode_cpptools_dir());
 
     dirs
 }
