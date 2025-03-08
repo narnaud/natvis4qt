@@ -1,4 +1,5 @@
 use preferences::{AppInfo, Preferences, PreferencesMap};
+use std::collections::HashSet;
 use std::path::PathBuf;
 use std::{env, fs};
 
@@ -40,9 +41,18 @@ pub fn get_qt_root() -> String {
 }
 
 /// Store the keys of the directories to install the natvis files.
+///
+/// This method is adding the new keys to the existing ones.
 pub fn set_install_keys(keys: &[String]) {
     let mut prefs = get_prefs();
-    prefs.insert(INSTALL_KEYS_KEY.into(), keys.join(","));
+
+    // Merge the new keys with the old ones
+    let old_keys = get_install_keys().unwrap_or_default();
+    let mut new_keys = old_keys.iter().collect::<HashSet<_>>();
+    new_keys.extend(keys.iter());
+
+    let new_keys = new_keys.into_iter().cloned().collect::<Vec<String>>();
+    prefs.insert(INSTALL_KEYS_KEY.into(), new_keys.join(","));
     save_prefs(&prefs);
 }
 
