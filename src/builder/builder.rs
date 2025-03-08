@@ -37,7 +37,7 @@ fn split_files_by_qt_version(dir: String) -> HashMap<char, Vec<String>> {
     let mut files = fs::read_dir(&dir)
         .expect("Could not read directory")
         .map(|entry| entry.expect("Could not read entry").path())
-        .filter(|path| path.is_file())
+        .filter(|path| path.is_file() && path.extension().unwrap_or_default() == "natvis")
         .collect::<Vec<_>>();
     files.sort_by(|a, b| b.cmp(a));
 
