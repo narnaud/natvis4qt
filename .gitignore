@@ -1,1 +1,6 @@
+# build output
 /target
+/natvis/build-*
+
+# Visual Studio
+.vs
