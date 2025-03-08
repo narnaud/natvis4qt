@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+
+name: Clippy and Fmt
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: fmt
+        run: |
+          cargo fmt --check
+
+      - name: clippy
+        run: |
+          cargo clippy -- -Dwarnings
