@@ -89,4 +89,39 @@
         </Expand>
     </Type>
 
+    <Type Name="QFlags&lt;*&gt;">
+        <DisplayString>{($T1)i}</DisplayString>
+        <Expand>
+            <Item Name="[value]">($T1)i</Item>
+        </Expand>
+    </Type>
+
+    <!-- The following types require debug symbols to be loaded. -->
+    <Type Name="QDir">
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Cored.dll!QDirPrivate**)&amp;d_ptr"></Intrinsic>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Core.dll!QDirPrivate**)&amp;d_ptr"></Intrinsic>
+        <DisplayString>{d()-&gt;dirEntry.m_filePath}</DisplayString>
+        <Expand>
+            <ExpandedItem>d()</ExpandedItem>
+        </Expand>
+    </Type>
+
+    <Type Name="QFileInfo">
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Cored.dll!QFileInfoPrivate**)&amp;d_ptr"></Intrinsic>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Core.dll!QFileInfoPrivate**)&amp;d_ptr"></Intrinsic>
+        <DisplayString>{d()-&gt;fileEntry.m_filePath}</DisplayString>
+        <Expand>
+            <ExpandedItem>d()</ExpandedItem>
+        </Expand>
+    </Type>
+
+    <Type Name="QFile">
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Cored.dll!QFilePrivate**)&amp;d_ptr"></Intrinsic>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Core.dll!QFilePrivate**)&amp;d_ptr"></Intrinsic>
+        <DisplayString>{d()-&gt;fileName}</DisplayString>
+        <Expand>
+            <ExpandedItem>d()</ExpandedItem>
+        </Expand>
+    </Type>
+
 </AutoVisualizer>

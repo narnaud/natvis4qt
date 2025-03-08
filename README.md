@@ -51,6 +51,8 @@ Normally you don't have to do anything, the natvis files are copied in a central
 
 See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
 
+Some visulaizers require debug symbols for Qt to be loaded. To load them, add the `bin` directory of your Qt installation (e.g. `C:\Qt\6.8.0\msvc2022_64\bin`) to the symbol search path under **Options > Debugging > Symbols**.
+
 ### Visual Studio Code
 
 In order to use this natvis file in VS Code, you need to add a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
@@ -69,6 +71,9 @@ In order to use this natvis file in VS Code, you need to add a `visualizerFile` 
                 "Q:/qt5_workdir/w/s": "${env:QTDIR}/../Src",
                 "C:/Users/qt/work/install": "${env:QTDIR}/../Src",
                 "C:/Users/qt/work/qt": "${env:QTDIR}/../Src"
+            },
+            "symbolOptions": {
+                "searchPaths": ["${env:QTDIR}/bin"],
             }
         }
     ]
