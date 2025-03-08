@@ -89,6 +89,11 @@
         </Expand>
     </Type>
 
+    <!--************************************************************************************************
+    Copyright (C) Nerixyz
+    SPDX-License-Identifier: MIT
+    *************************************************************************************************-->
+
     <Type Name="QFlags&lt;*&gt;">
         <DisplayString>{($T1)i}</DisplayString>
         <Expand>
@@ -107,7 +112,8 @@
     </Type>
 
     <Type Name="QFileInfo">
-        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Cored.dll!QFileInfoPrivate**)&amp;d_ptr"></Intrinsic>
+        <Intrinsic Name="d" Optional="true"
+            Expression="*(Qt6Cored.dll!QFileInfoPrivate**)&amp;d_ptr"></Intrinsic>
         <Intrinsic Name="d" Optional="true" Expression="*(Qt6Core.dll!QFileInfoPrivate**)&amp;d_ptr"></Intrinsic>
         <DisplayString>{d()-&gt;fileEntry.m_filePath}</DisplayString>
         <Expand>
