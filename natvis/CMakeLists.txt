@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+﻿cmake_minimum_required(VERSION 3.16)
 
 project(test-natvis LANGUAGES CXX)
 
@@ -14,6 +14,18 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Network)
 
 qt_add_executable(test-natvis
 	test/main.cpp
+    test/core_types.h
+    test/container_types.h
+    test/variant_types.h
+    test/network_types.h
+    test/gui_types.h
+    test/widgets_types.h
+)
+
+qt_add_resources(test-natvis "assets"
+    PREFIX "/"
+    FILES
+        test/rustacean.png
 )
 
 target_link_libraries(test-natvis
@@ -23,3 +35,5 @@ target_link_libraries(test-natvis
         Qt6::Widgets
         Qt6::Network
 )
+
+install(TARGETS test-natvis LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
