@@ -5,6 +5,19 @@ This repository contains:
 - Up to date natvis files for Qt5 and Qt6
 - Command line tool to install or update them in different locations
 
+## Natvis files
+
+If you are only interested in natvis files, you can find them here:
+
+- [qt5.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt5.natvis)
+- [qt6.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt6.natvis)
+
+> ![IMPORTANT]
+> Do not use the natvis files in the source repository, as they are merged during the release.
+> *Always* use the one from the release.
+
+You can find the current status of natvis definitions here: [SUPPORT.md](SUPPORT.md)
+
 ## Natvis4Qt
 
 `natvis4qt` is a simple command line tool to install or update the natvis files in different locations.
@@ -81,22 +94,6 @@ In order to use this natvis file in VS Code, you need to add a `visualizerFile` 
 
 > [!IMPORTANT]
 > The `QTDIR` environment variable must be set up before launching VS Code
-
-## Natvis Files
-
-### Qt 5
-
-The `qt5.natvis` file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
-
-### Qt 6
-
-The `qt6.natvis` file is the one used in the [Qt VS Addin](<https://wiki.qt.io/Visual_Studio_Add-in>) from The Qt Company.
-
-`qt6-extension.natvis` are external contributions, with proper copyright attribution.
-
-> ![IMPORTANT]
-> The 2 files will be merge during the release, so you only need to deal with one `qt6.natvis`.
-> This is done like this here to ease update of `qt6.natvis`.
 
 ## License
 
