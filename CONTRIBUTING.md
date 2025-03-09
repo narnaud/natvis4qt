@@ -29,6 +29,15 @@ feat(clink): Add completion for environment names
 
 3. Keep a linear git history, remove any merge commits but prefer rebasing on top of `main`
 
+## Natvis contributions
+
+To contribute new visualiser (or improve existing one), feel free to use the small executable in the `natvis` directory:
+
+- Open the `CMakeLists.txt` in Visual Studio
+- Feel free to add a type if it's missing
+- Put a breakpoint at the `return` in main
+- You can edit the natvis files and see the results directly
+
 ## Code contributions
 
 ### Prerequisites
