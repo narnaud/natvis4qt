@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0](https://github.com/narnaud/natvis4qt/compare/v0.3.1...v0.4.0) (2025-03-09)
+
+
+### Features
+
+* **app:** add vscode cpptools directory ([7aa7e97](https://github.com/narnaud/natvis4qt/commit/7aa7e978d6c237cd4583c66665526722d361a429))
+* **app:** Enhance install to merge with exiting installation ([5bc8f8c](https://github.com/narnaud/natvis4qt/commit/5bc8f8c80eafe8c771e2286cd6baa125780085b6))
+* **natvis:** add `QFlags`, `QDir`, `QFileInfo`, and `QFile` ([b4cb221](https://github.com/narnaud/natvis4qt/commit/b4cb221429aa054b2ef33560a91de87d746b7619))
+
+
+### Bug Fixes
+
+* **app:** Fix VS 2019 key ([8b86b7e](https://github.com/narnaud/natvis4qt/commit/8b86b7e7d230ccf7ea01af5c01e7efc757fc05dc))
+* **builder:** Fix builder to only assemble natvis files in the input directory ([28809ce](https://github.com/narnaud/natvis4qt/commit/28809ce5ed50ce45d9e14675938c1f53fdc67ffd))
+
 ## [0.3.1](https://github.com/narnaud/natvis4qt/compare/v0.3.0...v0.3.1) (2025-03-06)
 
 
