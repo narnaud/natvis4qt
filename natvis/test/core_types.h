@@ -33,7 +33,7 @@ public:
     SelectionFlags qFlags = SelectionFlag::SelectCurrent;
     QLine qLine = QLine(0, 0, 42, 42);
     QPoint qPoint = QPoint(24, 48);
-    QPointF qPointF = QPoint(24.5, 48.5);
+    QPointF qPointF = QPointF(24.5, 48.5);
     QRect qRect = QRect(5, 5, 42, 42);
     QRectF qRectF = QRectF(5.5, 5.5, 4.2, 4.2);
     QSize qSize = QSize(42, 42);
