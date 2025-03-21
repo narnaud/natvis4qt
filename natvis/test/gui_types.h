@@ -23,7 +23,7 @@ public:
     QQuaternion qQuaternion = QQuaternion(0., 0., 0., 1.);
     QRegion qRegion = QRegion();
     QTransform qTransform = QTransform();
-    QVector2D qVector2D = QVector2D(42., 42.);
-    QVector3D qVector3D = QVector3D(42., 42., 42.);
-    QVector4D qVector4D = QVector4D(42., 42., 42., 42.);
+    QVector2D qVector2D = QVector2D(42., 43.);
+    QVector3D qVector3D = QVector3D(42., 43., 44.);
+    QVector4D qVector4D = QVector4D(42., 43., 44., 45.);
 };

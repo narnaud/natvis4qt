@@ -69,7 +69,17 @@
         <DisplayString Condition="isNull()">empty</DisplayString>
         <DisplayString Condition="!isNull()">{_q_value}</DisplayString>
         <Expand>
-            <Item Name=" " Condition="!isNull()">*value()</Item>
+            <ExpandedItem Condition="!isNull()">*value()</ExpandedItem>
+        </Expand>
+    </Type>
+
+    <Type Name="QBasicAtomicPointer&lt;void&gt;">
+        <Intrinsic Name="isNull" Expression="value()==0" />
+        <Intrinsic Name="value" Expression="_q_value.value()" />
+        <DisplayString Condition="isNull()">empty</DisplayString>
+        <DisplayString Condition="!isNull()">{_q_value}</DisplayString>
+        <Expand>
+            <ExpandedItem Condition="!isNull()">value()</ExpandedItem>
         </Expand>
     </Type>
 
@@ -132,58 +142,56 @@
     </Type>
 
    <Type Name="QPolygon">
-        <DisplayString>{{ size={d-&gt;size} }}</DisplayString>
+        <DisplayString>{{ size={d.size} }}</DisplayString>
         <Expand>
-            <Item Name="[referenced]">d-&gt;ref.atomic._q_value</Item>
+            <Item Name="[referenced]">d.d-&gt;ref_._q_value</Item>
             <ArrayItems>
-                <Size>d-&gt;size</Size>
-                <ValuePointer>(QPoint*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)</ValuePointer>
+                <Size>d.size</Size>
+                <ValuePointer>d.ptr</ValuePointer>
             </ArrayItems>
         </Expand>
     </Type>
 
    <Type Name="QPolygonF">
-        <DisplayString>{{ size={d-&gt;size} }}</DisplayString>
+        <DisplayString>{{ size={d.size} }}</DisplayString>
         <Expand>
             <Item Name="[closed]">
-                d-&gt;size &gt; 0
-                &amp;&amp; ((((QPointF*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)[0]).xp
-                == (((QPointF*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)[d-&gt;size - 1]).xp)
-                &amp;&amp; ((((QPointF*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)[0]).yp
-                == (((QPointF*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)[d-&gt;size - 1]).yp)
+                d.size &gt; 0
+                    &amp;&amp; d.ptr[0].xp == d.ptr[d.size - 1].xp
+                    &amp;&amp; d.ptr[0].yp == d.ptr[d.size - 1].yp
             </Item>
-            <Item Name="[referenced]">d-&gt;ref.atomic._q_value</Item>
+            <Item Name="[referenced]">d.d-&gt;ref_._q_value</Item>
             <ArrayItems>
-                <Size>d-&gt;size</Size>
-                <ValuePointer>(QPointF*)((reinterpret_cast&lt;char*&gt;(d)) + d-&gt;offset)</ValuePointer>
+                <Size>d.size</Size>
+                <ValuePointer>d.ptr</ValuePointer>
             </ArrayItems>
         </Expand>
     </Type>
 
     <Type Name="QVector2D">
-        <DisplayString>{{ x = {xp}, y = {yp} }}</DisplayString>
+        <DisplayString>{{ x = {v[0]}, y = {v[1]} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">xp</Item>
-            <Item Name="[y]">yp</Item>
+            <Item Name="[x]">v[0]</Item>
+            <Item Name="[y]">v[1]</Item>
         </Expand>
     </Type>
 
     <Type Name="QVector3D">
-        <DisplayString>{{ x = {xp}, y = {yp}, z = {zp} }}</DisplayString>
+        <DisplayString>{{ x = {v[0]}, y = {v[1]}, z = {v[2]} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">xp</Item>
-            <Item Name="[y]">yp</Item>
-            <Item Name="[z]">zp</Item>
+            <Item Name="[x]">v[0]</Item>
+            <Item Name="[y]">v[1]</Item>
+            <Item Name="[z]">v[2]</Item>
         </Expand>
     </Type>
 
     <Type Name="QVector4D">
-        <DisplayString>{{ x = {xp}, y = {yp}, z = {zp}, w = {wp} }}</DisplayString>
+        <DisplayString>{{ x = {v[0]}, y = {v[1]}, z = {v[2]}, w = {v[3]} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">xp</Item>
-            <Item Name="[y]">yp</Item>
-            <Item Name="[z]">zp</Item>
-            <Item Name="[w]">wp</Item>
+            <Item Name="[x]">v[0]</Item>
+            <Item Name="[y]">v[1]</Item>
+            <Item Name="[z]">v[2]</Item>
+            <Item Name="[w]">v[3]</Item>
         </Expand>
     </Type>
 
@@ -406,12 +414,14 @@
     </Type>
 
    <Type Name="QMap&lt;*,*&gt;">
-        <AlternativeType Name="QMultiMap&lt;*,*&gt;"/>
-        <DisplayString>{{ size={d.d-&gt;m._Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
+        <AlternativeType Name="QMultiMap&lt;*,*&gt;" />
+        <Intrinsic Name="p" Optional="true" Expression="d.d.ptr"></Intrinsic> <!-- after 6.9 -->
+        <Intrinsic Name="p" Optional="true" Expression="d.d"></Intrinsic> <!-- before 6.9 -->
+        <DisplayString>{{ size={p()-&gt;m._Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
         <Expand>
             <TreeItems>
-                <Size>d.d-&gt;m._Mypair._Myval2._Myval2._Mysize</Size>
-                <HeadPointer>d.d-&gt;m._Mypair._Myval2._Myval2._Myhead-&gt;_Parent</HeadPointer>
+                <Size>p()-&gt;m._Mypair._Myval2._Myval2._Mysize</Size>
+                <HeadPointer>p()-&gt;m._Mypair._Myval2._Myval2._Myhead-&gt;_Parent</HeadPointer>
                 <LeftPointer>_Left</LeftPointer>
                 <RightPointer>_Right</RightPointer>
                 <ValueNode Condition="_Isnil == 0" Name="[{_Myval.first}]">_Myval,view(MapHelper)</ValueNode>
@@ -419,15 +429,18 @@
         </Expand>
     </Type>
 
-   <Type Name="std::pair&lt;*, *&gt;" IncludeView="MapHelper">
-        <DisplayString>{second}</DisplayString>
-    </Type>
-
    <Type Name="QHashPrivate::Node&lt;*,*&gt;">
         <DisplayString>{value}</DisplayString>
         <Expand>
             <Item Name="key">key</Item>
             <Item Name="value">value</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="QHashPrivate::Node&lt;*,QHashDummyValue&gt;">
+        <DisplayString>{key}</DisplayString>
+        <Expand>
+            <ExpandedItem>key</ExpandedItem>
         </Expand>
     </Type>
 

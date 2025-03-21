@@ -8,11 +8,11 @@
     *************************************************************************************************-->
 
     <Type Name="QHostAddress">
-        <Intrinsic Name="a" Expression="((quint32*)d.d)[12]" />
-        <Intrinsic Name="a6" Expression="((unsigned char*)d.d)[32+offset]">
+        <Intrinsic Name="a" Expression="(*(quint32**)&amp;d)[12]" />
+        <Intrinsic Name="a6" Expression="(*(unsigned char**)&amp;d)[32+offset]">
             <Parameter Name="offset" Type="quint8" />
         </Intrinsic>
-        <Intrinsic Name="protocol" Expression="((char*)d.d)[52]" />
+        <Intrinsic Name="protocol" Expression="(*(char**)&amp;d)[52]" />
         <Intrinsic Name="isIpv4"
             Expression="protocol()==QAbstractSocket::NetworkLayerProtocol::IPv4Protocol" />
         <Intrinsic Name="isIpv6"
@@ -38,7 +38,7 @@
             short)(lshift(0xffff&amp;a6(14),8)|a6(15)),nvoXb}
         </DisplayString>
         <Expand>
-            <Item Name="scopeId">*((QString*)(((char*)d.d)+8))</Item>
+            <Item Name="scopeId">*((QString*)((*(char**)&amp;d)+8))</Item>
             <Item Name="protocol">(QAbstractSocket::NetworkLayerProtocol)protocol()</Item>
         </Expand>
     </Type>
@@ -72,20 +72,24 @@
     </Type>
 
     <Type Name="QImage">
-        <DisplayString Condition="d" Optional="true">{{ {d-&gt;width}x{d-&gt;height} }}</DisplayString>
+        <Intrinsic Name="p" Optional="true" Expression="(Qt6Guid.dll!QImageData*)d"></Intrinsic>
+        <Intrinsic Name="p" Optional="true" Expression="(Qt6Gui.dll!QImageData*)d"></Intrinsic>
+        <DisplayString Condition="d" Optional="true">{{ {p()-&gt;width}x{p()-&gt;height} }}</DisplayString>
         <DisplayString>empty</DisplayString>
         <Expand>
-            <Item Condition="d" Optional="true" Name="[width]">d-&gt;width</Item>
-            <Item Condition="d" Optional="true" Name="[height]">d-&gt;height</Item>
+            <Item Condition="d" Optional="true" Name="[width]">p()-&gt;width</Item>
+            <Item Condition="d" Optional="true" Name="[height]">p()-&gt;height</Item>
         </Expand>
     </Type>
 
     <Type Name="QPixmap">
-        <DisplayString Condition="data.d" Optional="true">{{ {data.d-&gt;w}x{data.d-&gt;h} }}</DisplayString>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Guid.dll!QPlatformPixmap**)&amp;data"></Intrinsic>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Gui.dll!QPlatformPixmap**)&amp;data"></Intrinsic>
+        <DisplayString Condition="d()" Optional="true">{{ {d()-&gt;w}x{d()-&gt;h} }}</DisplayString>
         <DisplayString>empty</DisplayString>
         <Expand>
-            <Item Condition="data.d" Optional="true" Name="[width]">data.d-&gt;w</Item>
-            <Item Condition="data.d" Optional="true" Name="[height]">data.d-&gt;h</Item>
+            <Item Condition="d()" Optional="true" Name="[width]">d()-&gt;w</Item>
+            <Item Condition="d()" Optional="true" Name="[height]">d()-&gt;h</Item>
         </Expand>
     </Type>
 
