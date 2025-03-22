@@ -64,14 +64,14 @@
     <DisplayString Condition="t == QCborValue::Integer">{n}</DisplayString>
     <DisplayString Condition="t == QCborValue::Double">{*(double*)&amp;n}</DisplayString>
 
-    <DisplayString Condition="t == QCborValue::String &amp;&amp; container-&gt;el(n).flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+    <DisplayString Condition="t == QCborValue::String &amp;&amp; container-&gt;flag(n) &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
       {container-&gt;byteDataAt(n)-&gt;u16(),[container-&gt;byteDataAt(n)-&gt;len/2]su}
     </DisplayString>
     <DisplayString Condition="t == QCborValue::String">
       {container-&gt;byteDataAt(n)-&gt;str(),[container-&gt;byteDataAt(n)-&gt;len]s8}
     </DisplayString>
 
-    <DisplayString Condition="(t == QCborValue::DateTime || t == QCborValue::Url || t == QCborValue::RegularExpression) &amp;&amp; container-&gt;el(1).flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+    <DisplayString Condition="(t == QCborValue::DateTime || t == QCborValue::Url || t == QCborValue::RegularExpression) &amp;&amp; container-&gt;flag(1) &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
       {container-&gt;byteDataAt(1)-&gt;u16(),[container-&gt;byteDataAt(1)-&gt;len/2]su}
     </DisplayString>
     <DisplayString Condition="(t == QCborValue::DateTime || t == QCborValue::Url || t == QCborValue::RegularExpression)">
@@ -88,10 +88,10 @@
       <ExpandedItem Condition="t == QCborValue::ByteArray">
         container-&gt;byteDataAt(n)-&gt;bytes(),[container-&gt;byteDataAt(n)-&gt;len]hv
       </ExpandedItem>
-      <ExpandedItem Condition="t == QCborValue::String &amp;&amp; container-&gt;el(n).flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+      <ExpandedItem Condition="t == QCborValue::String &amp;&amp; container-&gt;flag(n) &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
         container-&gt;byteDataAt(n)-&gt;u16(),[container-&gt;byteDataAt(n)-&gt;len/2]su
       </ExpandedItem>
-      <ExpandedItem Condition="t == QCborValue::String &amp;&amp; !(container-&gt;el(n).flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
+      <ExpandedItem Condition="t == QCborValue::String &amp;&amp; !(container-&gt;flag(n) &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
         container-&gt;byteDataAt(n)-&gt;str(),[container-&gt;byteDataAt(n)-&gt;len]s8
       </ExpandedItem>
     </Expand>
@@ -304,13 +304,14 @@
   </Type>
 
   <Type Name="QJsonValueRef">
-    <Intrinsic Name="container" Expression="(Qt6Cored.dll!QCborContainerPrivate*)(is_object ? o-&gt;o.d : a-&gt;a.d)" />
+    <Intrinsic Name="container" Expression="*(Qt6Cored.dll!QCborContainerPrivate**)&amp;o-&gt;o" />
     <Intrinsic Name="idx" Expression="is_object ? index * 2 + 1 : index" />
     <Intrinsic Name="el" Expression="container()-&gt;el(idx())"/>
+    <Intrinsic Name="flags" Expression="container()-&gt;flag(idx())"/>
     <Intrinsic Name="data" Expression="container()-&gt;byteDataAt(idx())" />
     <Intrinsic Name="ty" Expression="el().type" />
 
-    <DisplayString Condition="ty() == QCborValue::Type::String &amp;&amp; el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+    <DisplayString Condition="ty() == QCborValue::Type::String &amp;&amp; flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
       {data()-&gt;u16(),[data()-&gt;len/2]su}
     </DisplayString>
     <DisplayString Condition="ty() == QCborValue::Type::String">
@@ -323,10 +324,10 @@
     <Expand>
       <ExpandedItem Condition="ty() == QCborValue::Type::Array">el().container,view(arr)na</ExpandedItem>
       <ExpandedItem Condition="ty() == QCborValue::Type::Map">el().container,view(map)na</ExpandedItem>
-      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
         data()-&gt;u16(),[data()-&gt;len/2]su
       </ExpandedItem>
-      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; !(el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
+      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; !(flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
         data()-&gt;str(),[data()-&gt;len]s8
       </ExpandedItem>
     </Expand>
@@ -334,13 +335,14 @@
 
   <!-- Same as QJsonValueRef -->
   <Type Name="QJsonValueConstRef">
-    <Intrinsic Name="container" Expression="(Qt6Cored.dll!QCborContainerPrivate*)(is_object ? o-&gt;o.d : a-&gt;a.d)" />
+    <Intrinsic Name="container" Expression="*(Qt6Cored.dll!QCborContainerPrivate**)&amp;o-&gt;o" />
     <Intrinsic Name="idx" Expression="is_object ? index * 2 + 1 : index" />
     <Intrinsic Name="el" Expression="container()-&gt;el(idx())"/>
+    <Intrinsic Name="flags" Expression="container()-&gt;flag(idx())"/>
     <Intrinsic Name="data" Expression="container()-&gt;byteDataAt(idx())" />
     <Intrinsic Name="ty" Expression="el().type" />
 
-    <DisplayString Condition="ty() == QCborValue::Type::String &amp;&amp; el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+    <DisplayString Condition="ty() == QCborValue::Type::String &amp;&amp; flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
       {data()-&gt;u16(),[data()-&gt;len/2]su}
     </DisplayString>
     <DisplayString Condition="ty() == QCborValue::Type::String">
@@ -353,10 +355,10 @@
     <Expand>
       <ExpandedItem Condition="ty() == QCborValue::Type::Array">el().container,view(arr)na</ExpandedItem>
       <ExpandedItem Condition="ty() == QCborValue::Type::Map">el().container,view(map)na</ExpandedItem>
-      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
+      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16">
         data()-&gt;u16(),[data()-&gt;len/2]su
       </ExpandedItem>
-      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; !(el().flags.i &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
+      <ExpandedItem Condition="ty() == QCborValue::Type::String &amp;&amp; !(flags() &amp; Qt6Cored.dll!QtCbor::Element::StringIsUtf16)">
         data()-&gt;str(),[data()-&gt;len]s8
       </ExpandedItem>
     </Expand>
