@@ -7,17 +7,17 @@ class GuiTypes : public QObject
 public:
     using QObject::QObject;
 
-    QBitmap qBitmap = QBitmap(42, 42);
+    QBitmap qBitmap = QBitmap(":/test/rustacean.png");
     QBrush qBrush = QBrush();
     QCursor qCursor = QCursor();
     QFont qFont = QFont();
-    QImage qImage = QImage(42, 42, QImage::Format_RGB32);
+    QImage qImage = QImage(":/test/rustacean.png");
     QKeySequence qKeySequence = QKeySequence(Qt::CTRL + Qt::Key_Q);
     QMatrix4x4 qMatrix4x4 = QMatrix4x4();
     QPalette qPalette = QPalette();
     QPen qPen = QPen();
     QPicture qPicture = QPicture();
-    QPixmap qPixmap = QPixmap(42, 42);
+    QPixmap qPixmap = QPixmap(":/test/rustacean.png");
     QPolygon qPolygon = QPolygon({QPoint(0, 0), QPoint(42, 0), QPoint(42, 42), QPoint(0, 42)});
     QPolygonF qPolygonF = QPolygonF({QPointF(0.5, 0.5), QPointF(4.2, 0.5), QPointF(4.2, 4.2), QPointF(0.5, 4.2)});
     QQuaternion qQuaternion = QQuaternion(0., 0., 0., 1.);

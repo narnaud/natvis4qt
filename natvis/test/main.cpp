@@ -20,11 +20,6 @@ int main(int argc, char *argv[])
     auto networkTypes = NetworkTypes();
 
     auto guiTypes = GuiTypes();
-    // No ideas why it doesn't work inside guiTypes
-
-    auto qui_QBitmap = QBitmap(":/test/rustacean.png");
-    auto qui_QImage = QImage(":/test/rustacean.png");
-    auto qui_QPixmap = QPixmap(":/test/rustacean.png");
 
     auto widgetTypes = WidgetsTypes();
 
