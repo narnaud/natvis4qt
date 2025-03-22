@@ -113,3 +113,8 @@ The **natvis4qt** tool is licensed under the MIT license.
 - [@nholthaus](https://github.com/nholthaus): licensed MIT
 - [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/): licensed MIT
 - [@nerixyz](https://github.com/Nerixyz): licensed MIT
+
+`qt6-json.natvis`:
+
+- [@aleksey-nikolaev](https://github.com/aleksey-nikolaev): licensed MIT
+- [@nerixyz](https://github.com/Nerixyz): licensed MIT
