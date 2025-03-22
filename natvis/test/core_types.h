@@ -21,7 +21,14 @@ public:
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
     Q_FLAG(SelectionFlags)
 
-    using QObject::QObject;
+    CoreTypes(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        QFile jsonFile(":/test/pass1.json");
+        jsonFile.open(QIODevice::ReadOnly | QIODevice::Text);
+        QJsonParseError error;
+        qJsonDocument = QJsonDocument::fromJson(jsonFile.readAll(), &error);
+    }
 
     QByteArray qByteArray = QByteArray("Hello World!");
     QChar qChar = QChar('c');
@@ -31,6 +38,7 @@ public:
     QFile qFile = QFile(QCoreApplication::applicationFilePath());
     QFileInfo qFileInfo = QFileInfo(QCoreApplication::applicationFilePath());
     SelectionFlags qFlags = SelectionFlag::SelectCurrent;
+    QJsonDocument qJsonDocument;
     QLine qLine = QLine(0, 0, 42, 42);
     QPoint qPoint = QPoint(24, 48);
     QPointF qPointF = QPointF(24.5, 48.5);

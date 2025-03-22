@@ -26,6 +26,7 @@ qt_add_resources(test-natvis "assets"
     PREFIX "/"
     FILES
         test/rustacean.png
+        test/pass1.json
 )
 
 target_link_libraries(test-natvis
