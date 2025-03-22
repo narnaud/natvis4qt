@@ -14,6 +14,7 @@ Show the current status of different classes. If you are interested in one missi
 | -------------------------------- | ------- | ------- |
 | **CORE TYPES**                   |         |         |
 | QByteArray                       | 0.1     | ✅      |
+| QCBor*[^1]                       | 0.5     | ✔️    |
 | QChar                            | 0.1     | ✅      |
 | QDate                            | 0.2     | ✅      |
 | QDateTime                        |         | ❌      |
@@ -21,6 +22,7 @@ Show the current status of different classes. If you are interested in one missi
 | QFile                            | 0.4     | ✅      |
 | QFileInfo                        | 0.4     | ✅      |
 | QFlags                           | 0.4     | ✅      |
+| QJson*[^1]                       | 0.5     | ✅      |
 | QLine                            | 0.1     | ✅      |
 | QModelIndex                      |         | ❌      |
 | QObject                          |         | ❌      |
@@ -160,3 +162,5 @@ Show the current status of different classes. If you are interested in one missi
 | QWidget                          |         | ❌      |
 | **QML TYPES**                    |         |         |
 | QQuickItem                       | 0.1     | ✔️    |
+
+[^1]: Only in dynamic debug builds of Qt
