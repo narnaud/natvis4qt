@@ -210,8 +210,8 @@ pub fn get_natvis_info(qt_root: PathBuf) -> Vec<NatvisInfo> {
     let mut dirs = Vec::new();
 
     dirs.extend(get_msvc_dirs());
-    dirs.extend(get_qt_dirs(qt_root));
     dirs.extend(get_vscode_cpptools_dir());
+    dirs.extend(get_qt_dirs(qt_root));
 
     dirs
 }
