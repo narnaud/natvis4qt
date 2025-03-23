@@ -134,4 +134,86 @@
         </Expand>
     </Type>
 
+    <Type Name="QDateTime">
+        <Intrinsic Name="priv" Expression="(Qt6Cored.dll!QDateTimePrivate*)d.d"></Intrinsic>
+        <Intrinsic Name="status" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : priv()-&gt;m_status.i"></Intrinsic>
+        <Intrinsic Name="spec" Expression="(status() &amp; Qt6Cored.dll!QDateTimePrivate::TimeSpecMask) &gt;&gt; Qt6Cored.dll!QDateTimePrivate::TimeSpecShift"></Intrinsic>
+        <Intrinsic Name="msecs" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &gt;&gt; 8) : priv()-&gt;m_msecs"></Intrinsic>
+        <Intrinsic Name="offset" Expression="priv()-&gt;m_offsetFromUtc"></Intrinsic>
+        <Intrinsic Name="absOffset" Expression="offset() &lt; 0 ? -offset() : offset()"></Intrinsic>
+        <Intrinsic Name="isLocalShort" Expression="spec() == Qt::TimeSpec::LocalTime &amp;&amp; status() &amp; 1"></Intrinsic>
+
+        <!-- https://howardhinnant.github.io/date_algorithms.html#civil_from_days -->
+        <Intrinsic Name="z"     Expression="(msecs() / (24 * 60 * 60 * 1000ull)) + 719468"/>
+        <Intrinsic Name="era"   Expression="(z() &gt;= 0 ? z() : z() - 146096) / 146097"/>
+        <Intrinsic Name="doe"   Expression="(unsigned)(z() - era() * 146097)"/>
+        <Intrinsic Name="yoe"   Expression="(doe() - doe()/1460 + doe()/36524 - doe()/146096) / 365"/>
+        <Intrinsic Name="doy"   Expression="doe() - (365*yoe() + yoe()/4 - yoe()/100)"/>
+        <Intrinsic Name="mp"    Expression="(5*doy() + 2)/153"/>
+        <Intrinsic Name="day"   Expression="doy() - (153*mp()+2)/5 + 1"/>
+        <Intrinsic Name="month" Expression="mp() &lt; 10 ? mp()+3 : mp()-9"/>
+        <Intrinsic Name="year"  Expression="((long long)yoe()) + era() * 400 + (month() &lt; 2)"/>
+
+        <DisplayString ExcludeView="RecZone;RecZoneAbs">
+            {year(),d}-{month()/10,d}{month()%10,d}-{day()/10,d}{day()%10,d} {
+                (msecs() % (24 * 60 * 60 * 1000ull))/(10 * 60 * 60 * 1000ull),d
+            }{
+                ((msecs() % (24 * 60 * 60 * 1000ull))/(60 * 60 * 1000ull)) % 10,d
+            }:{
+                (msecs() % (60 * 60 * 1000ull))/(10 * 60 * 1000ull),d
+            }{
+                (msecs() % (10 * 60 * 1000ull)) / (60 * 1000ull),d
+            }:{
+                (msecs() % (60 * 1000ull)) / (10 * 1000ull),d
+            }{
+                (msecs() % (10 * 1000ull)) / 1000ull,d
+            }.{
+                (msecs() % 1000) / 100,d
+            }{
+                (msecs() % 100) / 10,d
+            }{
+                msecs() % 10,d
+            } {this,view(RecZone)na}
+        </DisplayString>
+        <DisplayString IncludeView="RecZone" Condition="spec() == Qt::TimeSpec::UTC">UTC</DisplayString>
+        <DisplayString IncludeView="RecZone" Condition="isLocalShort()">Local Time</DisplayString>
+        <DisplayString IncludeView="RecZone" Condition="offset() &lt; 0">
+            UTC-{this,view(RecZoneAbs)na}
+        </DisplayString>
+        <DisplayString IncludeView="RecZone">
+            UTC+{this,view(RecZoneAbs)na}
+        </DisplayString>
+        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 3600 == 0">
+            {absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d}
+        </DisplayString>
+        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 60 == 0">
+            {
+                absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
+            }:{
+             (absOffset() % (60 * 60)) / (60 * 10),d}{(absOffset() % (60 * 10)) / 60,d
+            }
+        </DisplayString>
+        <DisplayString IncludeView="RecZoneAbs">
+            {
+                absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
+            }:{
+                (absOffset() % (60 * 60)) / (60 * 10),d}{(absOffset() % (60 * 10)) / 60,d
+            }:{
+                (absOffset() % 60) / 10,d}{absOffset() % 10,d
+            }
+        </DisplayString>
+
+        <Expand>
+            <Item Name="[ms]">msecs()</Item>
+            <Item Name="[s]">msecs()/1000</Item>
+            <Synthetic Name="[offset]" Condition="spec() == Qt::TimeSpec::UTC">
+                <DisplayString>UTC</DisplayString>
+            </Synthetic>
+            <Synthetic Name="[offset]" Condition="isLocalShort()">
+                <DisplayString>Local Time</DisplayString>
+            </Synthetic>
+            <Item Name="[offset-sec]" Condition="spec() != Qt::TimeSpec::UTC &amp;&amp; !isLocalShort()">absOffset()</Item>
+        </Expand>
+    </Type>
+
 </AutoVisualizer>

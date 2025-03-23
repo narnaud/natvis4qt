@@ -17,7 +17,7 @@ Show the current status of different classes. If you are interested in one missi
 | QCBor*[^1]                       | 0.5     | ✔️    |
 | QChar                            | 0.1     | ✅      |
 | QDate                            | 0.2     | ✅      |
-| QDateTime                        |         | ❌      |
+| QDateTime[^1] [^2]               | 0.6     | ✅      |
 | QDir                             | 0.4     | ✅      |
 | QFile                            | 0.4     | ✅      |
 | QFileInfo                        | 0.4     | ✅      |
@@ -164,3 +164,4 @@ Show the current status of different classes. If you are interested in one missi
 | QQuickItem                       | 0.1     | ✔️    |
 
 [^1]: Only in dynamic debug builds of Qt
+[^2]: This visualizer is complex. You might need to bump the recursion limit in the Visual Studio settings. There's no known setting for VS Code.
