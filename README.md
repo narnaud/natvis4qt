@@ -5,7 +5,7 @@ This repository contains:
 - Up to date natvis files for Qt5 and Qt6
 - Command line tool to install or update them in different locations
 
-## Natvis4Qt
+## Installation
 
 `natvis4qt` is a simple command line tool to install or update the natvis files in different locations.
 
@@ -19,19 +19,13 @@ scoop bucket add narnaud https://github.com/narnaud/scoop-bucket
 scoop install natvis4qt
 ```
 
-During a scoop update, installed Natvis files will be automatically updated. If you don't want this mechanism, run:
-
-```cmd
-natvis4qt set --autoupdate false
-```
-
 ### Or via archive files
 
 1. Go to the [Releases](https://github.com/narnaud/natvis4qt/releases) page
 2. Download the latest `natvis-x86_64-pc-windows-msvc.zip` file
 3. Extract the files from it into a directory.
 
-### Usage
+## Usage
 
 Just run `natvis4qt install` on the command line and follow the instructions.
 
@@ -47,15 +41,26 @@ The application is using different commands:
 
 ### Visual Studio
 
-Normally you don't have to do anything, the natvis files are copied in a central place that is used by Visual Studio.
+Select `Visual Studio 2019` and/or `Visual Studio 2022` when installing the natvis files.
 
-See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
+This will install the natvis files in a central place that is used by Visual Studio. See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
 
 Some visulaizers require debug symbols for Qt to be loaded. To load them, add the `bin` directory of your Qt installation (e.g. `C:\Qt\6.8.0\msvc2022_64\bin`) to the symbol search path under **Options > Debugging > Symbols**.
 
 ### Visual Studio Code
 
-In order to use this natvis file in VS Code, you need to add a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
+#### Central Natvis file locations
+
+Select `VS Code C/C++ Extension` when installing the natvis files.
+
+This will install the natvis files in a central place that is used by Visual Studio. See available "documentation" here: [Natvis file locations](https://github.com/microsoft/vscode-cpptools/issues/925#issuecomment-591483777).
+
+> [!WARNING]
+> The files may disappear after an update of the [Microsoft C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools).
+
+#### Per-project vizualizer file
+
+Another option is to install the natvis files int eh different Qt directories, and set a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
 
 ```json
     "configurations": [
@@ -80,7 +85,24 @@ In order to use this natvis file in VS Code, you need to add a `visualizerFile` 
 ```
 
 > [!IMPORTANT]
-> The `QTDIR` environment variable must be set up before launching VS Code
+>
+> - The `QTDIR` environment variable must be set up before launching VS Code
+> - You are limited to **only one** vizualizer file with `cppvsdbg`, see related [issue](https://github.com/microsoft/vscode-cpptools/issues/10917).
+
+## Update
+
+If you have installed `natvis4qt` using scoop, installed Natvis files will be automatically updated when updating via scoop.
+If you don't want this mechanism, run:
+
+```cmd
+natvis4qt set --autoupdate false
+```
+
+To update them by hand, just run:
+
+```cmd
+natvis4qt update
+```
 
 ## Natvis files
 
@@ -89,11 +111,12 @@ If you are only interested in natvis files, you can find them here:
 - [qt5.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt5.natvis)
 - [qt6.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt6.natvis)
 
-> [!WARNING]
-> Do not use the natvis files in the source repository, as they are merged during the release.
-> *Always* use the one from the release.
+> [!CAUTION]
+>
+> - *Do not use the natvis files in the source repository*, as they are merged during the release.
+> - **Always** use the ones from the release.
 
-You can find the current status of natvis definitions here: [SUPPORT.md](SUPPORT.md)
+You can find the current support of the Natvis file here: [SUPPORT.md](SUPPORT.md)
 
 ## License
 
