@@ -80,8 +80,8 @@ Show the current status of different classes. If you are interested in one missi
 | QMetaType::QSize                 | 0.1     | ✅      |
 | QMetaType::QTime                 | 0.1     | ✅      |
 | QMetaType::QVariantList          | 0.1     | ✅      |
-| QMetaType::QPolygon              |         | ❌      |
-| QMetaType::QPolygonF             |         | ❌      |
+| QMetaType::QPolygon              | 0.5     | ✅      |
+| QMetaType::QPolygonF             | 0.5     | ✅      |
 | QMetaType::QColor                |         | ❌      |
 | QMetaType::QColorSpace           |         | ❌      |
 | QMetaType::QSizeF                | 0.1     | ✅      |
@@ -98,27 +98,27 @@ Show the current status of different classes. If you are interested in one missi
 | QMetaType::QTextFormat           |         | ❌      |
 | QMetaType::QRect                 | 0.1     | ✅      |
 | QMetaType::QPoint                | 0.1     | ✅      |
-| QMetaType::QUrl                  |         | ❌      |
+| QMetaType::QUrl                  | 0.5     | ✅      |
 | QMetaType::QRegularExpression    |         | ❌      |
-| QMetaType::QDateTime             |         | ❌      |
+| QMetaType::QDateTime             | 0.5     | ✅      |
 | QMetaType::QPointF               | 0.1     | ✅      |
 | QMetaType::QPalette              |         | ❌      |
 | QMetaType::QFont                 |         | ❌      |
 | QMetaType::QBrush                |         | ❌      |
 | QMetaType::QRegion               |         | ❌      |
 | QMetaType::QBitArray             |         | ❌      |
-| QMetaType::QImage                |         | ❌      |
+| QMetaType::QImage                | 0.5     | ✅      |
 | QMetaType::QKeySequence          |         | ❌      |
-| QMetaType::QSizePolicy           |         | ❌      |
+| QMetaType::QSizePolicy           | 0.5     | ✅      |
 | QMetaType::QPixmap               |         | ❌      |
 | QMetaType::QLocale               |         | ❌      |
-| QMetaType::QBitmap               |         | ❌      |
-| QMetaType::QTransform            |         | ❌      |
-| QMetaType::QMatrix4x4            |         | ❌      |
-| QMetaType::QVector2D             |         | ❌      |
-| QMetaType::QVector3D             |         | ❌      |
-| QMetaType::QVector4D             |         | ❌      |
-| QMetaType::QQuaternion           |         | ❌      |
+| QMetaType::QBitmap               | 0.5     | ✅      |
+| QMetaType::QTransform            | 0.5     | ✅      |
+| QMetaType::QMatrix4x4            | 0.5     | ✅      |
+| QMetaType::QVector2D             | 0.5     | ✅      |
+| QMetaType::QVector3D             | 0.5     | ✅      |
+| QMetaType::QVector4D             | 0.5     | ✅      |
+| QMetaType::QQuaternion           | 0.5     | ✅      |
 | QMetaType::QEasingCurve          |         | ❌      |
 | QMetaType::QJsonValue            |         | ❌      |
 | QMetaType::QJsonObject           |         | ❌      |
@@ -130,7 +130,7 @@ Show the current status of different classes. If you are interested in one missi
 | QMetaType::QCborSimpleType       |         | ❌      |
 | QMetaType::QModelIndex           |         | ❌      |
 | QMetaType::QPersistentModelIndex |         | ❌      |
-| QMetaType::QUuid                 |         | ❌      |
+| QMetaType::QUuid                 | 0.5     | ✅      |
 | QMetaType::QByteArrayList        | 0.1     | ✅      |
 | QMetaType::QVariant              |         | ❌      |
 | QMetaType::User                  |         | ❌      |
