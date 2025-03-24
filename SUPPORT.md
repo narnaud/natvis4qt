@@ -17,7 +17,7 @@ Show the current status of different classes. If you are interested in one missi
 | QCBor*[^1]                       | 0.5     | ✔️    |
 | QChar                            | 0.1     | ✅      |
 | QDate                            | 0.2     | ✅      |
-| QDateTime[^1] [^2]               | 0.6     | ✅      |
+| QDateTime[^1] [^2]               | 0.5     | ✅      |
 | QDir                             | 0.4     | ✅      |
 | QFile                            | 0.4     | ✅      |
 | QFileInfo                        | 0.4     | ✅      |
