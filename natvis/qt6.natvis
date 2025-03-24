@@ -144,7 +144,6 @@
    <Type Name="QPolygon">
         <DisplayString>{{ size={d.size} }}</DisplayString>
         <Expand>
-            <Item Name="[referenced]">d.d-&gt;ref_._q_value</Item>
             <ArrayItems>
                 <Size>d.size</Size>
                 <ValuePointer>d.ptr</ValuePointer>
@@ -160,7 +159,6 @@
                     &amp;&amp; d.ptr[0].xp == d.ptr[d.size - 1].xp
                     &amp;&amp; d.ptr[0].yp == d.ptr[d.size - 1].yp
             </Item>
-            <Item Name="[referenced]">d.d-&gt;ref_._q_value</Item>
             <ArrayItems>
                 <Size>d.size</Size>
                 <ValuePointer>d.ptr</ValuePointer>
