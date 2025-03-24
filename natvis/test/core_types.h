@@ -33,7 +33,17 @@ public:
     QByteArray qByteArray = QByteArray("Hello World!");
     QChar qChar = QChar('c');
     QDate qDate = QDate::currentDate();
-    QDateTime qDateTime = QDateTime::currentDateTime();
+
+    QDateTime qDateTimeLocal = QDateTime::currentDateTime();
+    QDateTime qDateTimeUtc = QDateTime::currentDateTimeUtc();
+    QDateTime qDateTimeBrunei = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone("Asia/Brunei"));
+    QDateTime qDateTimeSouthPole = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone("Antarctica/South_Pole"));
+    QDateTime qDateTimeYukon = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone("Canada/Yukon"));
+    QDateTime qDateTimeMarquesas = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone("Pacific/Marquesas"));
+    QDateTime qDateTimeShouldFail = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone("Antarctica/Troll"));
+    QDateTime qDateTimeSecOffset = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone(12 * 3600 + 34 * 60 + 56));
+    QDateTime qDateTimeDefault = QDateTime();
+
     QDir qDir = QDir::currentPath();
     QFile qFile = QFile(QCoreApplication::applicationFilePath());
     QFileInfo qFileInfo = QFileInfo(QCoreApplication::applicationFilePath());
