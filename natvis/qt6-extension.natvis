@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1"
+            MenuName="Add to Image Watch"/>
 
     <!--************************************************************************************************
     Copyright (C) Nic Holthaus
@@ -71,25 +73,37 @@
         </Expand>
     </Type>
 
+    <Type Name="QImage" Priority="Low">
+        <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" />
+    </Type>
     <Type Name="QImage">
-        <Intrinsic Name="p" Optional="true" Expression="(Qt6Guid.dll!QImageData*)d"></Intrinsic>
-        <Intrinsic Name="p" Optional="true" Expression="(Qt6Gui.dll!QImageData*)d"></Intrinsic>
+        <Intrinsic Name="p" Optional="true" Expression="(qwindowsd.dll!QImageData*)d" />
+        <Intrinsic Name="p" Optional="true" Expression="(Qt6Guid.dll!QImageData*)d" />
+        <Intrinsic Name="p" Optional="true" Expression="(Qt6Gui.dll!QImageData*)d" />
         <DisplayString Condition="d" Optional="true">{{ {p()-&gt;width}x{p()-&gt;height} }}</DisplayString>
         <DisplayString>empty</DisplayString>
         <Expand>
-            <Item Condition="d" Optional="true" Name="[width]">p()-&gt;width</Item>
-            <Item Condition="d" Optional="true" Name="[height]">p()-&gt;height</Item>
+            <Item Optional="true" Name="[width]">p()-&gt;width</Item>
+            <Item Optional="true" Name="[height]">p()-&gt;height</Item>
+            <Item Optional="true" Name="[data]">p()-&gt;data,[p()-&gt;bytes_per_line * p()-&gt;height]</Item>
+            <Item Optional="true" Name="[stride]">p()-&gt;bytes_per_line</Item>
+            <Synthetic Name="[type]">
+                <DisplayString>UINT8</DisplayString>
+            </Synthetic>
+            <Item Optional="true" Name="[channels]">p()-&gt;bytes_per_line / p()-&gt;width</Item>
         </Expand>
     </Type>
 
+    <Type Name="QPixmap" Priority="Low">
+        <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" />
+    </Type>
     <Type Name="QPixmap">
-        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Guid.dll!QPlatformPixmap**)&amp;data"></Intrinsic>
-        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Gui.dll!QPlatformPixmap**)&amp;data"></Intrinsic>
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Guid.dll!QRasterPlatformPixmap**)&amp;data" />
+        <Intrinsic Name="d" Optional="true" Expression="*(Qt6Gui.dll!QRasterPlatformPixmap**)&amp;data" />
         <DisplayString Condition="d()" Optional="true">{{ {d()-&gt;w}x{d()-&gt;h} }}</DisplayString>
         <DisplayString>empty</DisplayString>
         <Expand>
-            <Item Condition="d()" Optional="true" Name="[width]">d()-&gt;w</Item>
-            <Item Condition="d()" Optional="true" Name="[height]">d()-&gt;h</Item>
+            <ExpandedItem>d()-&gt;image</ExpandedItem>
         </Expand>
     </Type>
 

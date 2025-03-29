@@ -142,13 +142,13 @@ Show the current status of different classes. If you are interested in one missi
 | QBrush                           |         | ❌      |
 | QCursor                          |         | ❌      |
 | QFont                            |         | ❌      |
-| QImage                           | 0.2     | ✅      |
+| QImage[^3]                       | 0.2     | ✅      |
 | QKeySequence                     |         | ❌      |
 | QMatrix4x4                       | 0.1     | ✅      |
 | QPalette                         |         | ❌      |
 | QPen                             |         | ❌      |
 | QPicture                         |         | ❌      |
-| QPixmap                          | 0.2     | ✅      |
+| QPixmap[^3]                      | 0.2     | ✅      |
 | QPolygon                         | 0.1     | ✅      |
 | QPolygonF                        | 0.1     | ✅      |
 | QQuaternion                      | 0.1     | ✅      |
@@ -165,3 +165,4 @@ Show the current status of different classes. If you are interested in one missi
 
 [^1]: Only in dynamic debug builds of Qt
 [^2]: This visualizer is complex. You might need to bump the recursion limit in the Visual Studio settings. There's no known setting for VS Code.
+[^3]: Has support for the Image Watch extension in Visual Studio if the image is RGB(A) with 32bits/pixel.
