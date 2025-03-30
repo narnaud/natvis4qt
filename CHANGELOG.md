@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.0](https://github.com/narnaud/natvis4qt/compare/v0.4.0...v0.5.0) (2025-03-30)
+
+
+### Features
+
+* add Image Watch support for QPixmap/QImage ([b365a09](https://github.com/narnaud/natvis4qt/commit/b365a09d6eebfa7166f48d4616e379f52f57d7db))
+* Move VS Code natvis up in the list ([595b4bc](https://github.com/narnaud/natvis4qt/commit/595b4bc8c398086480832930d4c5d3ae246809b2))
+* **natvis:** Add QJson support from Nerixyz ([61cf840](https://github.com/narnaud/natvis4qt/commit/61cf840129d4eb9a82dcbe5821c1f6f04bfd9480)), closes [#12](https://github.com/narnaud/natvis4qt/issues/12)
+* **natvis:** More QVariant visualizers ([17b57c8](https://github.com/narnaud/natvis4qt/commit/17b57c8f5d5bfb0d78418192ec8d76ebd7bafc01))
+* **natvis:** visualize `QDateTime` ([a83155a](https://github.com/narnaud/natvis4qt/commit/a83155ac1f5da443c205a390b854a7b95076bdbf))
+
+
+### Bug Fixes
+
+* **natvis:** Remove reference count for QPolygon* ([da5024a](https://github.com/narnaud/natvis4qt/commit/da5024a84a97f22b63633134aa4aaedf8e62509e))
+* **natvis:** various fixes for Qt 6 and 6.9.0 compat ([f168fe8](https://github.com/narnaud/natvis4qt/commit/f168fe8885cb3bd4b3c3532d1f19c99a17da848e))
+* **qmap:** Order `Intrinsic`s correctly for 6.9.0 ([f3d438f](https://github.com/narnaud/natvis4qt/commit/f3d438f02753845d341aa3e1ae9e513a6cc06b08))
+* Qt 6.9.0 compat ([f9bfcd5](https://github.com/narnaud/natvis4qt/commit/f9bfcd5f69c717d47557440402fd1947253552a8))
+
 ## [0.4.0](https://github.com/narnaud/natvis4qt/compare/v0.3.1...v0.4.0) (2025-03-09)
 
 
