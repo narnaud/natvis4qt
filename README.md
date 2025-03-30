@@ -47,6 +47,9 @@ This will install the natvis files in a central place that is used by Visual Stu
 
 Some visulaizers require debug symbols for Qt to be loaded. To load them, add the `bin` directory of your Qt installation (e.g. `C:\Qt\6.8.0\msvc2022_64\bin`) to the symbol search path under **Options > Debugging > Symbols**.
 
+> [!CAUTION]
+> The Qt VS Addin must be deactivated, as it is silently overwriting the natvis files in the Visualizers directory, see [QTVSADDINBUG-1308](https://bugreports.qt.io/browse/QTVSADDINBUG-1308).
+
 #### Image Watch
 
 It is possible to visualize `QImage` and `QPixmap` using the [Image Watch](https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/debugger/image-watch/image-watch) extension from Microsoft.
