@@ -413,8 +413,8 @@
 
    <Type Name="QMap&lt;*,*&gt;">
         <AlternativeType Name="QMultiMap&lt;*,*&gt;" />
-        <Intrinsic Name="p" Optional="true" Expression="d.d.ptr"></Intrinsic> <!-- after 6.9 -->
         <Intrinsic Name="p" Optional="true" Expression="d.d"></Intrinsic> <!-- before 6.9 -->
+        <Intrinsic Name="p" Optional="true" Expression="d.d.ptr"></Intrinsic> <!-- after 6.9 -->
         <DisplayString>{{ size={p()-&gt;m._Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
         <Expand>
             <TreeItems>
