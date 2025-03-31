@@ -4,6 +4,8 @@ Copyright (C) 2025 The Qt Company Ltd.
 SPDX-License-Identifier: MIT
 -->
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1"
+            MenuName="Add to Image Watch"/>
 
     <Type Name="QPropertyData&lt;*&gt;">
         <DisplayString>{val}</DisplayString>
