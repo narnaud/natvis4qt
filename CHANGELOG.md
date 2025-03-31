@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://github.com/narnaud/natvis4qt/compare/v0.5.0...v0.5.1) (2025-03-31)
+
+
+### Bug Fixes
+
+* Change qt*.natvis license ([ab1061f](https://github.com/narnaud/natvis4qt/commit/ab1061f3f84bdbb3358c203be041ed5f439db5f8))
+* The Image Watch visualizer must be declared first ([4446d38](https://github.com/narnaud/natvis4qt/commit/4446d3890d5e6a4c05f9e9996185c591626e27e1))
+
 ## [0.5.0](https://github.com/narnaud/natvis4qt/compare/v0.4.0...v0.5.0) (2025-03-30)
 
 
