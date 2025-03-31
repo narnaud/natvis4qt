@@ -140,11 +140,11 @@ The **natvis4qt** tool is licensed under the MIT license.
 
 `qt5.natvis`:
 
-- [The Qt Company](https://www.qt.io/): licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+- [The Qt Company](https://www.qt.io/): licensed MIT
 
 `qt6.natvis`:
 
-- [The Qt Company](https://www.qt.io/): licensed Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+- [The Qt Company](https://www.qt.io/): licensed MIT
 - [QMap](https://github.com/qt-labs/vstools/commit/97dd70cd5b1c3c9a310377f03bf2a989d60bb1b1), [QHash](https://github.com/qt-labs/vstools/commit/71e0e9e7fecc6c1077c90a5ec739f5d89dcf5fa5), [QSet](https://github.com/qt-labs/vstools/commit/86270320212a8a9c7d3749613c4b5c189e2569fa) and [QVariant](https://github.com/qt-labs/vstools/commit/d21e92652c9728fb0512813f6938588b16ac39d1) are copyright [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/)
 
 `qt6-extension.natvis`:
