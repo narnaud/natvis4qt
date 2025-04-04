@@ -235,7 +235,6 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
             .unwrap()
             .parent()
             .unwrap()
-            .join("natvis")
             .join(&natvis_file_name);
 
         if fs::copy(src, dst.join(&natvis_file_name)).is_err() {
