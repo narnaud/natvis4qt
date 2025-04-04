@@ -124,13 +124,8 @@ natvis4qt update
 
 If you are only interested in natvis files, you can find them here:
 
-- [qt5.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt5.natvis)
-- [qt6.natvis](https://github.com/narnaud/natvis4qt/releases/latest/download/qt6.natvis)
-
-> [!CAUTION]
->
-> - *Do not use the natvis files in the source repository*, as they are merged during the release.
-> - **Always** use the ones from the release.
+- [qt5.natvis](https://github.com/narnaud/natvis4qt/blob/main/natvis/qt5.natvis)
+- [qt6.natvis](https://github.com/narnaud/natvis4qt/blob/main/natvis/qt6.natvis)
 
 You can find the current support of the Natvis file here: [SUPPORT.md](SUPPORT.md)
 
@@ -138,22 +133,18 @@ You can find the current support of the Natvis file here: [SUPPORT.md](SUPPORT.m
 
 The **natvis4qt** tool is licensed under the MIT license.
 
+The natvis files are also licensed under the MIT license.
+
+## Contributions
+
 `qt5.natvis`:
 
-- [The Qt Company](https://www.qt.io/): licensed MIT
+- [The Qt Company](https://www.qt.io/)
 
 `qt6.natvis`:
 
-- [The Qt Company](https://www.qt.io/): licensed MIT
-- [QMap](https://github.com/qt-labs/vstools/commit/97dd70cd5b1c3c9a310377f03bf2a989d60bb1b1), [QHash](https://github.com/qt-labs/vstools/commit/71e0e9e7fecc6c1077c90a5ec739f5d89dcf5fa5), [QSet](https://github.com/qt-labs/vstools/commit/86270320212a8a9c7d3749613c4b5c189e2569fa) and [QVariant](https://github.com/qt-labs/vstools/commit/d21e92652c9728fb0512813f6938588b16ac39d1) are copyright [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/)
-
-`qt6-extension.natvis`:
-
-- [@nholthaus](https://github.com/nholthaus): licensed MIT
-- [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/): licensed MIT
-- [@nerixyz](https://github.com/Nerixyz): licensed MIT
-
-`qt6-json.natvis`:
-
-- [@aleksey-nikolaev](https://github.com/aleksey-nikolaev): licensed MIT
-- [@nerixyz](https://github.com/Nerixyz): licensed MIT
+- [The Qt Company](https://www.qt.io/)
+- [Klarälvdalens Datakonsult AB (KDAB)](https://www.kdab.com/)
+- [@nerixyz](https://github.com/Nerixyz)
+- [@nholthaus](https://github.com/nholthaus)
+- [@aleksey-nikolaev](https://github.com/aleksey-nikolaev)
