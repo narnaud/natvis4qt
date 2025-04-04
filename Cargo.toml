@@ -5,11 +5,7 @@ edition = "2021"
 
 [[bin]]
 name = "natvis4qt"
-path = "src/app/main.rs"
-
-[[bin]]
-name = "natvis-builder"
-path = "src/builder/builder.rs"
+path = "src/main.rs"
 
 [dependencies]
 dirs = "6.0"
