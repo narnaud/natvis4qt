@@ -28,6 +28,10 @@ public:
         jsonFile.open(QIODevice::ReadOnly | QIODevice::Text);
         QJsonParseError error;
         qJsonDocument = QJsonDocument::fromJson(jsonFile.readAll(), &error);
+
+        setObjectName("CoreTypes");
+        setProperty("Foo", "This is a test");
+        setProperty("Bar", 2);
     }
 
     QByteArray qByteArray = QByteArray("Hello World!");

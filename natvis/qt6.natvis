@@ -1325,4 +1325,23 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
+
+	<!-- Show the object name for QObject subclasses, if any -->
+	<Type Name="QObject" Inheritable="true">
+		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+		<DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
+	</Type>
+	<!-- Show the dynamic properties, but only when opening the QObject under the real object -->
+	<Type Name="QObject" Inheritable="false">
+		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+		<DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
+
+		<Expand>
+			<Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyNames]">d_object().extraData-&gt;propertyNames</Item>
+			<Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyValues]">d_object().extraData-&gt;propertyValues</Item>
+		</Expand>
+	</Type>
+
 </AutoVisualizer>
