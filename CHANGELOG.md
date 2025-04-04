@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/narnaud/natvis4qt/compare/v0.5.1...v0.6.0) (2025-04-04)
+
+
+### Features
+
+* **natvis:** Add QObject ([dd7993a](https://github.com/narnaud/natvis4qt/commit/dd7993adf2fc9893af388daeabd14d965f906ad5))
+
+
+### Bug Fixes
+
+* **QDateTime:** adjust for off-by-one error in year ([7116b9b](https://github.com/narnaud/natvis4qt/commit/7116b9bbd68e772fd5f70d74f905de408e015ce8))
+
 ## [0.5.1](https://github.com/narnaud/natvis4qt/compare/v0.5.0...v0.5.1) (2025-03-31)
 
 
