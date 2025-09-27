@@ -224,10 +224,10 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
 
         // Create directory unconditionally
         if fs::create_dir_all(dst).is_err() {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                format!("Could not create {}", dst.display()),
-            ));
+            return Err(std::io::Error::other(format!(
+                "Could not create {}",
+                dst.display()
+            )));
         }
 
         // Get executable directory
@@ -238,10 +238,11 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
             .join(&natvis_file_name);
 
         if fs::copy(src, dst.join(&natvis_file_name)).is_err() {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                format!("Could not copy {} to {}", natvis_file_name, dst.display()),
-            ));
+            return Err(std::io::Error::other(format!(
+                "Could not copy {} to {}",
+                natvis_file_name,
+                dst.display()
+            )));
         }
     }
     Ok(())

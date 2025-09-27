@@ -237,8 +237,7 @@ fn ui_install_natvis_files(
         for e in errors {
             cliclack::log::error(format!("{}", e)).unwrap();
         }
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::Other,
+        return Err(std::io::Error::other(
             "Some errors occurred during the installation",
         ));
     }
