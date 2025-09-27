@@ -216,6 +216,9 @@ pub fn get_natvis_info(qt_root: PathBuf) -> Vec<NatvisInfo> {
     dirs
 }
 
+const QT5_NATVIS: &str = include_str!("../natvis/qt5.natvis");
+const QT6_NATVIS: &str = include_str!("../natvis/qt6.natvis");
+
 /// Copy natvis file to the given path.
 pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
     for version in info.version.iter() {
@@ -230,17 +233,22 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
             )));
         }
 
-        // Get executable directory
-        let src = env::current_exe()
-            .unwrap()
-            .parent()
-            .unwrap()
-            .join(&natvis_file_name);
+        // Get the natvis file content
+        let natvis_content = match version {
+            5 => QT5_NATVIS,
+            6 => QT6_NATVIS,
+            _ => {
+                return Err(std::io::Error::other(format!(
+                    "Unsupported Qt version: {}",
+                    version
+                )))
+            }
+        };
 
-        if fs::copy(src, dst.join(&natvis_file_name)).is_err() {
+        // Write the natvis content into the destination
+        if fs::write(dst.join(&natvis_file_name), natvis_content).is_err() {
             return Err(std::io::Error::other(format!(
-                "Could not copy {} to {}",
-                natvis_file_name,
+                "Could not write natvis file {}",
                 dst.display()
             )));
         }
