@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright (C) 2025 The Qt Company Ltd.
 Copyright (C) 2025 Klarälvdalens Datakonsult AB, a KDAB Group company
@@ -51,7 +51,18 @@ SPDX-License-Identifier: MIT
     </Type>
 
     <Type Name="QUuid">
-        <DisplayString>{{{data1,Xb}-{data2,Xb}-{data3,Xb}-{(data4[0]),nvoXb}{(data4[1]),nvoXb}-{(data4[2]),nvoXb}{(data4[3]),nvoXb}{(data4[4]),nvoXb}{(data4[5]),nvoXb}{(data4[6]),nvoXb}{(data4[7]),nvoXb}}}</DisplayString>
+      <DisplayString>{{{data1,Xb}-{data2,Xb}-{data3,Xb}-{(data4[0]),nvoXb}{(data4[1]),nvoXb}-{(data4[2]),nvoXb}{(data4[3]),nvoXb}{(data4[4]),nvoXb}{(data4[5]),nvoXb}{(data4[6]),nvoXb}{(data4[7]),nvoXb}}}</DisplayString>
+      <Expand>
+        <Item Name="[Time-low]">data1,Xb</Item>
+        <Item Name="[Time-mid]">data2,Xb</Item>
+        <Item Name="[Time-high-and-version]">data3,Xb</Item>
+        <Synthetic Name="[Clock-seq]">
+          <DisplayString>{(data4[0]),nvoXb}{(data4[1]),nvoXb}</DisplayString>
+        </Synthetic>
+        <Synthetic Name="[Node]">
+          <DisplayString>{(data4[2]),nvoXb}{(data4[3]),nvoXb}{(data4[4]),nvoXb}{(data4[5]),nvoXb}{(data4[6]),nvoXb}{(data4[7]),nvoXb}</DisplayString>
+        </Synthetic>
+      </Expand>
     </Type>
 
    <Type Name="QSpecialInteger&lt;*&gt;">
@@ -198,17 +209,21 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-    <Type Name="QMatrix">
-        <DisplayString>
-            {{ m11 = {_m11}, m12 = {_m12}, m21 = {_m21}, m22 = {_m22}, ... }}
-        </DisplayString>
+    <Type Name="QGenericMatrix&lt;*,*,*&gt;">
+        <AlternativeType Name="QMatrix2x2"/>
+        <AlternativeType Name="QMatrix2x3"/>
+        <AlternativeType Name="QMatrix2x4"/>
+        <AlternativeType Name="QMatrix3x2"/>
+        <AlternativeType Name="QMatrix3x3"/>
+        <AlternativeType Name="QMatrix3x4"/>
+        <AlternativeType Name="QMatrix4x2"/>
+        <AlternativeType Name="QMatrix4x3"/>
+        <DisplayString>Columns: [{$T1}], Rows: [{$T2}]</DisplayString>
         <Expand>
-            <Item Name="[m11]">_m11</Item>
-            <Item Name="[m12]">_m12</Item>
-            <Item Name="[m21]">_m21</Item>
-            <Item Name="[m22]">_m22</Item>
-            <Item Name="[dx]">_dx</Item>
-            <Item Name="[dy]">_dy</Item>
+            <ArrayItems>
+                <Size>$T1*$T2</Size>
+                <ValuePointer>*m</ValuePointer>
+            </ArrayItems>
         </Expand>
     </Type>
 
@@ -277,7 +292,7 @@ SPDX-License-Identifier: MIT
     </Type>
 
    <Type Name="QString">
-        <DisplayString>&quot;{(reinterpret_cast&lt;unsigned short*&gt;(d.ptr)),sub}&quot;</DisplayString>
+        <DisplayString>{(reinterpret_cast&lt;unsigned short*&gt;(d.ptr)),sub}</DisplayString>
         <StringView>(reinterpret_cast&lt;unsigned short*&gt;(d.ptr)),sub</StringView>
         <Expand>
             <Item Name="[size]">d.size</Item>
@@ -342,8 +357,60 @@ SPDX-License-Identifier: MIT
         <Intrinsic Name="query" Expression="*((QString*)(((char*)(d) + memberOffset(5))))" />
         <Intrinsic Name="fragment" Expression="*((QString*)(((char*)(d) + memberOffset(6))))" />
 
-        <DisplayString Condition="!isEmpty(scheme().d.size)">{scheme()}://{host()}{path()}</DisplayString>
-        <DisplayString Condition="isEmpty(scheme().d.size)">{path()}</DisplayString>
+        <!-- Full URL with everything -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; !isEmpty(host().d.size)
+                           &amp;&amp; !isEmpty(path().d.size)
+                           &amp;&amp; !isEmpty(query().d.size)
+                           &amp;&amp; !isEmpty(fragment().d.size)">
+            {scheme()}://{host()}{path()}?{query()}#{fragment()}
+        </DisplayString>
+
+        <!-- With query -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; !isEmpty(host().d.size)
+                           &amp;&amp; !isEmpty(path().d.size)
+                           &amp;&amp; !isEmpty(query().d.size)">
+            {scheme()}://{host()}{path()}?{query()}
+        </DisplayString>
+
+        <!-- With fragment -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; !isEmpty(host().d.size)
+                           &amp;&amp; !isEmpty(path().d.size)
+                           &amp;&amp; !isEmpty(fragment().d.size)">
+            {scheme()}://{host()}{path()}#{fragment()}
+        </DisplayString>
+
+        <!-- Host + path -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; !isEmpty(host().d.size)
+                           &amp;&amp; !isEmpty(path().d.size)">
+            {scheme()}://{host()}{path()}
+        </DisplayString>
+
+        <!-- Scheme + path, for example QUrl::fromLocalFile -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; isEmpty(host().d.size)
+                           &amp;&amp; !isEmpty(path().d.size)">
+            {scheme()}://{path()}
+        </DisplayString>
+
+        <!-- Host only -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)
+                           &amp;&amp; !isEmpty(host().d.size)">
+            {scheme()}://{host()}
+        </DisplayString>
+
+        <!-- Scheme only -->
+        <DisplayString Condition="!isEmpty(scheme().d.size)">
+            {scheme()}
+        </DisplayString>
+
+        <DisplayString Condition="d == 0">
+            [default-constructed QUrl]
+        </DisplayString>
+
         <Expand>
             <Item Name="[scheme]">scheme()</Item>
             <Item Name="[username]">username()</Item>
@@ -420,6 +487,16 @@ SPDX-License-Identifier: MIT
             <ArrayItems>
                 <Size>d.size</Size>
                 <ValuePointer>reinterpret_cast&lt;$T1*&gt;(d.ptr)</ValuePointer>
+            </ArrayItems>
+        </Expand>
+    </Type>
+
+   <Type Name="QSpan&lt;*&gt;">
+        <DisplayString>{{ size={m_size} }}</DisplayString>
+        <Expand>
+            <ArrayItems>
+                <Size>m_size</Size>
+                <ValuePointer>reinterpret_cast&lt;$T1*&gt;(m_data)</ValuePointer>
             </ArrayItems>
         </Expand>
     </Type>
@@ -1326,22 +1403,22 @@ SPDX-License-Identifier: MIT
     </Type>
 
 
-	<!-- Show the object name for QObject subclasses, if any -->
-	<Type Name="QObject" Inheritable="true">
-		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
-		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
-		<DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
-	</Type>
-	<!-- Show the dynamic properties, but only when opening the QObject under the real object -->
-	<Type Name="QObject" Inheritable="false">
-		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
-		<Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
-		<DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
+    <!-- Show the object name for QObject subclasses, if any -->
+    <Type Name="QObject" Inheritable="true">
+        <Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+        <Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+        <DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
+    </Type>
+    <!-- Show the dynamic properties, but only when opening the QObject under the real object -->
+    <Type Name="QObject" Inheritable="false">
+        <Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Cored.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+        <Intrinsic Name="d_object" Optional="true" Expression="*((Qt6Core.dll!QObjectPrivate*)d_ptr.d)"></Intrinsic>
+        <DisplayString Condition="d_object().extraData != 0">{d_object().extraData-&gt;objectName}</DisplayString>
 
-		<Expand>
-			<Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyNames]">d_object().extraData-&gt;propertyNames</Item>
-			<Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyValues]">d_object().extraData-&gt;propertyValues</Item>
-		</Expand>
-	</Type>
+        <Expand>
+            <Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyNames]">d_object().extraData-&gt;propertyNames</Item>
+            <Item Condition ="d_object().extraData-&gt;propertyNames.d.size != 0" Name="[propertyValues]">d_object().extraData-&gt;propertyValues</Item>
+        </Expand>
+    </Type>
 
 </AutoVisualizer>
