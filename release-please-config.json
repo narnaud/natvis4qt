@@ -1,23 +1,71 @@
 {
-	"include-component-in-tag": false,
-	"bump-minor-pre-major": true,
-	"changelog-sections": [
-		{"type":"feat","section":"Features ✨","hidden":false},
-		{"type":"feature","section":"Features ✨","hidden":false},
-		{"type":"fix","section":"Bug Fixes 🐞","hidden":false},
-		{"type":"perf","section":"Performance Improvements ⚡","hidden":false},
-		{"type":"revert","section":"Reverts","hidden":false},
-		{"type":"docs","section":"Documentation","hidden":false},
-		{"type":"refactor","section":"Changes","hidden":false},
-		{"type":"style","section":"Styles","hidden":true},
-		{"type":"test","section":"Tests","hidden":false},
-		{"type":"chore","section":"Other","hidden":false},
-		{"type":"build","section":"Other","hidden":false},
-		{"type":"ci","section":"Continuous Integration","hidden":true}
-	],
-	"packages": {
-		".": {
-			"release-type": "rust"
-		}
-	}
+  "include-component-in-tag": false,
+  "bump-minor-pre-major": true,
+  "changelog-sections": [
+    {
+      "type": "feat",
+      "section": "Features ✨",
+      "hidden": false
+    },
+    {
+      "type": "feature",
+      "section": "Features ✨",
+      "hidden": false
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes 🐞",
+      "hidden": false
+    },
+    {
+      "type": "perf",
+      "section": "Performance Improvements ⚡",
+      "hidden": false
+    },
+    {
+      "type": "revert",
+      "section": "Reverts",
+      "hidden": false
+    },
+    {
+      "type": "docs",
+      "section": "Documentation",
+      "hidden": false
+    },
+    {
+      "type": "refactor",
+      "section": "Changes",
+      "hidden": false
+    },
+    {
+      "type": "style",
+      "section": "Styles",
+      "hidden": true
+    },
+    {
+      "type": "test",
+      "section": "Tests",
+      "hidden": false
+    },
+    {
+      "type": "chore",
+      "section": "Other",
+      "hidden": false
+    },
+    {
+      "type": "build",
+      "section": "Other",
+      "hidden": false
+    },
+    {
+      "type": "ci",
+      "section": "Continuous Integration",
+      "hidden": true
+    }
+  ],
+  "packages": {
+    ".": {
+      "release-type": "rust"
+    }
+  }
 }
