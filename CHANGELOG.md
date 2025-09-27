@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.7.0](https://github.com/narnaud/natvis4qt/compare/v0.6.0...v0.7.0) (2025-09-27)
+
+
+### Features ✨
+
+* Include natvis files as a resource into the executable ([dcb2813](https://github.com/narnaud/natvis4qt/commit/dcb28133595fb793ec48b628073e3e9a3f3adea9))
+* Update Qt6 natvis to the latest version ([319a758](https://github.com/narnaud/natvis4qt/commit/319a758319ec39698b61b079833bc6010244aa91))
+
+
+### Bug Fixes 🐞
+
+* **clippy:** Fix warnings for new `std::io::Error::other` ([13e5ad3](https://github.com/narnaud/natvis4qt/commit/13e5ad37657be700fb9bca8edf7eaad322c36a39))
+
+
+### Other
+
+* Update pre-commit hooks ([ebfcc39](https://github.com/narnaud/natvis4qt/commit/ebfcc39c9c8f17d49ca521500e29b7b837464851))
+* Update rust dependencies ([80e36a1](https://github.com/narnaud/natvis4qt/commit/80e36a1ccdb891d84c7fe6c6feb82d8ff9c17e34))
+
 ## [0.6.0](https://github.com/narnaud/natvis4qt/compare/v0.5.1...v0.6.0) (2025-04-04)
 
 
