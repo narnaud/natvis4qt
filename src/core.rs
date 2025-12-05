@@ -103,11 +103,12 @@ fn get_msvc_dirs() -> Vec<NatvisInfo> {
     let document_dir = dirs::document_dir().expect("Could not find document directory");
 
     let vs_versions = [
-        ("vs2019", "Visual Studio 2019"),
-        ("vs2022", "Visual Studio 2022"),
+        ("vs2019", "Visual Studio 2019", "Visual Studio 2019"),
+        ("vs2022", "Visual Studio 2022", "Visual Studio 2022"),
+        ("vs2026", "Visual Studio 18", "Visual Studio 2026"),
     ];
-    for (key, name) in vs_versions.iter() {
-        let vs_dir = document_dir.join(name);
+    for (key, path, name) in vs_versions.iter() {
+        let vs_dir = document_dir.join(path);
         if vs_dir.exists() {
             dirs.push(NatvisInfo {
                 key: key.to_string(),
