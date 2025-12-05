@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://github.com/narnaud/natvis4qt/compare/v0.7.0...v0.8.0) (2025-12-05)
+
+
+### Features ✨
+
+* Add Visual Studio 2026 support ([d51dc7d](https://github.com/narnaud/natvis4qt/commit/d51dc7df6efc30595d200951a8502560eb4d092e))
+
+
+### Other
+
+* Update dependencies ([790e69b](https://github.com/narnaud/natvis4qt/commit/790e69b0852e32bdfc9480356039280918fe5d2e))
+
 ## [0.7.0](https://github.com/narnaud/natvis4qt/compare/v0.6.0...v0.7.0) (2025-09-27)
 
 
