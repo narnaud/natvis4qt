@@ -18,3 +18,7 @@ ctrlc = "3.5"
 console = "0.16"
 clap = { version = "4.5", features = [ "derive" ] }
 preferences = "2.0"
+
+[profile.release]
+lto = true
+strip = true
