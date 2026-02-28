@@ -19,6 +19,12 @@ scoop bucket add narnaud https://github.com/narnaud/scoop-bucket
 scoop install natvis4qt
 ```
 
+### Installation via [Cargo](https://doc.rust-lang.org/cargo/)
+
+```
+cargo install natvis4qt
+```
+
 ### Or via archive files
 
 1. Go to the [Releases](https://github.com/narnaud/natvis4qt/releases) page
@@ -41,7 +47,7 @@ The application is using different commands:
 
 ### Visual Studio
 
-Select `Visual Studio 2019` and/or `Visual Studio 2022` when installing the natvis files.
+Select a version of `Visual Studio` when installing the natvis files.
 
 This will install the natvis files in a central place that is used by Visual Studio. See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
 
