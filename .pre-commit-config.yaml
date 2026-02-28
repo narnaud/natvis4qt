@@ -15,13 +15,14 @@ repos:
     hooks:
       - id: codespell
         args: ["--ignore-words", ".codespell-ignore.txt"]
-  - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v21.1.2
-    hooks:
-      - id: clang-format
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.2.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
         args: [--verbose]
+  - repo: https://github.com/FeryET/pre-commit-rust
+    rev: v1.2.1
+    hooks:
+      - id: fmt
+      - id: cargo-check
