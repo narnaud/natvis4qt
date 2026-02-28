@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.8.1](https://github.com/narnaud/natvis4qt/compare/v0.8.0...v0.8.1) (2026-02-28)
+
+
+### Bug Fixes 🐞
+
+* **ci:** Fix build and publish script ([d0551f0](https://github.com/narnaud/natvis4qt/commit/d0551f0d062d35c4006173762999af5325263dce))
+* Fix clippy warnings ([cc954f3](https://github.com/narnaud/natvis4qt/commit/cc954f3fa60d25f7c932b86f29b28bdd597d6554))
+
+
+### Documentation
+
+* Update installation section ([550e138](https://github.com/narnaud/natvis4qt/commit/550e138301d7a35f735143c168bcaaf38b11f3a2))
+
+
+### Other
+
+* Add release profile for optimized binary size ([d888fc6](https://github.com/narnaud/natvis4qt/commit/d888fc6e19504edc255ac36e7aa777e5f7f519ae))
+* **ci:** Update build and publish, add dependabot ([79246f7](https://github.com/narnaud/natvis4qt/commit/79246f71ead7e8fbc56d3036c39b0c7b854b69e9))
+* **deps:** bump actions/checkout from 3 to 6 ([44ed169](https://github.com/narnaud/natvis4qt/commit/44ed16903e882ff7a2fe007f30a00d8209b2d0a7))
+* **deps:** bump actions/setup-python from 3 to 6 ([cff9cb0](https://github.com/narnaud/natvis4qt/commit/cff9cb0f22c5cb5d0f29b0e017e5b0d62501f4da))
+* **deps:** bump clap from 4.5.53 to 4.5.60 ([d21f42c](https://github.com/narnaud/natvis4qt/commit/d21f42cb91dba823be3c951af8f76626dbfb657b))
+* **deps:** bump cliclack from 0.3.7 to 0.3.9 ([424d5aa](https://github.com/narnaud/natvis4qt/commit/424d5aacc88d7dcd791a04bf7c6ec83c517a4a5f))
+* **deps:** bump console from 0.16.1 to 0.16.2 ([c4e394f](https://github.com/narnaud/natvis4qt/commit/c4e394fc9813432bcceb06ad731c37ce5fa8a660))
+* **deps:** bump ctrlc from 3.5.1 to 3.5.2 ([47c670d](https://github.com/narnaud/natvis4qt/commit/47c670d5aa4a8560d533de20efe5d1d4a5cf03aa))
+* **natvis:** Update natvis to latest version ([85d9cd2](https://github.com/narnaud/natvis4qt/commit/85d9cd2fc7cd64a52b74c09e98b031d025a9a379))
+* Update manifest with metadata ([d3248d6](https://github.com/narnaud/natvis4qt/commit/d3248d647edaf511f3226627adc62b6968b935ec))
+
 ## [0.8.0](https://github.com/narnaud/natvis4qt/compare/v0.7.0...v0.8.0) (2025-12-05)
 
 
