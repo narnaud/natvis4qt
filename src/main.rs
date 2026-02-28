@@ -219,10 +219,8 @@ fn ui_install_natvis_files(
             file_string,
             style(info.name.as_str()).cyan()
         ));
-        if !dry_run {
-            if let Err(e) = copy_natvis_file(info) {
-                errors.push(e);
-            }
+        if !dry_run && let Err(e) = copy_natvis_file(info) {
+            errors.push(e);
         }
         spinner.stop(format!(
             "{} {} copied for {}",

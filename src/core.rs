@@ -242,7 +242,7 @@ pub fn copy_natvis_file(info: &NatvisInfo) -> Result<(), std::io::Error> {
                 return Err(std::io::Error::other(format!(
                     "Unsupported Qt version: {}",
                     version
-                )))
+                )));
             }
         };
 
