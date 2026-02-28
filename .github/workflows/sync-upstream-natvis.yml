@@ -1,0 +1,54 @@
+name: Sync upstream natvis files
+
+on:
+  schedule:
+    - cron: "0 0 * * 5" # Every Friday at midnight UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download upstream natvis files
+        run: |
+          curl -sL "https://raw.githubusercontent.com/qt-labs/vs-debugtools/master/natvis/qt5.natvis" -o /tmp/qt5.natvis
+          curl -sL "https://raw.githubusercontent.com/qt-labs/vs-debugtools/master/natvis/qt6.natvis" -o /tmp/qt6.natvis
+
+      - name: Check for changes
+        id: check
+        run: |
+          has_changes=false
+          if ! diff -q /tmp/qt5.natvis natvis/qt5.natvis > /dev/null 2>&1; then
+            has_changes=true
+          fi
+          if ! diff -q /tmp/qt6.natvis natvis/qt6.natvis > /dev/null 2>&1; then
+            has_changes=true
+          fi
+          echo "has_changes=$has_changes" >> "$GITHUB_OUTPUT"
+
+      - name: Copy upstream files
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          cp /tmp/qt5.natvis natvis/qt5.natvis
+          cp /tmp/qt6.natvis natvis/qt6.natvis
+
+      - name: Create pull request
+        if: steps.check.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          commit-message: "chore(deps): update natvis files from upstream qt-labs/vs-debugtools"
+          title: "chore(deps): update natvis files from upstream"
+          body: |
+            Automated sync of natvis files from [qt-labs/vs-debugtools](https://github.com/qt-labs/vs-debugtools/tree/master/natvis).
+
+            Please review the changes before merging.
+          branch: chore/sync-upstream-natvis
+          delete-branch: true
+          labels: dependencies
