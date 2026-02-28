@@ -8,6 +8,14 @@ Copyright (C) 2020 Aleksey Nikolaev
 SPDX-License-Identifier: MIT
 -->
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <!-- qt-type: QMetaType -->
+    <!-- qt-type: Qt -->
+    <!-- qt-type: QtPrivate -->
+    <!-- qt-type: QMetaTypeInterface -->
+    <!-- qt-type: QAbstractSocket -->
+    <!-- qt-type: QAtomicInt -->
+    <!-- qt-type: QHashDummyValue -->
+
     <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1"
             MenuName="Add to Image Watch"/>
 

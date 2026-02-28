@@ -4,6 +4,10 @@ Copyright (C) 2025 The Qt Company Ltd.
 SPDX-License-Identifier: MIT
 -->
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <!-- qt-type: QMetaType -->
+    <!-- qt-type: Qt -->
+    <!-- qt-type: QLinkedListNode -->
+    <!-- qt-type: QHashDummyValue -->
 
     <Type Name="QUuid">
         <DisplayString>{{{data1,Xb}-{data2,Xb}-{data3,Xb}-{(data4[0]),nvoXb}{(data4[1]),nvoXb}-{(data4[2]),nvoXb}{(data4[3]),nvoXb}{(data4[4]),nvoXb}{(data4[5]),nvoXb}{(data4[6]),nvoXb}{(data4[7]),nvoXb}}}</DisplayString>
