@@ -4,45 +4,76 @@ on:
     tags:
       - "v*.*.*"
 jobs:
+  publish_crate:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v6
+      - name: Setup | Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+      - name: Publish | crates.io
+        run: cargo publish --locked
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
   build_and_publish:
     name: Build release binaries for ${{ matrix.target }}
     strategy:
       fail-fast: false
       matrix:
         include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            archive: tar.gz
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            archive: tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            archive: tar.gz
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+            archive: zip
     runs-on: ${{ matrix.os }}
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup | Rust
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+      - name: Setup | Cross-compilation deps [Linux aarch64]
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
       - name: Build | Cargo
         run: cargo build --release --locked --target ${{ matrix.target }} --color=always
-      - name: Post Build | Package [Windows]
-        if: matrix.os == 'windows-latest'
+      - name: Post Build | Package [Unix]
+        if: matrix.archive == 'tar.gz'
+        shell: bash
         run: |
-          7z a natvis4qt-${{ matrix.target }}.zip LICENSE README.md ./natvis/*.natvis ./target/${{ matrix.target }}/release/natvis4qt.exe
+          tar czf use-${{ matrix.target }}.tar.gz \
+            LICENSE README.md \
+            -C target/${{ matrix.target }}/release use
+      - name: Post Build | Package [Windows]
+        if: matrix.archive == 'zip'
+        run: |
+          7z a use-${{ matrix.target }}.zip `
+            LICENSE README.md ./shell/* `
+            ./target/${{ matrix.target }}/release/use.exe
       - name: Post Build | Checksums
         shell: bash
-        run: for file in natvis4qt-*; do openssl dgst -sha256 -r "$file" | awk '{print $1}' > "${file}.sha256"; done
-    #   - name: Post Build | Upload artifacts
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: ${{ matrix.target }}
-    #       path: |
-    #         *.deb
-    #         *.tar.gz
-    #         *.zip
-    #         *.sha256
+        run: for file in use-*; do openssl dgst -sha256 -r "$file" | awk '{print $1}' > "${file}.sha256"; done
       - name: Publish | Add Artifacts to Release
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: |
-            natvis4qt-*.zip
-            natvis4qt-*.sha256
+            use-*.tar.gz
+            use-*.zip
+            use-*.sha256
