@@ -1,6 +1,6 @@
 [package]
 name = "natvis4qt"
-version = "0.8.1"
+version = "0.8.2"
 edition = "2024"
 rust-version = "1.90"
 description = "Install Qt natvis file for Visual Studio debugger"

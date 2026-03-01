@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.2](https://github.com/narnaud/natvis4qt/compare/v0.8.1...v0.8.2) (2026-03-01)
+
+
+### Other
+
+* Add CODEOWNERS ([592ead6](https://github.com/narnaud/natvis4qt/commit/592ead6d08ca6aa211486225f92a1cd8c84d199f))
+* Update pre-commit hooks ([965680e](https://github.com/narnaud/natvis4qt/commit/965680e39ea5ef49e936e90aff77fba30e2411b8))
+
 ## [0.8.1](https://github.com/narnaud/natvis4qt/compare/v0.8.0...v0.8.1) (2026-02-28)
 
 
