@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.8.2](https://github.com/narnaud/natvis4qt/compare/v0.8.1...v0.8.2) (2026-03-21)
+
+
+### Other
+
+* Add CODEOWNERS ([592ead6](https://github.com/narnaud/natvis4qt/commit/592ead6d08ca6aa211486225f92a1cd8c84d199f))
+* **deps:** bump actions/checkout from 4 to 6 ([fa043e0](https://github.com/narnaud/natvis4qt/commit/fa043e0aaa4215056217593ef449fed7102495c8))
+* **deps:** bump clap from 4.5.60 to 4.6.0 ([9a32c88](https://github.com/narnaud/natvis4qt/commit/9a32c88d7422adf15b69e73840539e0c824cdfb5))
+* **deps:** bump cliclack from 0.3.9 to 0.4.0 ([2f7b4e3](https://github.com/narnaud/natvis4qt/commit/2f7b4e385e792f0cb6d2a5f93b7d2fecb97f0351))
+* **deps:** bump cliclack from 0.4.0 to 0.4.1 ([6ce4d42](https://github.com/narnaud/natvis4qt/commit/6ce4d4200e5b8cf31dc0e8451daa4a6c4cc1eb4c))
+* **deps:** bump cliclack from 0.4.1 to 0.5.0 ([2ec7988](https://github.com/narnaud/natvis4qt/commit/2ec7988e95aa92f0a34c1f7c513d5a9407962fe4))
+* **deps:** bump console from 0.16.2 to 0.16.3 ([f264e8b](https://github.com/narnaud/natvis4qt/commit/f264e8b4e2ea9894d59e6694e30604e6a390ce40))
+* **deps:** bump peter-evans/create-pull-request from 7 to 8 ([1c972d4](https://github.com/narnaud/natvis4qt/commit/1c972d4c699128a2e8b7af89b63394bd2fd558ff))
+* Update pre-commit hooks ([965680e](https://github.com/narnaud/natvis4qt/commit/965680e39ea5ef49e936e90aff77fba30e2411b8))
+
 ## [0.8.1](https://github.com/narnaud/natvis4qt/compare/v0.8.0...v0.8.1) (2026-02-28)
 
 
