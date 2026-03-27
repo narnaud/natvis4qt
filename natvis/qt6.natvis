@@ -107,8 +107,7 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-   <Type Name="QPoint">
-        <AlternativeType Name="QPointF"/>
+    <Type Name="QPointF">
         <DisplayString>{{ x = {xp}, y = {yp} }}</DisplayString>
         <Expand>
             <Item Name="[x]">xp</Item>
@@ -116,17 +115,24 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-   <Type Name="QRect">
-        <DisplayString>{{ x = {x1}, y = {y1}, width = {x2 - x1 + 1}, height = {y2 - y1 + 1} }}</DisplayString>
+    <Type Name="QPoint" Priority="Medium">
+        <DisplayString>{{ x = {xp.m_i}, y = {yp.m_i} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">x1</Item>
-            <Item Name="[y]">y1</Item>
-            <Item Name="[width]">x2 - x1 + 1</Item>
-            <Item Name="[height]">y2 - y1 + 1</Item>
+            <Item Name="[x]">xp.m_i</Item>
+            <Item Name="[y]">yp.m_i</Item>
         </Expand>
     </Type>
 
-   <Type Name="QRectF">
+    <!-- Older Qt: x/y are plain integers -->
+    <Type Name="QPoint" Priority="MediumLow">
+        <DisplayString>{{ x = {xp}, y = {yp} }}</DisplayString>
+        <Expand>
+            <Item Name="[x]">xp</Item>
+            <Item Name="[y]">yp</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="QRectF">
         <DisplayString>{{ x = {xp}, y = {yp}, width = {w}, height = {h} }}</DisplayString>
         <Expand>
             <Item Name="[x]">xp</Item>
@@ -136,8 +142,45 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-   <Type Name="QSize">
-        <AlternativeType Name="QSizeF"/>
+    <Type Name="QRect" Priority="Medium">
+        <DisplayString>{{ x = {x1.m_i}, y = {y1.m_i}, width = {x2.m_i - x1.m_i + 1}, height = {y2.m_i - y1.m_i + 1} }}</DisplayString>
+        <Expand>
+            <Item Name="[x]">x1.m_i</Item>
+            <Item Name="[y]">y1.m_i</Item>
+            <Item Name="[width]">x2.m_i - x1.m_i + 1</Item>
+            <Item Name="[height]">y2.m_i - y1.m_i + 1</Item>
+        </Expand>
+    </Type>
+
+    <!-- Older Qt: members are plain integers -->
+    <Type Name="QRect" Priority="MediumLow">
+        <DisplayString>{{ x = {x1}, y = {y1}, width = {x2 - x1 + 1}, height = {y2 - y1 + 1} }}</DisplayString>
+        <Expand>
+            <Item Name="[x]">x1</Item>
+            <Item Name="[y]">y1</Item>
+            <Item Name="[width]">x2 - x1 + 1</Item>
+            <Item Name="[height]">y2 - y1 + 1</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="QSizeF">
+        <DisplayString>{{ width = {wd}, height = {ht} }}</DisplayString>
+        <Expand>
+            <Item Name="[width]">wd</Item>
+            <Item Name="[height]">ht</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="QSize" Priority="Medium">
+        <DisplayString>{{ width = {wd.m_i}, height = {ht.m_i} }}</DisplayString>
+        <Expand>
+            <Item Name="[width]">wd.m_i</Item>
+            <Item Name="[height]">ht.m_i</Item>
+        </Expand>
+    </Type>
+
+    <!-- Older Qt: members are plain integers -->
+    <Type Name="QSize" Priority="MediumLow">
         <DisplayString>{{ width = {wd}, height = {ht} }}</DisplayString>
         <Expand>
             <Item Name="[width]">wd</Item>
