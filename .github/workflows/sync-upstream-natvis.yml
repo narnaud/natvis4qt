@@ -43,8 +43,8 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
-          commit-message: "chore(deps): update natvis files from upstream qt-labs/vs-debugtools"
-          title: "chore(deps): update natvis files from upstream"
+          commit-message: "feat(deps): update natvis files from upstream qt-labs/vs-debugtools"
+          title: "feat(deps): update natvis files from upstream"
           body: |
             Automated sync of natvis files from [qt-labs/vs-debugtools](https://github.com/qt-labs/vs-debugtools/tree/master/natvis).
 
