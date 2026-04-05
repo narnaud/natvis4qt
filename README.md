@@ -1,16 +1,13 @@
-# Nativs4Qt - Install natvis files for Qt
+# Natvis4Qt - Install natvis files for Qt
 
 This repository contains:
 
-- Up to date natvis files for Qt5 and Qt6
+- Up-to-date natvis files for Qt5 and Qt6
 - Command line tool to install or update them in different locations
 
 ## Installation
 
 `natvis4qt` is a simple command line tool to install or update the natvis files in different locations.
-
-> [!CAUTION]
-> The tool is in early stage, for now it can only overwrite natvis file in known locations. More later!
 
 ### Installation via [Scoop](https://scoop.sh/) (preferred)
 
@@ -37,11 +34,20 @@ Just run `natvis4qt install` on the command line and follow the instructions.
 
 ![Demo](assets/demo.gif)
 
-The application is using different commands:
+```
+Usage: natvis4qt.exe [OPTIONS] <COMMAND>
 
-- `install`  Install the natvis files in known directories (MSVC and Qt)
-- `update`   Update the natvis files
-- `set`      Adjust natvis4qt's settings
+Commands:
+  install  Install the natvis files
+  update   Update the natvis files
+  set      Adjust natvis4qt's settings
+  help     Print this message or the help of the given subcommand(s)
+
+Options:
+      --dry-run  Install or update without copying the files
+  -h, --help     Print help (see more with '--help')
+  -V, --version  Print version
+```
 
 ## Integration
 
@@ -51,7 +57,7 @@ Select a version of `Visual Studio` when installing the natvis files.
 
 This will install the natvis files in a central place that is used by Visual Studio. See documentation here: [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location)
 
-Some visulaizers require debug symbols for Qt to be loaded. To load them, add the `bin` directory of your Qt installation (e.g. `C:\Qt\6.8.0\msvc2022_64\bin`) to the symbol search path under **Options > Debugging > Symbols**.
+Some visualizers require debug symbols for Qt to be loaded. To load them, add the `bin` directory of your Qt installation (e.g. `C:\Qt\6.8.0\msvc2022_64\bin`) to the symbol search path under **Options > Debugging > Symbols**.
 
 > [!CAUTION]
 > The Qt VS Addin must be deactivated, as it is silently overwriting the natvis files in the Visualizers directory, see [QTVSADDINBUG-1308](https://bugreports.qt.io/browse/QTVSADDINBUG-1308).
@@ -66,8 +72,8 @@ Install the extension, and click on the "View" button. It will open a new window
 
 > [!WARNING]
 >
-> - it only supports image in RGB(A) with 32bits/pixel,
-> - the Qt natvis file must to be in the default [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location).
+> - It only supports images in RGB(A) with 32 bits/pixel.
+> - The Qt natvis file must be in the default [Natvis file locations](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022#BKMK_natvis_location).
 
 ### Visual Studio Code
 
@@ -75,14 +81,14 @@ Install the extension, and click on the "View" button. It will open a new window
 
 Select `VS Code C/C++ Extension` when installing the natvis files.
 
-This will install the natvis files in a central place that is used by Visual Studio. See available "documentation" here: [Natvis file locations](https://github.com/microsoft/vscode-cpptools/issues/925#issuecomment-591483777).
+This will install the natvis files in a central place that is used by the C/C++ extension. See available "documentation" here: [Natvis file locations](https://github.com/microsoft/vscode-cpptools/issues/925#issuecomment-591483777).
 
 > [!WARNING]
 > The files may disappear after an update of the [Microsoft C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools).
 
-#### Per-project vizualizer file
+#### Per-project visualizer file
 
-Another option is to install the natvis files int eh different Qt directories, and set a `visualizerFile` to your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like that:
+Another option is to install the natvis files in the different Qt directories, and set a `visualizerFile` in your launch configuration. Edit your `launch.json` file (or the `launch` section of your `*.code-workspace` file) and add something like this:
 
 ```json
     "configurations": [
@@ -109,7 +115,7 @@ Another option is to install the natvis files int eh different Qt directories, a
 > [!IMPORTANT]
 >
 > - The `QTDIR` environment variable must be set up before launching VS Code
-> - You are limited to **only one** vizualizer file with `cppvsdbg`, see related [issue](https://github.com/microsoft/vscode-cpptools/issues/10917).
+> - You are limited to **only one** visualizer file with `cppvsdbg`, see related [issue](https://github.com/microsoft/vscode-cpptools/issues/10917).
 
 ## Update
 
