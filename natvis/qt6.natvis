@@ -400,6 +400,7 @@ SPDX-License-Identifier: MIT
         <Intrinsic Name="memberOffset" Expression="sizeof(QAtomicInt) + sizeof(int) + (sizeof(QString) * count)">
             <Parameter Name="count" Type="int"/>
         </Intrinsic>
+        <Intrinsic Name="port" Expression="*(int*)(((char*)(d)) + sizeof(QAtomicInt))" />
         <Intrinsic Name="scheme" Expression="*((QString*)(((char*)(d) + memberOffset(0))))" />
         <Intrinsic Name="username" Expression="*((QString*)(((char*)(d) + memberOffset(1))))" />
         <Intrinsic Name="password" Expression="*((QString*)(((char*)(d) + memberOffset(2))))" />
@@ -408,68 +409,100 @@ SPDX-License-Identifier: MIT
         <Intrinsic Name="query" Expression="*((QString*)(((char*)(d) + memberOffset(5))))" />
         <Intrinsic Name="fragment" Expression="*((QString*)(((char*)(d) + memberOffset(6))))" />
 
-        <!-- Full URL with everything -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; !isEmpty(host().d.size)
-                           &amp;&amp; !isEmpty(path().d.size)
-                           &amp;&amp; !isEmpty(query().d.size)
-                           &amp;&amp; !isEmpty(fragment().d.size)">
+        <Intrinsic Name="hasScheme" Expression="!isEmpty(scheme().d.size)" />
+        <Intrinsic Name="hasUser" Expression="!isEmpty(username().d.size)" />
+        <Intrinsic Name="hasHost" Expression="!isEmpty(host().d.size)" />
+        <Intrinsic Name="hasPort" Expression="port() != -1" />
+        <Intrinsic Name="hasPath" Expression="!isEmpty(path().d.size)" />
+        <Intrinsic Name="hasQuery" Expression="!isEmpty(query().d.size)" />
+        <Intrinsic Name="hasFragment" Expression="!isEmpty(fragment().d.size)" />
+
+        <!-- user:pass@host:port -->
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasQuery() &amp;&amp; hasFragment()">
+            {scheme()}://{username()}:{password()}@{host()}:{port()}{path()}?{query()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasQuery()">
+            {scheme()}://{username()}:{password()}@{host()}:{port()}{path()}?{query()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasFragment()">
+            {scheme()}://{username()}:{password()}@{host()}:{port()}{path()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath()">
+            {scheme()}://{username()}:{password()}@{host()}:{port()}{path()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPort()">
+            {scheme()}://{username()}:{password()}@{host()}:{port()}
+        </DisplayString>
+
+        <!-- user:pass@host -->
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasQuery() &amp;&amp; hasFragment()">
+            {scheme()}://{username()}:{password()}@{host()}{path()}?{query()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasQuery()">
+            {scheme()}://{username()}:{password()}@{host()}{path()}?{query()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasFragment()">
+            {scheme()}://{username()}:{password()}@{host()}{path()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost() &amp;&amp; hasPath()">
+            {scheme()}://{username()}:{password()}@{host()}{path()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasUser() &amp;&amp; hasHost()">
+            {scheme()}://{username()}:{password()}@{host()}
+        </DisplayString>
+
+        <!-- host:port -->
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasQuery() &amp;&amp; hasFragment()">
+            {scheme()}://{host()}:{port()}{path()}?{query()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasQuery()">
+            {scheme()}://{host()}:{port()}{path()}?{query()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath() &amp;&amp; hasFragment()">
+            {scheme()}://{host()}:{port()}{path()}#{fragment()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPort() &amp;&amp; hasPath()">
+            {scheme()}://{host()}:{port()}{path()}
+        </DisplayString>
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPort()">
+            {scheme()}://{host()}:{port()}
+        </DisplayString>
+
+        <!-- host -->
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasQuery() &amp;&amp; hasFragment()">
             {scheme()}://{host()}{path()}?{query()}#{fragment()}
         </DisplayString>
-
-        <!-- With query -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; !isEmpty(host().d.size)
-                           &amp;&amp; !isEmpty(path().d.size)
-                           &amp;&amp; !isEmpty(query().d.size)">
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasQuery()">
             {scheme()}://{host()}{path()}?{query()}
         </DisplayString>
-
-        <!-- With fragment -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; !isEmpty(host().d.size)
-                           &amp;&amp; !isEmpty(path().d.size)
-                           &amp;&amp; !isEmpty(fragment().d.size)">
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPath() &amp;&amp; hasFragment()">
             {scheme()}://{host()}{path()}#{fragment()}
         </DisplayString>
-
-        <!-- Host + path -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; !isEmpty(host().d.size)
-                           &amp;&amp; !isEmpty(path().d.size)">
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost() &amp;&amp; hasPath()">
             {scheme()}://{host()}{path()}
         </DisplayString>
-
-        <!-- Scheme + path, for example QUrl::fromLocalFile -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; isEmpty(host().d.size)
-                           &amp;&amp; !isEmpty(path().d.size)">
-            {scheme()}://{path()}
-        </DisplayString>
-
-        <!-- Host only -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)
-                           &amp;&amp; !isEmpty(host().d.size)">
+        <DisplayString Condition="hasScheme() &amp;&amp; hasHost()">
             {scheme()}://{host()}
         </DisplayString>
 
-        <!-- Scheme only -->
-        <DisplayString Condition="!isEmpty(scheme().d.size)">
-            {scheme()}
+        <!-- Scheme + path, e.g. QUrl::fromLocalFile -->
+        <DisplayString Condition="hasScheme() &amp;&amp; !hasHost() &amp;&amp; hasPath()">
+            {scheme()}://{path()}
         </DisplayString>
 
-        <DisplayString Condition="d == 0">
-            [default-constructed QUrl]
-        </DisplayString>
+        <DisplayString Condition="hasScheme()">{scheme()}</DisplayString>
+
+        <DisplayString Condition="d == 0">[default-constructed QUrl]</DisplayString>
 
         <Expand>
-            <Item Name="[scheme]">scheme()</Item>
-            <Item Name="[username]">username()</Item>
-            <Item Name="[password]">password()</Item>
-            <Item Name="[host]">host()</Item>
-            <Item Name="[path]">path()</Item>
-            <Item Name="[query]">query()</Item>
-            <Item Name="[fragment]">fragment()</Item>
+            <Item Name="[scheme]" Condition="hasScheme()">scheme()</Item>
+            <Item Name="[username]" Condition="hasUser()">username()</Item>
+            <Item Name="[password]" Condition="hasUser()">password()</Item>
+            <Item Name="[host]" Condition="hasHost()">host()</Item>
+            <Item Name="[port]" Condition="hasPort()">port()</Item>
+            <Item Name="[path]" Condition="hasPath()">path()</Item>
+            <Item Name="[query]" Condition="hasQuery()">query()</Item>
+            <Item Name="[fragment]" Condition="hasFragment()">fragment()</Item>
         </Expand>
     </Type>
 
@@ -830,10 +863,10 @@ SPDX-License-Identifier: MIT
         <DisplayString Condition="typeId() == QMetaType::QEasingCurve">EasingCurve</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QUuid">{*(QUuid*) dataStar()}</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QRegularExpression">RegularExpression</DisplayString>
-        <DisplayString Condition="typeId() == QMetaType::QJsonValue">QJsonValue</DisplayString>
-        <DisplayString Condition="typeId() == QMetaType::QJsonObject">QJsonObject</DisplayString>
-        <DisplayString Condition="typeId() == QMetaType::QJsonArray">QJsonArray</DisplayString>
-        <DisplayString Condition="typeId() == QMetaType::QJsonDocument">QJsonDocument</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QJsonValue">{*(QJsonValue*) dataStar()}</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QJsonObject">{*(QJsonObject*) dataStar()}</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QJsonArray">{*(QJsonArray*) dataStar()}</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QJsonDocument">{*(QJsonDocument*) dataStar()}</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QCborValue">QCborValue</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QCborArray">QCborArray</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QCborMap">QCborMap</DisplayString>
@@ -844,7 +877,7 @@ SPDX-License-Identifier: MIT
         <DisplayString Condition="typeId() == QMetaType::QFont">QFont</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QPixmap">{*(QPixmap*) dataStar()}</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QBrush">QBrush</DisplayString>
-        <DisplayString Condition="typeId() == QMetaType::QColor">QColor</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QColor">{*(QColor*) dataStar()}</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QPalette">QPalette</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QIcon">QIcon</DisplayString>
         <DisplayString Condition="typeId() == QMetaType::QImage">{*(QImage*) dataStar()}</DisplayString>
@@ -888,6 +921,7 @@ SPDX-License-Identifier: MIT
             <ExpandedItem Condition="typeId() == QMetaType::QPointF">*(QPointF*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QUuid">*(QUuid*) dataStar()</ExpandedItem>
 
+            <ExpandedItem Condition="typeId() == QMetaType::QColor">*(QColor*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QPixmap">*(QPixmap*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QImage">*(QImage*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QPolygon">*(QPolygon*) dataStar()</ExpandedItem>
@@ -899,6 +933,11 @@ SPDX-License-Identifier: MIT
             <ExpandedItem Condition="typeId() == QMetaType::QVector4D">*(QVector4D*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QQuaternion">*(QQuaternion*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QPolygonF">*(QPolygonF*) dataStar()</ExpandedItem>
+
+            <ExpandedItem Condition="typeId() == QMetaType::QJsonValue">*(QJsonValue*) dataStar()</ExpandedItem>
+            <ExpandedItem Condition="typeId() == QMetaType::QJsonObject">*(QJsonObject*) dataStar()</ExpandedItem>
+            <ExpandedItem Condition="typeId() == QMetaType::QJsonArray">*(QJsonArray*) dataStar()</ExpandedItem>
+            <ExpandedItem Condition="typeId() == QMetaType::QJsonDocument">*(QJsonDocument*) dataStar()</ExpandedItem>
 
             <ExpandedItem Condition="typeId() == QMetaType::QVariantMap">*(QMap&lt;QString,QVariant&gt;*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == QMetaType::QVariantList">*(QList&lt;QVariant&gt;*) dataStar()</ExpandedItem>
@@ -941,6 +980,71 @@ SPDX-License-Identifier: MIT
         <Expand>
             <Item Name="scopeId">*((QString*)((*(char**)&amp;d)+8))</Item>
             <Item Name="protocol">(QAbstractSocket::NetworkLayerProtocol)protocol()</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="QColor">
+        <!-- Spec enum: Invalid=0, Rgb=1, Hsv=2, Cmyk=3, Hsl=4, ExtendedRgb=5 -->
+        <!-- All non-hue ushort values are stored as value * 0x0101; >> 8 gives 0-255 -->
+        <!-- Hue values are stored as value * 100; / 100 gives 0-359 -->
+        <Intrinsic Name="isOpaque" Expression="ct.array[0] == 0xFFFF" />
+
+        <DisplayString Condition="cspec == 0">Invalid</DisplayString>
+
+        <DisplayString Condition="cspec == 1 &amp;&amp; isOpaque()">
+            rgb({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8})
+        </DisplayString>
+        <DisplayString Condition="cspec == 1">
+            rgba({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8}, {ct.argb.alpha >> 8})
+        </DisplayString>
+
+        <DisplayString Condition="cspec == 2 &amp;&amp; isOpaque()">
+            hsv({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8})
+        </DisplayString>
+        <DisplayString Condition="cspec == 2">
+            hsva({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8}, {ct.ahsv.alpha >> 8})
+        </DisplayString>
+
+        <DisplayString Condition="cspec == 3 &amp;&amp; isOpaque()">
+            cmyk({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8})
+        </DisplayString>
+        <DisplayString Condition="cspec == 3">
+            cmyka({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8}, {ct.acmyk.alpha >> 8})
+        </DisplayString>
+
+        <DisplayString Condition="cspec == 4 &amp;&amp; isOpaque()">
+            hsl({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8})
+        </DisplayString>
+        <DisplayString Condition="cspec == 4">
+            hsla({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8}, {ct.ahsl.alpha >> 8})
+        </DisplayString>
+
+        <DisplayString Condition="cspec == 5">ExtendedRgb</DisplayString>
+
+        <Expand>
+            <Item Name="[alpha]" Condition="cspec != 0">ct.array[0] >> 8</Item>
+            <!-- RGB -->
+            <Item Name="[red]" Condition="cspec == 1">ct.argb.red >> 8</Item>
+            <Item Name="[green]" Condition="cspec == 1">ct.argb.green >> 8</Item>
+            <Item Name="[blue]" Condition="cspec == 1">ct.argb.blue >> 8</Item>
+            <!-- HSV -->
+            <Item Name="[hue]" Condition="cspec == 2">ct.ahsv.hue</Item>
+            <Item Name="[saturation]" Condition="cspec == 2">ct.ahsv.saturation >> 8</Item>
+            <Item Name="[value]" Condition="cspec == 2">ct.ahsv.value >> 8</Item>
+            <!-- CMYK -->
+            <Item Name="[cyan]" Condition="cspec == 3">ct.acmyk.cyan >> 8</Item>
+            <Item Name="[magenta]" Condition="cspec == 3">ct.acmyk.magenta >> 8</Item>
+            <Item Name="[yellow]" Condition="cspec == 3">ct.acmyk.yellow >> 8</Item>
+            <Item Name="[black]" Condition="cspec == 3">ct.acmyk.black >> 8</Item>
+            <!-- HSL -->
+            <Item Name="[hue]" Condition="cspec == 4">ct.ahsl.hue</Item>
+            <Item Name="[saturation]" Condition="cspec == 4">ct.ahsl.saturation >> 8</Item>
+            <Item Name="[lightness]" Condition="cspec == 4">ct.ahsl.lightness >> 8</Item>
+            <!-- ExtendedRgb (raw half-float values) -->
+            <Item Name="[alphaF16]" Condition="cspec == 5">ct.argbExtended.alphaF16</Item>
+            <Item Name="[redF16]" Condition="cspec == 5">ct.argbExtended.redF16</Item>
+            <Item Name="[greenF16]" Condition="cspec == 5">ct.argbExtended.greenF16</Item>
+            <Item Name="[blueF16]" Condition="cspec == 5">ct.argbExtended.blueF16</Item>
         </Expand>
     </Type>
 
