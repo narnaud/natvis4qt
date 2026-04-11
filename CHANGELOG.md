@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.9.0](https://github.com/narnaud/natvis4qt/compare/v0.8.2...v0.9.0) (2026-04-11)
+
+
+### Features ✨
+
+* **deps:** update natvis files from upstream qt-labs/vs-debugtools ([677c421](https://github.com/narnaud/natvis4qt/commit/677c4212cd97236f7b51ddcb19bbb605ba1cd5a5))
+
+
+### Documentation
+
+* update README ([fab7261](https://github.com/narnaud/natvis4qt/commit/fab726126d2949f98e6f9514d79a1e936f514c5d))
+
+
+### Other
+
+* create a new feat when updating the upstream natvis, instead of a chore ([71dab36](https://github.com/narnaud/natvis4qt/commit/71dab3640cc4b75d300ddf00ab1db08bb6347116))
+* **deps:** bump cliclack from 0.5.2 to 0.5.4 ([37a80c1](https://github.com/narnaud/natvis4qt/commit/37a80c146a46aaea9bc98b572b0e3abec4e62b66))
+
 ## [0.8.2](https://github.com/narnaud/natvis4qt/compare/v0.8.1...v0.8.2) (2026-03-29)
 
 
