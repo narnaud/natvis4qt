@@ -115,20 +115,15 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-    <Type Name="QPoint" Priority="Medium">
-        <DisplayString>{{ x = {xp.m_i}, y = {yp.m_i} }}</DisplayString>
+    <!-- Reinterpret each member as int* to extract a plain integer.
+         Works on Qt 6.9 (plain int members, cast is a no-op) and Qt 6.10+
+         (members are QPoint::Representation with a single int m_i at offset 0).
+         Bypasses the wrapper type so all debugger backends show a scalar integer. -->
+    <Type Name="QPoint">
+        <DisplayString>{{ x = {*((int*)(&amp;xp))}, y = {*((int*)(&amp;yp))} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">xp.m_i</Item>
-            <Item Name="[y]">yp.m_i</Item>
-        </Expand>
-    </Type>
-
-    <!-- Older Qt: x/y are plain integers -->
-    <Type Name="QPoint" Priority="MediumLow">
-        <DisplayString>{{ x = {xp}, y = {yp} }}</DisplayString>
-        <Expand>
-            <Item Name="[x]">xp</Item>
-            <Item Name="[y]">yp</Item>
+            <Item Name="[x]">*((int*)(&amp;xp))</Item>
+            <Item Name="[y]">*((int*)(&amp;yp))</Item>
         </Expand>
     </Type>
 
@@ -142,24 +137,17 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-    <Type Name="QRect" Priority="Medium">
-        <DisplayString>{{ x = {x1.m_i}, y = {y1.m_i}, width = {x2.m_i - x1.m_i + 1}, height = {y2.m_i - y1.m_i + 1} }}</DisplayString>
+    <!-- Reinterpret each corner as int* to extract a plain integer for arithmetic.
+         Works on Qt 6.9 (plain int members, cast is a no-op) and Qt 6.10+
+         (members are QRect::Representation / QCheckedInt with a single int m_i at offset 0).
+         Bypasses the wrapper type so all debugger backends show scalar integers. -->
+    <Type Name="QRect">
+        <DisplayString>{{ x = {*((int*)(&amp;x1))}, y = {*((int*)(&amp;y1))}, width = {*((int*)(&amp;x2)) - *((int*)(&amp;x1)) + 1}, height = {*((int*)(&amp;y2)) - *((int*)(&amp;y1)) + 1} }}</DisplayString>
         <Expand>
-            <Item Name="[x]">x1.m_i</Item>
-            <Item Name="[y]">y1.m_i</Item>
-            <Item Name="[width]">x2.m_i - x1.m_i + 1</Item>
-            <Item Name="[height]">y2.m_i - y1.m_i + 1</Item>
-        </Expand>
-    </Type>
-
-    <!-- Older Qt: members are plain integers -->
-    <Type Name="QRect" Priority="MediumLow">
-        <DisplayString>{{ x = {x1}, y = {y1}, width = {x2 - x1 + 1}, height = {y2 - y1 + 1} }}</DisplayString>
-        <Expand>
-            <Item Name="[x]">x1</Item>
-            <Item Name="[y]">y1</Item>
-            <Item Name="[width]">x2 - x1 + 1</Item>
-            <Item Name="[height]">y2 - y1 + 1</Item>
+            <Item Name="[x]">*((int*)(&amp;x1))</Item>
+            <Item Name="[y]">*((int*)(&amp;y1))</Item>
+            <Item Name="[width]">*((int*)(&amp;x2)) - *((int*)(&amp;x1)) + 1</Item>
+            <Item Name="[height]">*((int*)(&amp;y2)) - *((int*)(&amp;y1)) + 1</Item>
         </Expand>
     </Type>
 
@@ -171,20 +159,15 @@ SPDX-License-Identifier: MIT
         </Expand>
     </Type>
 
-    <Type Name="QSize" Priority="Medium">
-        <DisplayString>{{ width = {wd.m_i}, height = {ht.m_i} }}</DisplayString>
+    <!-- Reinterpret each member as int* to extract a plain integer.
+         Works on Qt 6.9 (plain int members, cast is a no-op) and Qt 6.10+
+         (members are QSize::Representation with a single int m_i at offset 0).
+         Bypasses the wrapper type so all debugger backends show a scalar integer. -->
+    <Type Name="QSize">
+        <DisplayString>{{ width = {*((int*)(&amp;wd))}, height = {*((int*)(&amp;ht))} }}</DisplayString>
         <Expand>
-            <Item Name="[width]">wd.m_i</Item>
-            <Item Name="[height]">ht.m_i</Item>
-        </Expand>
-    </Type>
-
-    <!-- Older Qt: members are plain integers -->
-    <Type Name="QSize" Priority="MediumLow">
-        <DisplayString>{{ width = {wd}, height = {ht} }}</DisplayString>
-        <Expand>
-            <Item Name="[width]">wd</Item>
-            <Item Name="[height]">ht</Item>
+            <Item Name="[width]">*((int*)(&amp;wd))</Item>
+            <Item Name="[height]">*((int*)(&amp;ht))</Item>
         </Expand>
     </Type>
 
