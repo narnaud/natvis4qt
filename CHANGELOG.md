@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0](https://github.com/narnaud/natvis4qt/compare/v0.9.0...v0.10.0) (2026-04-26)
+
+
+### Features ✨
+
+* **deps:** update natvis files from upstream qt-labs/vs-debugtools ([f996dc6](https://github.com/narnaud/natvis4qt/commit/f996dc69ada0a8b926212c9f608783cccf30b05a))
+
+
+### Other
+
+* **deps:** bump clap from 4.6.0 to 4.6.1 ([de65059](https://github.com/narnaud/natvis4qt/commit/de650590c09fd6da6667b9d9c4f97ab4522df759))
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([1e0d46d](https://github.com/narnaud/natvis4qt/commit/1e0d46d5d5ae71c7389a6b300e7f62d88671de33))
+* **deps:** bump softprops/action-gh-release from 2 to 3 ([91f83d1](https://github.com/narnaud/natvis4qt/commit/91f83d1561e868a381f2a68fb0e620d841347c91))
+
 ## [0.9.0](https://github.com/narnaud/natvis4qt/compare/v0.8.2...v0.9.0) (2026-04-11)
 
 
