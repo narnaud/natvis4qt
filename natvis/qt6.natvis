@@ -262,9 +262,7 @@ SPDX-License-Identifier: MIT
     </Type>
 
     <Type Name="QMatrix4x4">
-        <DisplayString>
-            {{ m11 = {m[0][0]}, m12 = {m[1][0]}, m13 = {m[2][0]}, m14 = {m[3][0]}, ... }}
-        </DisplayString>
+        <DisplayString>{{ m11 = {m[0][0]}, m12 = {m[1][0]}, m13 = {m[2][0]}, m14 = {m[3][0]}, ... }}</DisplayString>
         <Expand>
             <Item Name="[m11]">m[0][0]</Item>
             <Item Name="[m12]">m[1][0]</Item>
@@ -286,9 +284,7 @@ SPDX-License-Identifier: MIT
     </Type>
 
    <Type Name="QSizePolicy">
-        <DisplayString>
-            {{ horizontal = {static_cast&lt;Policy&gt;(bits.horPolicy)}, vertical = {static_cast&lt;Policy&gt;(bits.verPolicy)}, type = {ControlType(1 &lt;&lt; bits.ctype)} }}
-        </DisplayString>
+        <DisplayString>{{ horizontal = {static_cast&lt;Policy&gt;(bits.horPolicy)}, vertical = {static_cast&lt;Policy&gt;(bits.verPolicy)}, type = {ControlType(1 &lt;&lt; bits.ctype)} }}</DisplayString>
         <Expand>
             <Synthetic Name="[vertical policy]">
                 <DisplayString>QSizePolicy::Policy::{static_cast&lt;Policy&gt;(bits.verPolicy)}</DisplayString>
@@ -948,18 +944,8 @@ SPDX-License-Identifier: MIT
             <Parameter Name="value" Type="quint8" />
             <Parameter Name="by" Type="quint8" />
         </Intrinsic>
-        <DisplayString Condition="isIpv4()">
-            {rshift(a(),24),d}.{rshift(a(),16),d}.{rshift(a(),8),d}.{rshift(a(),0),d}</DisplayString>
-        <DisplayString Condition="isIpv6()">{(unsigned
-            short)(lshift(0xffff&amp;a6(0),8)|a6(1)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(2),8)|a6(3)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(4),8)|a6(5)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(6),8)|a6(7)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(8),8)|a6(9)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(10),8)|a6(11)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(12),8)|a6(13)),nvoXb}:{(unsigned
-            short)(lshift(0xffff&amp;a6(14),8)|a6(15)),nvoXb}
-        </DisplayString>
+        <DisplayString Condition="isIpv4()">{rshift(a(),24),d}.{rshift(a(),16),d}.{rshift(a(),8),d}.{rshift(a(),0),d}</DisplayString>
+        <DisplayString Condition="isIpv6()">{(unsigned short)(lshift(0xffff&amp;a6(0),8)|a6(1)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(2),8)|a6(3)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(4),8)|a6(5)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(6),8)|a6(7)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(8),8)|a6(9)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(10),8)|a6(11)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(12),8)|a6(13)),nvoXb}:{(unsigned short)(lshift(0xffff&amp;a6(14),8)|a6(15)),nvoXb}</DisplayString>
         <Expand>
             <Item Name="scopeId">*((QString*)((*(char**)&amp;d)+8))</Item>
             <Item Name="protocol">(QAbstractSocket::NetworkLayerProtocol)protocol()</Item>
@@ -974,33 +960,17 @@ SPDX-License-Identifier: MIT
 
         <DisplayString Condition="cspec == 0">Invalid</DisplayString>
 
-        <DisplayString Condition="cspec == 1 &amp;&amp; isOpaque()">
-            rgb({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8})
-        </DisplayString>
-        <DisplayString Condition="cspec == 1">
-            rgba({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8}, {ct.argb.alpha >> 8})
-        </DisplayString>
+        <DisplayString Condition="cspec == 1 &amp;&amp; isOpaque()">rgb({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8})</DisplayString>
+        <DisplayString Condition="cspec == 1">rgba({ct.argb.red >> 8}, {ct.argb.green >> 8}, {ct.argb.blue >> 8}, {ct.argb.alpha >> 8})</DisplayString>
 
-        <DisplayString Condition="cspec == 2 &amp;&amp; isOpaque()">
-            hsv({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8})
-        </DisplayString>
-        <DisplayString Condition="cspec == 2">
-            hsva({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8}, {ct.ahsv.alpha >> 8})
-        </DisplayString>
+        <DisplayString Condition="cspec == 2 &amp;&amp; isOpaque()">hsv({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8})</DisplayString>
+        <DisplayString Condition="cspec == 2">hsva({ct.ahsv.hue / 100}, {ct.ahsv.saturation >> 8}, {ct.ahsv.value >> 8}, {ct.ahsv.alpha >> 8})</DisplayString>
 
-        <DisplayString Condition="cspec == 3 &amp;&amp; isOpaque()">
-            cmyk({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8})
-        </DisplayString>
-        <DisplayString Condition="cspec == 3">
-            cmyka({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8}, {ct.acmyk.alpha >> 8})
-        </DisplayString>
+        <DisplayString Condition="cspec == 3 &amp;&amp; isOpaque()">cmyk({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8})</DisplayString>
+        <DisplayString Condition="cspec == 3">cmyka({ct.acmyk.cyan >> 8}, {ct.acmyk.magenta >> 8}, {ct.acmyk.yellow >> 8}, {ct.acmyk.black >> 8}, {ct.acmyk.alpha >> 8})</DisplayString>
 
-        <DisplayString Condition="cspec == 4 &amp;&amp; isOpaque()">
-            hsl({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8})
-        </DisplayString>
-        <DisplayString Condition="cspec == 4">
-            hsla({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8}, {ct.ahsl.alpha >> 8})
-        </DisplayString>
+        <DisplayString Condition="cspec == 4 &amp;&amp; isOpaque()">hsl({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8})</DisplayString>
+        <DisplayString Condition="cspec == 4">hsla({ct.ahsl.hue / 100}, {ct.ahsl.saturation >> 8}, {ct.ahsl.lightness >> 8}, {ct.ahsl.alpha >> 8})</DisplayString>
 
         <DisplayString Condition="cspec == 5">ExtendedRgb</DisplayString>
 
