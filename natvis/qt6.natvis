@@ -882,7 +882,7 @@ SPDX-License-Identifier: MIT
         <DisplayString Condition="typeId() == QMetaType::QColorSpace">QColorSpace</DisplayString>
 
         <!-- Static widget classes -->
-        <DisplayString Condition="typeId() == QMetaType::QSizePolicy">{*(QSizePolicy*) dataStar()}</DisplayString>
+        <DisplayString Condition="typeId() == QMetaType::QSizePolicy">QSizePolicy</DisplayString>
 
         <!-- Unhandled : display the typeId-->
         <DisplayString>QMetaType::Type ({typeId()})</DisplayString>
