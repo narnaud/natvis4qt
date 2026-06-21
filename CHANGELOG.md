@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.11.0](https://github.com/narnaud/natvis4qt/compare/v0.10.0...v0.11.0) (2026-06-21)
+
+
+### Features ✨
+
+* **deps:** update natvis files from upstream qt-labs/vs-debugtools ([6bc7020](https://github.com/narnaud/natvis4qt/commit/6bc7020889dadd07ca52b541fcfcc51504219746))
+
+
+### Other
+
+* **deps:** bump actions/checkout from 6 to 7 ([fbb76d9](https://github.com/narnaud/natvis4qt/commit/fbb76d9bdb4b6f954ac2627588ec2e7ba09726e4))
+
 ## [0.10.0](https://github.com/narnaud/natvis4qt/compare/v0.9.0...v0.10.0) (2026-04-26)
 
 
