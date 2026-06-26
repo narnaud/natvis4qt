@@ -1062,8 +1062,8 @@ SPDX-License-Identifier: MIT
         <!-- DisplayString: data.d->w/h accesses QPlatformPixmap base members directly.
              GDB does not enforce C++ access control in expression evaluation, so data.d
              (private in QExplicitlySharedDataPointer) is reachable on GDB/Linux.
-             LLDB enforces access control, so data.d fails there — pd() is the fallback
-             for vsdbg. QPixmap DisplayString remains empty on LLDB/macOS. -->
+             LLDB enforces access control on private members, so data.d and pd() both
+             fail — QPixmap DisplayString remains empty on LLDB/macOS. -->
         <DisplayString Condition="data.d != 0" Optional="true">{{ {data.d-&gt;w}x{data.d-&gt;h} }}</DisplayString>
         <DisplayString Condition="pd()" Optional="true">{{ {pd()-&gt;w}x{pd()-&gt;h} }}</DisplayString>
         <DisplayString>empty</DisplayString>
@@ -1132,65 +1132,95 @@ SPDX-License-Identifier: MIT
     </Type>
 
     <Type Name="QDateTime">
-        <Intrinsic Name="priv" Expression="(Qt6Cored.dll!QDateTimePrivate*)d.d"></Intrinsic>
-        <Intrinsic Name="status" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : priv()-&gt;m_status.i"></Intrinsic>
-        <Intrinsic Name="spec" Expression="(status() &amp; Qt6Cored.dll!QDateTimePrivate::TimeSpecMask) &gt;&gt; Qt6Cored.dll!QDateTimePrivate::TimeSpecShift"></Intrinsic>
-        <Intrinsic Name="msecs" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &gt;&gt; 8) : priv()-&gt;m_msecs"></Intrinsic>
-        <Intrinsic Name="offset" Expression="priv()-&gt;m_offsetFromUtc"></Intrinsic>
-        <Intrinsic Name="absOffset" Expression="offset() &lt; 0 ? -offset() : offset()"></Intrinsic>
-        <Intrinsic Name="isLocalShort" Expression="spec() == Qt::TimeSpec::LocalTime &amp;&amp; status() &amp; 1"></Intrinsic>
-
-        <!-- https://howardhinnant.github.io/date_algorithms.html#civil_from_days -->
-        <Intrinsic Name="z"     Expression="(msecs() / (24 * 60 * 60 * 1000ull)) + 719468"/>
-        <Intrinsic Name="era"   Expression="(z() &gt;= 0 ? z() : z() - 146096) / 146097"/>
-        <Intrinsic Name="doe"   Expression="(unsigned)(z() - era() * 146097)"/>
-        <Intrinsic Name="yoe"   Expression="(doe() - doe()/1460 + doe()/36524 - doe()/146096) / 365"/>
-        <Intrinsic Name="doy"   Expression="doe() - (365*yoe() + yoe()/4 - yoe()/100)"/>
-        <Intrinsic Name="mp"    Expression="(5*doy() + 2)/153"/>
-        <Intrinsic Name="day"   Expression="doy() - (153*mp()+2)/5 + 1"/>
-        <Intrinsic Name="month" Expression="mp() &lt; 10 ? mp()+3 : mp()-9"/>
-        <Intrinsic Name="year"  Expression="((long long)yoe()) + era() * 400 + (month() &lt;= 2)"/>
-
-        <DisplayString ExcludeView="RecZone;RecZoneAbs">
-            {year(),d}-{month()/10,d}{month()%10,d}-{day()/10,d}{day()%10,d} {
-                (msecs() % (24 * 60 * 60 * 1000ull))/(10 * 60 * 60 * 1000ull),d
-            }{
-                ((msecs() % (24 * 60 * 60 * 1000ull))/(60 * 60 * 1000ull)) % 10,d
-            }:{
-                (msecs() % (60 * 60 * 1000ull))/(10 * 60 * 1000ull),d
-            }{
-                (msecs() % (10 * 60 * 1000ull)) / (60 * 1000ull),d
-            }:{
-                (msecs() % (60 * 1000ull)) / (10 * 1000ull),d
-            }{
-                (msecs() % (10 * 1000ull)) / 1000ull,d
-            }.{
-                (msecs() % 1000) / 100,d
-            }{
-                (msecs() % 100) / 10,d
-            }{
-                msecs() % 10,d
-            } {this,view(RecZone)na}
+        <!--
+          Hardcoded constants from Qt 6 source (stable across Qt 6.x; review on major version bumps):
+            TimeSpecMask  = 0x30   (QDateTimePrivate::StatusFlag, qdatetime_p.h)
+            TimeSpecShift = 4      (QDateTimePrivate anonymous enum, qdatetime_p.h)
+            Qt::TimeSpec::LocalTime = 0, UTC = 1  (qnamespace.h, public API, will not change)
+          All intrinsics are Optional so the rule still loads in static builds where
+          Qt6Cored.dll is absent (the DLL-qualified priv() would otherwise fail load-time
+          validation and reject the whole rule). The dynamic path uses priv() (the
+          DLL-qualified pointer, non-null only when the DLL is loaded) and the static path
+          uses priv_s() (= d.d, the raw private pointer in the exe PDB); the two are
+          discriminated by priv() != 0.
+        -->
+        <Intrinsic Name="priv"     Optional="true" Expression="(Qt6Cored.dll!QDateTimePrivate*)d.d"/>
+        <Intrinsic Name="priv_s"   Optional="true" Expression="d.d"/>
+        <Intrinsic Name="status"   Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : priv()-&gt;m_status.i"/>
+        <Intrinsic Name="status_s" Optional="true" Expression="(uintptr_t)priv_s() &amp; 1 ? ((uintptr_t)priv_s() &amp; 0xff) : priv_s()-&gt;m_status.i"/>
+        <Intrinsic Name="spec"     Optional="true" Expression="(status() &amp; 0x30) &gt;&gt; 4"/>
+        <Intrinsic Name="spec_s"   Optional="true" Expression="(status_s() &amp; 0x30) &gt;&gt; 4"/>
+        <Intrinsic Name="msecs"      Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((__int64)(uintptr_t)d.d &gt;&gt; 8) : priv()-&gt;m_msecs"/>
+        <Intrinsic Name="msecs_s"    Optional="true" Expression="(uintptr_t)priv_s() &amp; 1 ? ((__int64)(uintptr_t)priv_s() &gt;&gt; 8) : priv_s()-&gt;m_msecs"/>
+        <Intrinsic Name="offset"       Optional="true" Expression="priv()-&gt;m_offsetFromUtc"/>
+        <Intrinsic Name="offset_s"     Optional="true" Expression="priv_s()-&gt;m_offsetFromUtc"/>
+        <Intrinsic Name="absOffset"    Optional="true" Expression="offset() &lt; 0 ? -offset() : offset()"/>
+        <Intrinsic Name="absOffset_s"  Optional="true" Expression="offset_s() &lt; 0 ? -offset_s() : offset_s()"/>
+        <Intrinsic Name="isLocalShort"   Optional="true" Expression="spec() == 0 &amp;&amp; status() &amp; 1"/>
+        <Intrinsic Name="isLocalShort_s" Optional="true" Expression="spec_s() == 0 &amp;&amp; status_s() &amp; 1"/>
+        <Intrinsic Name="todms"   Optional="true" Expression="((msecs() % 86400000LL) + 86400000LL) % 86400000LL"/>
+        <Intrinsic Name="todms_s" Optional="true" Expression="((msecs_s() % 86400000LL) + 86400000LL) % 86400000LL"/>
+        <Intrinsic Name="days"    Optional="true" Expression="(msecs() - todms()) / 86400000LL"/>
+        <Intrinsic Name="days_s"  Optional="true" Expression="(msecs_s() - todms_s()) / 86400000LL"/>
+        <Intrinsic Name="z"       Optional="true" Expression="days() + 719468LL"/>
+        <Intrinsic Name="z_s"     Optional="true" Expression="days_s() + 719468LL"/>
+        <Intrinsic Name="era"     Optional="true" Expression="(z() &gt;= 0 ? z() : z() - 146096) / 146097"/>
+        <Intrinsic Name="era_s"   Optional="true" Expression="(z_s() &gt;= 0 ? z_s() : z_s() - 146096) / 146097"/>
+        <Intrinsic Name="doe"     Optional="true" Expression="(unsigned)(z() - era() * 146097)"/>
+        <Intrinsic Name="doe_s"   Optional="true" Expression="(unsigned)(z_s() - era_s() * 146097)"/>
+        <Intrinsic Name="yoe"     Optional="true" Expression="(doe() - doe()/1460 + doe()/36524 - doe()/146096) / 365"/>
+        <Intrinsic Name="yoe_s"   Optional="true" Expression="(doe_s() - doe_s()/1460 + doe_s()/36524 - doe_s()/146096) / 365"/>
+        <Intrinsic Name="doy"     Optional="true" Expression="doe() - (365*yoe() + yoe()/4 - yoe()/100)"/>
+        <Intrinsic Name="doy_s"   Optional="true" Expression="doe_s() - (365*yoe_s() + yoe_s()/4 - yoe_s()/100)"/>
+        <Intrinsic Name="mp"      Optional="true" Expression="(5*doy() + 2)/153"/>
+        <Intrinsic Name="mp_s"    Optional="true" Expression="(5*doy_s() + 2)/153"/>
+        <Intrinsic Name="day"     Optional="true" Expression="doy() - (153*mp()+2)/5 + 1"/>
+        <Intrinsic Name="day_s"   Optional="true" Expression="doy_s() - (153*mp_s()+2)/5 + 1"/>
+        <Intrinsic Name="month"   Optional="true" Expression="mp() &lt; 10 ? mp()+3 : mp()-9"/>
+        <Intrinsic Name="month_s" Optional="true" Expression="mp_s() &lt; 10 ? mp_s()+3 : mp_s()-9"/>
+        <Intrinsic Name="year"    Optional="true" Expression="((long long)yoe()) + era() * 400 + (month() &lt;= 2)"/>
+        <Intrinsic Name="year_s"  Optional="true" Expression="((long long)yoe_s()) + era_s() * 400 + (month_s() &lt;= 2)"/>
+        <!-- Dynamic build: priv() != 0 (DLL loaded). doy() >= 0 is a tautology that acts as a
+             VS-only probe: on GDB/LLDB (MIEngine) the calendar intrinsic chain expands too large
+             to evaluate, so the condition fails and the time-only fallback below is used. -->
+        <DisplayString Optional="true" ExcludeView="RecZone;RecZoneAbs;RecZoneS;RecZoneAbsS" Condition="priv() != 0 &amp;&amp; doy() &gt;= 0">
+            {year(),d}-{month()/10,d}{month()%10,d}-{day()/10,d}{day()%10,d} {todms()/(10*60*60*1000),d}{(todms()/(60*60*1000))%10,d}:{(todms()%(60*60*1000))/(10*60*1000),d}{(todms()%(10*60*1000))/(60*1000),d}:{(todms()%(60*1000))/(10*1000),d}{(todms()%(10*1000))/1000,d}.{(todms()%1000)/100,d}{(todms()%100)/10,d}{todms()%10,d} {this,view(RecZone)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="spec() == Qt::TimeSpec::UTC">UTC</DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="isLocalShort()">Local Time</DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="offset() &lt; 0">
+        <!-- Static build: priv() fails to evaluate (DLL not loaded) so the dynamic DisplayString
+             above is dropped (Optional); priv_s() (= d.d) resolves. Uses the _s intrinsic chain. -->
+        <DisplayString Optional="true" ExcludeView="RecZone;RecZoneAbs;RecZoneS;RecZoneAbsS" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">
+            {year_s(),d}-{month_s()/10,d}{month_s()%10,d}-{day_s()/10,d}{day_s()%10,d} {todms_s()/(10*60*60*1000),d}{(todms_s()/(60*60*1000))%10,d}:{(todms_s()%(60*60*1000))/(10*60*1000),d}{(todms_s()%(10*60*1000))/(60*1000),d}:{(todms_s()%(60*1000))/(10*1000),d}{(todms_s()%(10*1000))/1000,d}.{(todms_s()%1000)/100,d}{(todms_s()%100)/10,d}{todms_s()%10,d} {this,view(RecZoneS)na}
+        </DisplayString>
+        <!-- Fallback for GDB/LLDB: time-of-day only (the calendar chain is too long for
+             MIEngine to evaluate). Marked Optional so that in VS
+             it does not fail load-time validation: a non-Optional form rejects the rule either in
+             static (todms()/priv() -> unresolvable DLL cast) or in dynamic (todms_s()/priv_s() ->
+             unresolvable incomplete-type member). MIEngine ignores Optional, so it still fires
+             there as the last-resort fallback. In VS one of the full-date DisplayStrings above
+             always matches first, so this is never reached. ExcludeView also lists the static
+             RecZoneS/RecZoneAbsS views so it cannot hijack those view requests. -->
+        <DisplayString Optional="true" ExcludeView="RecZone;RecZoneAbs;RecZoneS;RecZoneAbsS">
+            {todms()/(10*60*60*1000),d}{(todms()/(60*60*1000))%10,d}:{(todms()%(60*60*1000))/(10*60*1000),d}{(todms()%(10*60*1000))/(60*1000),d}:{(todms()%(60*1000))/(10*1000),d}{(todms()%(10*1000))/1000,d}.{(todms()%1000)/100,d}{(todms()%100)/10,d}{todms()%10,d} {this,view(RecZone)na}
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="spec() == 1">UTC</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="isLocalShort()">Local Time</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="offset() &lt; 0">
             UTC-{this,view(RecZoneAbs)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZone">
+        <DisplayString Optional="true" IncludeView="RecZone">
             UTC+{this,view(RecZoneAbs)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 3600 == 0">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs" Condition="offset() % 3600 == 0">
             {absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d}
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 60 == 0">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs" Condition="offset() % 60 == 0">
             {
                 absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
             }:{
              (absOffset() % (60 * 60)) / (60 * 10),d}{(absOffset() % (60 * 10)) / 60,d
             }
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs">
             {
                 absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
             }:{
@@ -1199,17 +1229,86 @@ SPDX-License-Identifier: MIT
                 (absOffset() % 60) / 10,d}{absOffset() % 10,d
             }
         </DisplayString>
+        <!-- Static timezone views: mirror the RecZone/RecZoneAbs views using the _s intrinsics. -->
+        <DisplayString Optional="true" IncludeView="RecZoneS" Condition="spec_s() == 1">UTC</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneS" Condition="isLocalShort_s()">Local Time</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneS" Condition="offset_s() &lt; 0">
+            UTC-{this,view(RecZoneAbsS)na}
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneS">
+            UTC+{this,view(RecZoneAbsS)na}
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneAbsS" Condition="offset_s() % 3600 == 0">
+            {absOffset_s() / (60 * 60 * 10),d}{(absOffset_s() % (60 * 60 * 10)) / (60 * 60),d}
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneAbsS" Condition="offset_s() % 60 == 0">
+            {
+                absOffset_s() / (60 * 60 * 10),d}{(absOffset_s() % (60 * 60 * 10)) / (60 * 60),d
+            }:{
+             (absOffset_s() % (60 * 60)) / (60 * 10),d}{(absOffset_s() % (60 * 10)) / 60,d
+            }
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZoneAbsS">
+            {
+                absOffset_s() / (60 * 60 * 10),d}{(absOffset_s() % (60 * 60 * 10)) / (60 * 60),d
+            }:{
+                (absOffset_s() % (60 * 60)) / (60 * 10),d}{(absOffset_s() % (60 * 10)) / 60,d
+            }:{
+                (absOffset_s() % 60) / 10,d}{absOffset_s() % 10,d
+            }
+        </DisplayString>
 
         <Expand>
-            <Item Name="[ms]">msecs()</Item>
-            <Item Name="[s]">msecs()/1000</Item>
-            <Synthetic Name="[offset]" Condition="spec() == Qt::TimeSpec::UTC">
+            <!-- Dynamic-build items, guarded by priv() != 0 so static builds (where priv() fails
+                 to evaluate) drop them via Optional instead of rejecting the whole rule. todms() is
+                 in [0, 86399999], so all time components are correct even for pre-1970 dates where
+                 msecs() is negative. [ms] is the sub-second millisecond fraction (0–999), not total
+                 epoch milliseconds. -->
+            <Item Name="[hour]"   Optional="true" Condition="priv() != 0">todms() / (3600LL*1000LL)</Item>
+            <Item Name="[minute]" Optional="true" Condition="priv() != 0">(todms() % (3600LL*1000LL)) / (60LL*1000LL)</Item>
+            <Item Name="[second]" Optional="true" Condition="priv() != 0">(todms() % (60LL*1000LL)) / 1000LL</Item>
+            <Item Name="[ms]"     Optional="true" Condition="priv() != 0">todms() % 1000LL</Item>
+            <!-- Date components: native VS evaluation only — intrinsic chain expands too large for GDB/LLDB -->
+            <Item Name="[year]"  Optional="true" Condition="priv() != 0 &amp;&amp; doy() &gt;= 0">year()</Item>
+            <Item Name="[month]" Optional="true" Condition="priv() != 0 &amp;&amp; doy() &gt;= 0">month()</Item>
+            <Item Name="[day]"   Optional="true" Condition="priv() != 0 &amp;&amp; doy() &gt;= 0">day()</Item>
+            <!-- Timezone -->
+            <Synthetic Name="[timezone]" Optional="true" Condition="priv() != 0 &amp;&amp; spec() == 1">
                 <DisplayString>UTC</DisplayString>
             </Synthetic>
-            <Synthetic Name="[offset]" Condition="isLocalShort()">
+            <Synthetic Name="[timezone]" Optional="true" Condition="priv() != 0 &amp;&amp; isLocalShort()">
                 <DisplayString>Local Time</DisplayString>
             </Synthetic>
-            <Item Name="[offset-sec]" Condition="spec() != Qt::TimeSpec::UTC &amp;&amp; !isLocalShort()">absOffset()</Item>
+            <Item Name="[utc-offset-sec]" Optional="true" Condition="priv() != 0 &amp;&amp; spec() != 1 &amp;&amp; !isLocalShort()">offset()</Item>
+
+            <!-- Static-build items, guarded by priv_s() != 0 (never calls priv(), so never throws)
+                 and reading the private data directly from the exe PDB. In static builds the dynamic
+                 items above are dropped because their priv() condition fails (Optional), leaving these.
+
+                 Every static item also carries the doy_s() >= 0 probe (not just the date items).
+                 Rationale: unlike VS, GDB/LLDB (MIEngine) has no DLL/PDB split, so both priv()
+                 and priv_s() resolve and both the dynamic and static item sets would render. VS
+                 drops the inapplicable set via Optional (one pointer chain fails to evaluate);
+                 MIEngine ignores Optional, so without an extra guard every component would appear
+                 twice. doy_s() >= 0 is a tautology (day-of-year is always non-negative) whose
+                 intrinsic chain is too long for GDB/LLDB to evaluate, so the condition is false on
+                 MIEngine (the whole static set is skipped, leaving only the dynamic set) and true
+                 on VS (evaluated natively, so static builds still show these). It is the same
+                 VS-only probe the date items and the full-date DisplayStrings already use. -->
+            <Item Name="[hour]"   Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">todms_s() / (3600LL*1000LL)</Item>
+            <Item Name="[minute]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">(todms_s() % (3600LL*1000LL)) / (60LL*1000LL)</Item>
+            <Item Name="[second]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">(todms_s() % (60LL*1000LL)) / 1000LL</Item>
+            <Item Name="[ms]"     Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">todms_s() % 1000LL</Item>
+            <Item Name="[year]"  Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">year_s()</Item>
+            <Item Name="[month]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">month_s()</Item>
+            <Item Name="[day]"   Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0">day_s()</Item>
+            <Synthetic Name="[timezone]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0 &amp;&amp; spec_s() == 1">
+                <DisplayString>UTC</DisplayString>
+            </Synthetic>
+            <Synthetic Name="[timezone]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0 &amp;&amp; isLocalShort_s()">
+                <DisplayString>Local Time</DisplayString>
+            </Synthetic>
+            <Item Name="[utc-offset-sec]" Optional="true" Condition="priv_s() != 0 &amp;&amp; doy_s() &gt;= 0 &amp;&amp; spec_s() != 1 &amp;&amp; !isLocalShort_s()">offset_s()</Item>
         </Expand>
     </Type>
 
