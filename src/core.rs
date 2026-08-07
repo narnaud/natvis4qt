@@ -190,7 +190,7 @@ fn get_qt_dirs(qt_root: PathBuf) -> Vec<NatvisInfo> {
             .filter_map(|entry| entry.file_name().into_string().ok())
             .filter(|entry| entry.starts_with("msvc"))
             .map(|entry| NatvisInfo {
-                key: format!("{}-{}", &version, &entry),
+                key: format!("{}-{}", version, entry),
                 name: {
                     let mut qt_version = "Qt ".to_string();
                     qt_version.push_str(&version);
