@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.11.1](https://github.com/narnaud/natvis4qt/compare/v0.11.0...v0.11.1) (2026-08-16)
+
+
+### Changes
+
+* Fix clippy warnings ([3085980](https://github.com/narnaud/natvis4qt/commit/3085980cfa48ec8abea4fcbdddd2241842599440))
+
+
+### Other
+
+* **deps:** bump actions/setup-python from 6 to 7 ([3e15ed3](https://github.com/narnaud/natvis4qt/commit/3e15ed3770bcb90417e11ac6ef38671b7a1be9b5))
+* **deps:** bump clap from 4.6.1 to 4.6.5 ([bdb0223](https://github.com/narnaud/natvis4qt/commit/bdb0223e75abcdf9beb4922f39b7235dcd940784))
+* **deps:** bump clap from 4.6.5 to 4.6.6 ([851c5e2](https://github.com/narnaud/natvis4qt/commit/851c5e26d7354627771c56eded3b712865802171))
+* **deps:** bump cliclack from 0.5.4 to 0.5.5 ([7217819](https://github.com/narnaud/natvis4qt/commit/7217819698dea2eda17bbbd80119d74fc21f6b1b))
+* **deps:** bump cliclack from 0.5.5 to 0.5.6 ([c6f30d8](https://github.com/narnaud/natvis4qt/commit/c6f30d83c4a8eeba0f4b092dd6a37334b9d68da5))
+* **deps:** bump console from 0.16.3 to 0.16.4 ([994f9ff](https://github.com/narnaud/natvis4qt/commit/994f9ff9170214c15b465aab9f24faf4145724ad))
+
 ## [0.11.0](https://github.com/narnaud/natvis4qt/compare/v0.10.0...v0.11.0) (2026-06-21)
 
 
