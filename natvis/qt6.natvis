@@ -373,10 +373,10 @@ SPDX-License-Identifier: MIT
         <Intrinsic Name="isEmpty" Expression="size==0">
             <Parameter Name="size" Type="int"/>
         </Intrinsic>
-        <Intrinsic Name="memberOffset" Expression="sizeof(QAtomicInt) + sizeof(int) + (sizeof(QString) * count)">
+        <Intrinsic Name="memberOffset" Expression="sizeof(int) + sizeof(int) + (sizeof(QString) * count)">
             <Parameter Name="count" Type="int"/>
         </Intrinsic>
-        <Intrinsic Name="port" Expression="*(int*)(((char*)(d)) + sizeof(QAtomicInt))" />
+        <Intrinsic Name="port" Expression="*(int*)(((char*)(d)) + sizeof(int))" />
         <Intrinsic Name="scheme" Expression="*((QString*)(((char*)(d) + memberOffset(0))))" />
         <Intrinsic Name="username" Expression="*((QString*)(((char*)(d) + memberOffset(1))))" />
         <Intrinsic Name="password" Expression="*((QString*)(((char*)(d) + memberOffset(2))))" />
@@ -576,6 +576,7 @@ SPDX-License-Identifier: MIT
         <AlternativeType Name="QMultiMap&lt;*,*&gt;" />
         <Intrinsic Name="p" Optional="true" Expression="d.d"></Intrinsic> <!-- before 6.9 -->
         <Intrinsic Name="p" Optional="true" Expression="d.d.ptr"></Intrinsic> <!-- after 6.9 -->
+        <DisplayString Condition="p()==0">{{ size=0 }}</DisplayString>
         <DisplayString>{{ size={p()-&gt;m._Mypair._Myval2._Myval2._Mysize} }}</DisplayString>
         <Expand>
             <TreeItems>
@@ -631,6 +632,7 @@ SPDX-License-Identifier: MIT
             <Parameter Name="offset" Type="int" />
         </Intrinsic>
 
+        <DisplayString Condition="d==0">{{ size=0 }}</DisplayString>
         <DisplayString>{{ size={d-&gt;size} }}</DisplayString>
         <Expand>
             <CustomListItems MaxItemsPerView="5000">
@@ -775,6 +777,7 @@ SPDX-License-Identifier: MIT
     </Type>
 
    <Type Name="QSet&lt;*&gt;">
+        <DisplayString Condition="q_hash.d==0">{{ size=0 }}</DisplayString>
         <DisplayString>{{ size={q_hash.d-&gt;size} }}</DisplayString>
         <Expand>
             <ExpandedItem>q_hash</ExpandedItem>
@@ -868,32 +871,32 @@ SPDX-License-Identifier: MIT
         <DisplayString Condition="typeId() == 50">QPersistentModelIndex</DisplayString>
 
          <!-- Static gui classes -->
-        <DisplayString Condition="typeId() == 4096">QFont</DisplayString>
-        <DisplayString Condition="typeId() == 4097">{*(QPixmap*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4098">QBrush</DisplayString>
-        <DisplayString Condition="typeId() == 4099">{*(QColor*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4100">QPalette</DisplayString>
-        <DisplayString Condition="typeId() == 4101">QIcon</DisplayString>
-        <DisplayString Condition="typeId() == 4102">{*(QImage*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4103">{*(QPolygon*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4104">QRegion</DisplayString>
-        <DisplayString Condition="typeId() == 4105">{*(QBitmap*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4106">QCursor</DisplayString>
-        <DisplayString Condition="typeId() == 4107">QKeySequence</DisplayString>
-        <DisplayString Condition="typeId() == 4108">QPen</DisplayString>
-        <DisplayString Condition="typeId() == 4109">QTextLength</DisplayString>
-        <DisplayString Condition="typeId() == 4110">QTextFormat</DisplayString>
-        <DisplayString Condition="typeId() == 4112">{*(QTransform*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4113">{*(QMatrix4x4*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4114">{*(QVector2D*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4115">{*(QVector3D*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4116">{*(QVector4D*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4117">{*(QQuaternion*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4118">{*(QPolygonF*) dataStar()}</DisplayString>
-        <DisplayString Condition="typeId() == 4119">QColorSpace</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4096">QFont</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4097">{*(QPixmap*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4098">QBrush</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4099">{*(QColor*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4100">QPalette</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4101">QIcon</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4102">{*(QImage*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4103">{*(QPolygon*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4104">QRegion</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4105">{*(QBitmap*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4106">QCursor</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4107">QKeySequence</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4108">QPen</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4109">QTextLength</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4110">QTextFormat</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4112">{*(QTransform*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4113">{*(QMatrix4x4*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4114">{*(QVector2D*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4115">{*(QVector3D*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4116">{*(QVector4D*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4117">{*(QQuaternion*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4118">{*(QPolygonF*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 4119">QColorSpace</DisplayString>
 
         <!-- Static widget classes -->
-        <DisplayString Condition="typeId() == 8192">{*(QSizePolicy*) dataStar()}</DisplayString>
+        <DisplayString Optional="true" Condition="typeId() == 8192">{*(QSizePolicy*) dataStar()}</DisplayString>
 
         <!-- Unhandled : display the typeId-->
         <DisplayString>({typeId()})</DisplayString>
@@ -915,18 +918,18 @@ SPDX-License-Identifier: MIT
             <ExpandedItem Condition="typeId() == 26">*(QPointF*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == 30">*(QUuid*) dataStar()</ExpandedItem>
 
-            <ExpandedItem Condition="typeId() == 4099">*(QColor*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4097">*(QPixmap*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4102">*(QImage*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4103">*(QPolygon*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4105">*(QBitmap*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4112">*(QTransform*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4113">*(QMatrix4x4*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4114">*(QVector2D*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4115">*(QVector3D*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4116">*(QVector4D*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4117">*(QQuaternion*) dataStar()</ExpandedItem>
-            <ExpandedItem Condition="typeId() == 4118">*(QPolygonF*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4099">*(QColor*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4097">*(QPixmap*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4102">*(QImage*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4103">*(QPolygon*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4105">*(QBitmap*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4112">*(QTransform*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4113">*(QMatrix4x4*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4114">*(QVector2D*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4115">*(QVector3D*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4116">*(QVector4D*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4117">*(QQuaternion*) dataStar()</ExpandedItem>
+            <ExpandedItem Optional="true" Condition="typeId() == 4118">*(QPolygonF*) dataStar()</ExpandedItem>
 
             <ExpandedItem Condition="typeId() == 45">*(QJsonValue*) dataStar()</ExpandedItem>
             <ExpandedItem Condition="typeId() == 46">*(QJsonObject*) dataStar()</ExpandedItem>
@@ -1059,28 +1062,21 @@ SPDX-License-Identifier: MIT
              p() to cast the wrong pointer and producing <Unable to read memory> on vsdbg. -->
         <Intrinsic Name="pd" Optional="true" Expression="*(Qt6Guid.dll!QRasterPlatformPixmap**)&amp;data" />
         <Intrinsic Name="pd" Optional="true" Expression="*(Qt6Gui.dll!QRasterPlatformPixmap**)&amp;data" />
-        <!-- DisplayString: data.d->w/h accesses QPlatformPixmap base members directly.
-             GDB does not enforce C++ access control in expression evaluation, so data.d
-             (private in QExplicitlySharedDataPointer) is reachable on GDB/Linux.
-             LLDB enforces access control, so data.d fails there — pd() is the fallback
-             for vsdbg. QPixmap DisplayString remains empty on LLDB/macOS. -->
-        <DisplayString Condition="data.d != 0" Optional="true">{{ {data.d-&gt;w}x{data.d-&gt;h} }}</DisplayString>
-        <DisplayString Condition="pd()" Optional="true">{{ {pd()-&gt;w}x{pd()-&gt;h} }}</DisplayString>
+        <!-- data.d.ptr->w/h for GDB/LLDB (d is a Qt::totally_ordered_wrapper; .ptr is
+             the QPlatformPixmap*); pd()->w/h (DLL-qualified cast) for vsdbg. -->
+        <DisplayString Condition="data.d.ptr != 0" Optional="true">{{ {data.d.ptr-&gt;w}x{data.d.ptr-&gt;h} }}</DisplayString>
+        <DisplayString Condition="pd() != 0" Optional="true">{{ {pd()-&gt;w}x{pd()-&gt;h} }}</DisplayString>
         <DisplayString>empty</DisplayString>
-        <!-- Expand: all fields accessed directly through pd() to avoid triggering QImage's
-             natvis. Showing pd()->image as a QImage child would cause vsdbg to evaluate
-             QImage's natvis in this context (Qt6Gui.dll type info already loaded via pd()),
-             making both p()- and d->-based QImage items resolvable simultaneously and
-             producing duplicate expand entries for all fields on vsdbg+PDB.
-             Accessing pd()->image.d->field bypasses QImage's natvis entirely.
-             GDB/LLDB: pd() fails so all items are skipped — same root cause as DisplayString:
-             MIEngine strips the dll! prefix but the resulting C-style cast still fails on
-             both LLDB (JIT compilation) and GDB (Qt private type not in evaluator scope). -->
+        <!-- Fields go through pd() (e.g. pd()->image.d->field), not pd()->image as a
+             QImage child, to avoid triggering QImage's natvis and duplicating entries. -->
         <Expand>
             <Item Optional="true" Name="[width]"    Condition="pd() != 0">pd()-&gt;w</Item>
             <Item Optional="true" Name="[height]"   Condition="pd() != 0">pd()-&gt;h</Item>
             <Item Optional="true" Name="[data]"     Condition="pd() != 0">pd()-&gt;image.d-&gt;data</Item>
             <Item Optional="true" Name="[stride]"   Condition="pd() != 0">pd()-&gt;image.d-&gt;bytes_per_line</Item>
+            <!-- Mirrors QImage's [type] synthetic (Image Watch style element-type hint);
+                 needed here since QPixmap no longer expands through QImage's natvis. -->
+            <Synthetic Name="[type]"><DisplayString>UINT8</DisplayString></Synthetic>
             <Item Optional="true" Name="[channels]" Condition="pd() != 0">pd()-&gt;image.d-&gt;bytes_per_line / pd()-&gt;image.d-&gt;width</Item>
         </Expand>
     </Type>
@@ -1132,65 +1128,81 @@ SPDX-License-Identifier: MIT
     </Type>
 
     <Type Name="QDateTime">
-        <Intrinsic Name="priv" Expression="(Qt6Cored.dll!QDateTimePrivate*)d.d"></Intrinsic>
-        <Intrinsic Name="status" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : priv()-&gt;m_status.i"></Intrinsic>
-        <Intrinsic Name="spec" Expression="(status() &amp; Qt6Cored.dll!QDateTimePrivate::TimeSpecMask) &gt;&gt; Qt6Cored.dll!QDateTimePrivate::TimeSpecShift"></Intrinsic>
-        <Intrinsic Name="msecs" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &gt;&gt; 8) : priv()-&gt;m_msecs"></Intrinsic>
-        <Intrinsic Name="offset" Expression="priv()-&gt;m_offsetFromUtc"></Intrinsic>
-        <Intrinsic Name="absOffset" Expression="offset() &lt; 0 ? -offset() : offset()"></Intrinsic>
-        <Intrinsic Name="isLocalShort" Expression="spec() == Qt::TimeSpec::LocalTime &amp;&amp; status() &amp; 1"></Intrinsic>
-
-        <!-- https://howardhinnant.github.io/date_algorithms.html#civil_from_days -->
-        <Intrinsic Name="z"     Expression="(msecs() / (24 * 60 * 60 * 1000ull)) + 719468"/>
-        <Intrinsic Name="era"   Expression="(z() &gt;= 0 ? z() : z() - 146096) / 146097"/>
-        <Intrinsic Name="doe"   Expression="(unsigned)(z() - era() * 146097)"/>
-        <Intrinsic Name="yoe"   Expression="(doe() - doe()/1460 + doe()/36524 - doe()/146096) / 365"/>
-        <Intrinsic Name="doy"   Expression="doe() - (365*yoe() + yoe()/4 - yoe()/100)"/>
-        <Intrinsic Name="mp"    Expression="(5*doy() + 2)/153"/>
-        <Intrinsic Name="day"   Expression="doy() - (153*mp()+2)/5 + 1"/>
-        <Intrinsic Name="month" Expression="mp() &lt; 10 ? mp()+3 : mp()-9"/>
-        <Intrinsic Name="year"  Expression="((long long)yoe()) + era() * 400 + (month() &lt;= 2)"/>
-
-        <DisplayString ExcludeView="RecZone;RecZoneAbs">
-            {year(),d}-{month()/10,d}{month()%10,d}-{day()/10,d}{day()%10,d} {
-                (msecs() % (24 * 60 * 60 * 1000ull))/(10 * 60 * 60 * 1000ull),d
-            }{
-                ((msecs() % (24 * 60 * 60 * 1000ull))/(60 * 60 * 1000ull)) % 10,d
-            }:{
-                (msecs() % (60 * 60 * 1000ull))/(10 * 60 * 1000ull),d
-            }{
-                (msecs() % (10 * 60 * 1000ull)) / (60 * 1000ull),d
-            }:{
-                (msecs() % (60 * 1000ull)) / (10 * 1000ull),d
-            }{
-                (msecs() % (10 * 1000ull)) / 1000ull,d
-            }.{
-                (msecs() % 1000) / 100,d
-            }{
-                (msecs() % 100) / 10,d
-            }{
-                msecs() % 10,d
-            } {this,view(RecZone)na}
+        <!--
+          Hardcoded constants from Qt 6 source (stable across Qt 6.x; review on major version bumps):
+            TimeSpecMask  = 0x30   (QDateTimePrivate::StatusFlag, qdatetime_p.h)
+            TimeSpecShift = 4      (QDateTimePrivate anonymous enum, qdatetime_p.h)
+            Qt::TimeSpec::LocalTime = 0, UTC = 1  (qnamespace.h, public API, will not change)
+          status/msecs/offset each have TWO Optional definitions with the same name:
+          a DLL-qualified deref (valid only in dynamic builds, where the type lives in
+          the Qt PDB) and an unqualified deref (valid only in static builds, where the
+          exe PDB has the complete type; in dynamic builds the exe only has a forward
+          declaration so the deref does not validate). Exactly one definition of each
+          pair validates per build flavor - the same never-both-valid situation as
+          QObject's d_object pair, which every evaluator handles. Both definitions
+          being derefs is what guarantees the exclusivity: a bare pointer-cast second
+          definition would validate everywhere and Visual Studio drops a rule whose
+          same-name definitions are simultaneously valid (QTVSADDINBUG-1322 notes).
+          The calendar chain exists ONCE on top: a parallel *_s chain overloads
+          vsdbg's global intrinsic-expansion capacity and unrelated intrinsic-heavy
+          rules (QUrl, QHostAddress) silently fall back to raw display.
+          Why not a parallel *_s intrinsic chain per build flavor (the first attempt):
+          vsdbg has a global capacity for nested intrinsic expansion; a second copy of
+          the calendar chain pushed it over and UNRELATED intrinsic-heavy rules (QUrl,
+          QHostAddress) silently fell back to raw display (QTVSADDINBUG-1322 notes).
+        -->
+        <Intrinsic Name="status" Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : ((Qt6Cored.dll!QDateTimePrivate*)d.d)-&gt;m_status.i"/>
+        <Intrinsic Name="status" Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((uintptr_t)d.d &amp; 0xff) : ((QDateTimePrivate*)d.d)-&gt;m_status.i"/>
+        <Intrinsic Name="spec"   Optional="true" Expression="(status() &amp; 0x30) &gt;&gt; 4"/>
+        <Intrinsic Name="msecs"  Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((long long)(uintptr_t)d.d &gt;&gt; 8) : ((Qt6Cored.dll!QDateTimePrivate*)d.d)-&gt;m_msecs"/>
+        <Intrinsic Name="msecs"  Optional="true" Expression="((uintptr_t)d.d) &amp; 1 ? ((long long)(uintptr_t)d.d &gt;&gt; 8) : ((QDateTimePrivate*)d.d)-&gt;m_msecs"/>
+        <Intrinsic Name="offset" Optional="true" Expression="((Qt6Cored.dll!QDateTimePrivate*)d.d)-&gt;m_offsetFromUtc"/>
+        <Intrinsic Name="offset" Optional="true" Expression="((QDateTimePrivate*)d.d)-&gt;m_offsetFromUtc"/>
+        <Intrinsic Name="absOffset"    Optional="true" Expression="offset() &lt; 0 ? -offset() : offset()"/>
+        <Intrinsic Name="isLocalShort" Optional="true" Expression="spec() == 0 &amp;&amp; status() &amp; 1"/>
+        <Intrinsic Name="todms" Optional="true" Expression="((msecs() % 86400000LL) + 86400000LL) % 86400000LL"/>
+        <Intrinsic Name="days"  Optional="true" Expression="(msecs() - todms()) / 86400000LL"/>
+        <Intrinsic Name="z"     Optional="true" Expression="days() + 719468LL"/>
+        <Intrinsic Name="era"   Optional="true" Expression="(z() &gt;= 0 ? z() : z() - 146096) / 146097"/>
+        <Intrinsic Name="doe"   Optional="true" Expression="(unsigned)(z() - era() * 146097)"/>
+        <Intrinsic Name="yoe"   Optional="true" Expression="(doe() - doe()/1460 + doe()/36524 - doe()/146096) / 365"/>
+        <Intrinsic Name="doy"   Optional="true" Expression="doe() - (365*yoe() + yoe()/4 - yoe()/100)"/>
+        <Intrinsic Name="mp"    Optional="true" Expression="(5*doy() + 2)/153"/>
+        <Intrinsic Name="day"   Optional="true" Expression="doy() - (153*mp()+2)/5 + 1"/>
+        <Intrinsic Name="month" Optional="true" Expression="mp() &lt; 10 ? mp()+3 : mp()-9"/>
+        <Intrinsic Name="year"  Optional="true" Expression="((long long)yoe()) + era() * 400 + (month() &lt;= 2)"/>
+        <!-- Full date+time; works in dynamic AND static builds because the base
+             intrinsics above are dual. doy() >= 0 is a tautology that acts as a VS-only
+             probe: on GDB/LLDB (MIEngine) the calendar intrinsic chain expands too large
+             to evaluate, so the condition fails and the time-only fallback below is used. -->
+        <DisplayString Optional="true" ExcludeView="RecZone;RecZoneAbs" Condition="((uintptr_t)d.d) != 0 &amp;&amp; doy() &gt;= 0">
+            {year(),d}-{month()/10,d}{month()%10,d}-{day()/10,d}{day()%10,d} {todms()/(10*60*60*1000),d}{(todms()/(60*60*1000))%10,d}:{(todms()%(60*60*1000))/(10*60*1000),d}{(todms()%(10*60*1000))/(60*1000),d}:{(todms()%(60*1000))/(10*1000),d}{(todms()%(10*1000))/1000,d}.{(todms()%1000)/100,d}{(todms()%100)/10,d}{todms()%10,d} {this,view(RecZone)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="spec() == Qt::TimeSpec::UTC">UTC</DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="isLocalShort()">Local Time</DisplayString>
-        <DisplayString IncludeView="RecZone" Condition="offset() &lt; 0">
+        <!-- Fallback for GDB/LLDB: time-of-day only (the calendar chain is too long for
+             MIEngine to evaluate). In VS the full-date DisplayString above always matches
+             first, so this is never reached there. -->
+        <DisplayString Optional="true" ExcludeView="RecZone;RecZoneAbs">
+            {todms()/(10*60*60*1000),d}{(todms()/(60*60*1000))%10,d}:{(todms()%(60*60*1000))/(10*60*1000),d}{(todms()%(10*60*1000))/(60*1000),d}:{(todms()%(60*1000))/(10*1000),d}{(todms()%(10*1000))/1000,d}.{(todms()%1000)/100,d}{(todms()%100)/10,d}{todms()%10,d} {this,view(RecZone)na}
+        </DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="spec() == 1">UTC</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="isLocalShort()">Local Time</DisplayString>
+        <DisplayString Optional="true" IncludeView="RecZone" Condition="offset() &lt; 0">
             UTC-{this,view(RecZoneAbs)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZone">
+        <DisplayString Optional="true" IncludeView="RecZone">
             UTC+{this,view(RecZoneAbs)na}
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 3600 == 0">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs" Condition="offset() % 3600 == 0">
             {absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d}
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs" Condition="offset() % 60 == 0">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs" Condition="offset() % 60 == 0">
             {
                 absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
             }:{
              (absOffset() % (60 * 60)) / (60 * 10),d}{(absOffset() % (60 * 10)) / 60,d
             }
         </DisplayString>
-        <DisplayString IncludeView="RecZoneAbs">
+        <DisplayString Optional="true" IncludeView="RecZoneAbs">
             {
                 absOffset() / (60 * 60 * 10),d}{(absOffset() % (60 * 60 * 10)) / (60 * 60),d
             }:{
@@ -1201,15 +1213,28 @@ SPDX-License-Identifier: MIT
         </DisplayString>
 
         <Expand>
-            <Item Name="[ms]">msecs()</Item>
-            <Item Name="[s]">msecs()/1000</Item>
-            <Synthetic Name="[offset]" Condition="spec() == Qt::TimeSpec::UTC">
+            <!-- One item set serves both build flavors, since the base intrinsics above are
+                 dual. The ((uintptr_t)d.d) != 0 guard skips a null QDateTime; Optional keeps
+                 an item that cannot evaluate from rejecting the whole rule. todms() is
+                 in [0, 86399999], so all time components are correct even for pre-1970 dates where
+                 msecs() is negative. [ms] is the sub-second millisecond fraction (0–999), not total
+                 epoch milliseconds. -->
+            <Item Name="[hour]"   Optional="true" Condition="((uintptr_t)d.d) != 0">todms() / (3600LL*1000LL)</Item>
+            <Item Name="[minute]" Optional="true" Condition="((uintptr_t)d.d) != 0">(todms() % (3600LL*1000LL)) / (60LL*1000LL)</Item>
+            <Item Name="[second]" Optional="true" Condition="((uintptr_t)d.d) != 0">(todms() % (60LL*1000LL)) / 1000LL</Item>
+            <Item Name="[ms]"     Optional="true" Condition="((uintptr_t)d.d) != 0">todms() % 1000LL</Item>
+            <!-- Date components: native VS evaluation only — intrinsic chain expands too large for GDB/LLDB -->
+            <Item Name="[year]"  Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; doy() &gt;= 0">year()</Item>
+            <Item Name="[month]" Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; doy() &gt;= 0">month()</Item>
+            <Item Name="[day]"   Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; doy() &gt;= 0">day()</Item>
+            <!-- Timezone -->
+            <Synthetic Name="[timezone]" Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; spec() == 1">
                 <DisplayString>UTC</DisplayString>
             </Synthetic>
-            <Synthetic Name="[offset]" Condition="isLocalShort()">
+            <Synthetic Name="[timezone]" Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; isLocalShort()">
                 <DisplayString>Local Time</DisplayString>
             </Synthetic>
-            <Item Name="[offset-sec]" Condition="spec() != Qt::TimeSpec::UTC &amp;&amp; !isLocalShort()">absOffset()</Item>
+            <Item Name="[utc-offset-sec]" Optional="true" Condition="((uintptr_t)d.d) != 0 &amp;&amp; spec() != 1 &amp;&amp; !isLocalShort()">offset()</Item>
         </Expand>
     </Type>
 
