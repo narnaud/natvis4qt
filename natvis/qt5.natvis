@@ -493,6 +493,7 @@ SPDX-License-Identifier: MIT
 
     <Type Name="QMap&lt;*,*&gt;">
         <AlternativeType Name="QMultiMap&lt;*,*&gt;"/>
+        <DisplayString Condition="d==0">{{ size = 0 }}</DisplayString>
         <DisplayString>{{ size = {d-&gt;size} }}</DisplayString>
         <Expand>
             <Item Name="[referenced]">d-&gt;ref.atomic._q_value</Item>
@@ -518,6 +519,7 @@ SPDX-License-Identifier: MIT
 
     <Type Name="QHash&lt;*,*&gt;">
         <AlternativeType Name="QMultiHash&lt;*,*&gt;"/>
+        <DisplayString Condition="d==0">{{ size = 0 }}</DisplayString>
         <DisplayString>{{ size = {d-&gt;size} }}</DisplayString>
         <Expand>
             <ArrayItems IncludeView="buckets">
@@ -554,6 +556,7 @@ SPDX-License-Identifier: MIT
     </Type>
 
     <Type Name="QSet&lt;*&gt;">
+        <DisplayString Condition="q_hash.d==0">{{ size = 0 }}</DisplayString>
         <DisplayString>{{ size = {q_hash.d-&gt;size} }}</DisplayString>
         <Expand>
             <ExpandedItem>q_hash</ExpandedItem>
