@@ -1023,12 +1023,19 @@ SPDX-License-Identifier: MIT
         <Intrinsic Name="p" Optional="true" Expression="(Qt6Gui.dll!QImageData*)d" />
         <Intrinsic Name="p" Optional="true" Expression="(qwindowsd.dll!QImageData*)d" />
         <Intrinsic Name="p" Optional="true" Expression="(Qt6Guid.dll!QImageData*)d" />
-        <!-- DisplayString: d-> first for GDB/LLDB (direct field access, no cast needed).
-             On vsdbg d-> fails silently (Optional="true") and falls through to the p() variant.
+        <!-- LLDB can drop QImageData's leading "QAtomicInt ref" from the record it
+             evaluates against, shifting every read of the members ahead of nbytes.
+             refDropped() measures that from the evaluator's own layout; honestWidth/
+             honestHeight fall back to raw offsets only then. -->
+        <Intrinsic Name="refDropped" Optional="true" Expression="(char*)&amp;d-&gt;width - (char*)d == 0" />
+        <Intrinsic Name="honestWidth"  Optional="true" Expression="refDropped() ? ((int*)d)[1] : d-&gt;width" />
+        <Intrinsic Name="honestHeight" Optional="true" Expression="refDropped() ? ((int*)d)[2] : d-&gt;height" />
+        <!-- DisplayString: honest* first for GDB/LLDB (direct field access, no cast needed).
+             On vsdbg honest* fails silently (Optional="true") and falls through to the p() variant.
              On GDB/LLDB, p() errors: MIEngine strips the dll! prefix but the resulting C-style
              cast still fails — LLDB JIT cannot compile casts for Qt private types not fully
              defined in its context; GDB also rejects them as cast targets. -->
-        <DisplayString Condition="d != 0" Optional="true">{{ {d-&gt;width}x{d-&gt;height} }}</DisplayString>
+        <DisplayString Condition="d != 0" Optional="true">{{ {honestWidth()}x{honestHeight()} }}</DisplayString>
         <DisplayString Condition="d != 0" Optional="true">{{ {p()-&gt;width}x{p()-&gt;height} }}</DisplayString>
         <DisplayString>empty</DisplayString>
         <!-- Expand: p()-based items for vsdbg (p() loads Qt6Gui.dll type info via the
@@ -1044,11 +1051,11 @@ SPDX-License-Identifier: MIT
             <Item Optional="true" Name="[stride]"   Condition="p() != 0">p()-&gt;bytes_per_line</Item>
             <Synthetic Name="[type]"><DisplayString>UINT8</DisplayString></Synthetic>
             <Item Optional="true" Name="[channels]" Condition="p() != 0">p()-&gt;bytes_per_line / p()-&gt;width</Item>
-            <Item Optional="true" Name="[width]"    Condition="d != 0">d-&gt;width</Item>
-            <Item Optional="true" Name="[height]"   Condition="d != 0">d-&gt;height</Item>
-            <Item Optional="true" Name="[data]"     Condition="d != 0">d-&gt;data,[d-&gt;bytes_per_line * d-&gt;height]</Item>
+            <Item Optional="true" Name="[width]"    Condition="d != 0">honestWidth()</Item>
+            <Item Optional="true" Name="[height]"   Condition="d != 0">honestHeight()</Item>
+            <Item Optional="true" Name="[data]"     Condition="d != 0">d-&gt;data,[d-&gt;bytes_per_line * honestHeight()]</Item>
             <Item Optional="true" Name="[stride]"   Condition="d != 0">d-&gt;bytes_per_line</Item>
-            <Item Optional="true" Name="[channels]" Condition="d != 0">d-&gt;bytes_per_line / d-&gt;width</Item>
+            <Item Optional="true" Name="[channels]" Condition="d != 0">d-&gt;bytes_per_line / honestWidth()</Item>
         </Expand>
     </Type>
     <Type Name="QImage" Priority="Low">
