@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/narnaud/natvis4qt/compare/v0.12.0...v0.12.1) (2026-09-12)
+
+
+### Other
+
+* **deps:** bump dirs from 6.0.0 to 7.0.0 ([388f089](https://github.com/narnaud/natvis4qt/commit/388f089471d7c5c79381546fb423686380b039ef))
+
 ## [0.12.0](https://github.com/narnaud/natvis4qt/compare/v0.11.0...v0.12.0) (2026-09-04)
 
 
