@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.1](https://github.com/narnaud/natvis4qt/compare/v0.12.0...v0.12.1) (2026-11-25)
+
+
+### Other
+
+* **deps:** bump clap from 4.6.6 to 4.6.7 ([c052f88](https://github.com/narnaud/natvis4qt/commit/c052f88e311b378de2213984c960c7980ed77bbd))
+* **deps:** bump clap from 4.6.7 to 4.6.8 ([05f3555](https://github.com/narnaud/natvis4qt/commit/05f35555c4a9a2bd121e0b5b7fc5195c450cc936))
+* **deps:** bump cliclack from 0.5.6 to 0.5.7 ([8b48b15](https://github.com/narnaud/natvis4qt/commit/8b48b1541adab5dc5115bcd609bb9bed8255a119))
+* **deps:** bump console from 0.16.4 to 0.16.6 ([2e83c02](https://github.com/narnaud/natvis4qt/commit/2e83c02039adf44b72ce65eced4dc1e02c901237))
+* **deps:** bump ctrlc from 3.5.2 to 3.5.3 ([5733582](https://github.com/narnaud/natvis4qt/commit/57335827fadeebc515e6600e80ef9d418bf1e550))
+* **deps:** bump dirs from 6.0.0 to 7.0.0 ([388f089](https://github.com/narnaud/natvis4qt/commit/388f089471d7c5c79381546fb423686380b039ef))
+
 ## [0.12.0](https://github.com/narnaud/natvis4qt/compare/v0.11.0...v0.12.0) (2026-09-04)
 
 
